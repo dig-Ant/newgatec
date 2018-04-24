@@ -1,0 +1,11 @@
+{
+  "loopback-component-explorer": {
+    "mountPath": "/explorer"
+  },
+  "./components/wx": {
+    "path": "/wx/callback"
+  },
+  "./components/wxPage": {
+    "path": "/wxpage"
+  }
+}

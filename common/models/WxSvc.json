@@ -1,0 +1,19 @@
+{
+  "name": "WxSvc",
+  "base": "Model",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "getBotsInfo"
+    }
+  ],
+  "methods": {}
+}
