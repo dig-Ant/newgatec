@@ -1,0 +1,39 @@
+{
+  "name": "SmsCode",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "phone":{
+      "type": "string",
+      "required": true
+    },"smscode":{
+      "type": "string",
+      "required": true
+    },"status":{
+      "type": "string",
+      "required": true
+    },
+    "Smstype":{
+      "type": "string",
+      "required": true
+    },"SmsLogId":{
+      "type": "string",
+      "required": true
+    },"Sendtime":{
+      "type": "string",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    
+  },
+  "acls": [],
+  "methods": {}
+}

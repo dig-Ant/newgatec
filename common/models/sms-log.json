@@ -1,0 +1,39 @@
+{
+  "name": "SmsLog",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "phone":{
+      "type": "string",
+      "required": true
+    },
+    "SmsCode":{
+      "type": "number",
+      "required": true
+    },
+    "SmsMsg":{
+      "type": "string",
+      "required": true
+    },
+    "createtime":{
+      "type": "string",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "smsCode": {
+      "type": "hasOne",
+      "model": "SmsLog",
+      "foreignKey": "smsCodeId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
