@@ -11,10 +11,12 @@
    "txt":{
       "type": "string",
       "required": true
-    },"SmsType":{
+    },
+    "smsType":{
       "type": "string",
       "required": true
-    },"savetime":{
+    },
+    "saveTime":{
       "type": "string",
       "required": false,
       "defaultFn":"now"
