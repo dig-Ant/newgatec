@@ -16,7 +16,7 @@ function aopPermission(app) {
 }
 
 //Model的辅助类
-const ModelHelper = module.exports;
+const ModelHelper = {};
 
 //移除默认暴露的api接口
 ModelHelper.disableAllDefaultApis = function (model) {
