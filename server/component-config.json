@@ -4,8 +4,5 @@
   },
   "./components/wx": {
     "path": "/wx/callback"
-  },
-  "./components/wxPage": {
-    "path": "/wxpage"
   }
 }
