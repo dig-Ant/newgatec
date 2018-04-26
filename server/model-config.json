@@ -38,5 +38,17 @@
   "WxSvc": {
     "dataSource": "db",
     "public": true
+  },
+  "SmsCode": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "SmsModel": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "SmsLog": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }

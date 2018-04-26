@@ -1,0 +1,33 @@
+{
+  "name": "SmsModel",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+   "txt":{
+      "type": "string",
+      "required": true
+    },"SmsType":{
+      "type": "string",
+      "required": true
+    },"savetime":{
+      "type": "string",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "SmsModel": {
+      "type": "hasMany",
+      "model": "SmsLog",
+      "foreignKey": "smsModelId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
