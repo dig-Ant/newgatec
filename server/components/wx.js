@@ -4,7 +4,7 @@ let config = require('../config');
 module.exports = function (loopbackApplication, options) {
 
   loopbackApplication.use(options.path, function (req, res, next) {
-    let passed = wechat.checkSignature(req.query, sys.cfg.sys.wx_token)
+    let passed = wechat.checkSignature(req.query, config.wx_token)
     if (passed) {
       res.send(req.query.echostr);
     }
@@ -18,25 +18,24 @@ module.exports = function (loopbackApplication, options) {
   // });
 
   loopbackApplication.use("/wx/auth", function (req, res, next) {
-    let client = app.models.WxSvc.getClient();
+    let client = loopbackApplication.models.WxSvc.getClient();
     var url = client.getAuthorizeURL(`http://${config.wx_cb_domain}/wx/redir`, req.query.path, 'snsapi_userinfo');
+    console.log(url);
     res.redirect(url);
   });
 
   loopbackApplication.use("/wx/redir", async function (req, res, next) {
-    let client = app.models.WxSvc.getClient();
+    let client = loopbackApplication.models.WxSvc.getClient();
     // get access_token
     let resObj = await client.getAccessToken_ify(req.query.code);
 
     // get userinfo
     let ui = await client.getUser_ify(resObj.data.openid);
     // -- save userinfo to database
-
     //use openid to call usercenter to get token
     let token = 'asdfsd';
-
-    let resUrl = app.modles.WxSvc.rebuildUrl(req.query.state,token);
-
+    let resUrl = loopbackApplication.models.WxSvc.rebuildUrl(req.query.state,token);
+    
     res.redirect(resUrl);
   });
 };

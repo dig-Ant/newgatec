@@ -3,7 +3,7 @@ var config = require('../../server/config');
 var OAuth = require('wechat-oauth');
 var WechatAPI = require('wechat-api');
 let fs = require('fs');
-
+let util = require('../util/util');
 /**
  * 对函数进行promise封装
  * @method promisify
@@ -21,6 +21,8 @@ let promisify = (fn, receiver) => {
   });
   };
 };
+
+
 
 module.exports = function (WxSvc) {
 
@@ -55,25 +57,27 @@ module.exports = function (WxSvc) {
     return WxSvc.Cache.api;
   }
  
-  // WxSvc.rebuildUrl = function (url, token) {
-  //   let ourl = sys.lib.util.removeQSFromUrl(url, "auth_token");
-  //   let conn = ourl.indexOf("?") > 0 ? "&" : "?";
-  //   return ourl + conn + "auth_token=" + token
-  // }
+ 
+  WxSvc.rebuildUrl = function (url, token) {
+    let ourl = util.removeQSFromUrl(url, "auth_token");
+    let conn = ourl.indexOf("?") > 0 ? "&" : "?";
+    return ourl + conn + "auth_token=" + token
+  }
 
   WxSvc.defCB = (err, result) => { console.log(err) }
 
 
-  // WxSvc.getAccessToken = async function (cb) {
-  //   let api = WxSvc.getApi();
-  //   cb(null)
-  // }
+  WxSvc.getAccessToken = async function (code, cb) {
+    console.log('code--',code);
+    let api = WxSvc.getApi();
+    cb(null,'成功')
+  }
 
-  // WxSvc.remoteMethod('getAccessToken', {
-  //   http: { verb: 'get' },
-  //   accepts: [],
-  //   returns: {
-  //     arg: 'res', type: 'string'
-  //   }
-  // })
+  WxSvc.remoteMethod('getAccessToken', {
+    http: { verb: 'post' },
+    accepts: [{ arg: 'code', type: 'string' }],
+    returns: {
+      arg: 'res', type: 'string'
+    }
+  })
 }

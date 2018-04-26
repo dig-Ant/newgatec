@@ -15,14 +15,25 @@ function aopPermission(app) {
   });
 }
 
+//Model的辅助类
+const ModelHelper = module.exports;
+
+//移除默认暴露的api接口
+ModelHelper.disableAllDefaultApis = function (model) {
+  let methods = ['create', 'replaceOrCreate', 'patchOrCreate', 'exists', 'findById', 'find', 'findOne',
+    'destroyById', 'count', 'replaceById', 'prototype.patchAttributes', 'createChangeStream', 'updateAll',
+    'replaceOrCreate', 'replaceById', 'upsertWithWhere']
+  methods.forEach(it => model.disableRemoteMethodByName(it));
+}
 
 //移除系统默认暴露的api接口
 function disableAllDefaultApis(app) {
   var models = app.models();
   for (var i = 0; i < models.length; i++) {
-    sys.helper.modelHelper.disableAllDefaultApis(models[i]);
+    ModelHelper.disableAllDefaultApis(models[i]);
+    
   }
-  sys.lib.log.trace("Remove the system default api exposed!");
+  // sys.lib.log.trace("Remove the system default api exposed!");
 }
 
 
