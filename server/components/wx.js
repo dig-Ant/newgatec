@@ -5,6 +5,7 @@ module.exports = function (loopbackApplication, options) {
 
   loopbackApplication.use(options.path, function (req, res, next) {
     let passed = wechat.checkSignature(req.query, config.wx_token)
+    
     if (passed) {
       res.send(req.query.echostr);
     }

@@ -8,7 +8,7 @@ module.exports = {
    * @return {obj} promise
    **/
   rangenum: (start, end) => { //产生n位随机数
-    return new Promise((resolve, reject) => {
+   
       var range = function (start, end) {
         var array = [];
         for (var i = start; i < end; ++i) array.push(i);
@@ -17,23 +17,47 @@ module.exports = {
       var randomstr = range(start, end).map(function (x) {
         return Math.floor(Math.random() * 10);
       }).join('');
-      resolve(randomstr)
-    })
+      console.log(randomstr)
+      console.log(typeof randomstr)
+     return randomstr;
+   
   },
-  returnMsg: (msgModel) => {
+  returnMsg: (resStr,strArr) => {
     let msg = {
-      tstString: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',
-      stringArr: [23465, 60]
+      txt: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',
+      strArr: [23465, 60]
     }
 
-    return new Promise((resolve, reject) => {
-      let resString = msgModel.tstString
-      for (let index = 0; index < msgModel.stringArr.length; index++) {
-        
-        resString = resString.replace('{' + (index+1) + '}', msgModel.stringArr[index])
-        
+    
+      let resString = resStr
+      for (let index = 0; index < strArr.length; index++) {
+
+        resString = resString.replace('{' + (index + 1) + '}', strArr[index])
+
       }
-      resolve(resString)
+      return resString;
+    
+  },
+  returnMsgCode: (resStr,code) => {//需要第一个值为modeltxt，第二个为随机验证码
+    
+
+    
+     
+
+      let  resString = resStr.replace('{code}',code)
+
+      
+      return resString;
+    
+  },
+  addDatetime: (second) => {
+    return new Promise((resolve) => {
+      var a = new Date(dd)
+      a = a.valueOf()
+      a = a + second * 1000 * 60
+      a = new Date(a)
+      resolve(a)
     })
+
   }
 }

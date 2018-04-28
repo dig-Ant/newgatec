@@ -18,10 +18,33 @@ creatTables = async (promiseArr)=>{
   })
 }
 
-let pArr = ['SmsLog','SmsModel','SmsTemplate']
+let pArr = ['SmsLog','SmsCode']
 let promseArr = []
   for (let index = 0; index < pArr.length; index++) {
     promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))
     
   }
 creatTables(promseArr);
+
+// function addDatetime(olddatetime,second){
+//   var a = new Date(dd)
+//   a = a.valueOf()
+//   a = a + second * 1000
+//   a = new Date(a)
+//   return a;
+// }
+
+// {
+// "phone":"18651833910",
+// "type":1,
+// "modelId":1,
+// "strArr":["60"],
+// "codeType":1
+// }
+
+
+// {
+//   "phone":"18651833910",
+//   "code":"844047",
+//   "codeType":1
+//   }

@@ -50,5 +50,9 @@
   "SmsLog": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "Sms": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }

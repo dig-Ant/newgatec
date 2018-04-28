@@ -17,6 +17,14 @@
       "required": true
     },
     "status":{
+      "type": "number",
+      "required": true
+    },
+    "codeType":{
+      "type": "number",
+      "required": true
+    },
+    "expirationTime":{
       "type": "string",
       "required": true
     },

@@ -1,32 +1,35 @@
-module.exports = function (SmsLog) {
-
+module.exports = function (SmsModel) {
+let smsFn = require('../core/smsFn')
   /**
-   * @method 日志存贮
+   * @method 模版储存
    * @param {object} 传入对象
    * @returns {object} 返回值
    */
 
-  SmsLog.createLog =  (smsObject) => {
+  SmsModel.create_Model =  (smsObject) => {
     return new Promise( async (resolve, reject) => {
       
       try {
-        let crea =  await SmsLog.create(smsObject)
+        let result =  await SmsModel.create(smsObject)
        
-        resolve(crea)
+        resolve(result)
       } catch (error) {
         reject(error)
+        console.log(error)
       }
       
          
      
     })
   }
-  SmsLog.findCode = (smsModelId)=>{
+
+  SmsModel.find_id = (smsModelId)=>{
     return new Promise( async (resolve, reject) => {
       
       try {
-        let result =  await SmsLog.findById(smsModelId)
-       
+        let result =  await SmsModel.findById(smsModelId)
+        // let modelStr = await smsFn.returnMsg() 
+          console.log(result)
         resolve(result)
       } catch (error) {
         reject(error)
@@ -36,4 +39,5 @@ module.exports = function (SmsLog) {
      
     })
   }
+ 
 }
