@@ -16,7 +16,7 @@ export default {
       yield put({ type: 'save' });
     },
     *getToken({ payload }, { call, put }) {
-      yield call();
+      // yield call();
     }
   },
 
