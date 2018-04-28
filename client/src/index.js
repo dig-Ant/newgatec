@@ -1,6 +1,6 @@
 import dva from 'dva';
 import './index.css';
-import oAuth from './models/OAuth';
+
 
 const sys = require('../core/sys');
 console.log(sys.cfg)
@@ -12,7 +12,9 @@ const app = dva();
 
 // 3. Model
 // app.model(require('./models/example').default);
-app.model(oAuth);
+app.model(require('./models/OAuth').default);
+app.model(require('./models/handleToken').default);
+app.model(require('./models/homepage').default);
 
 // 4. Router
 app.router(require('./router').default);
