@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'dva';
+// import sys from '../../core/sys';
 
 class TestHomeB extends Component {
   constructor() {
