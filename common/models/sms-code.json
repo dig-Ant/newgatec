@@ -11,20 +11,16 @@
     "phone":{
       "type": "string",
       "required": true
-    },"smscode":{
-      "type": "string",
-      "required": true
-    },"status":{
+    },
+    "smsCode":{
       "type": "string",
       "required": true
     },
-    "Smstype":{
+    "status":{
       "type": "string",
       "required": true
-    },"SmsLogId":{
-      "type": "string",
-      "required": true
-    },"Sendtime":{
+    },
+    "sendTime":{
       "type": "string",
       "required": false,
       "defaultFn":"now"
@@ -32,7 +28,11 @@
   },
   "validations": [],
   "relations": {
-    
+    "smsLog": {
+      "type": "hasOne",
+      "model": "SmsCode",
+      "foreignKey": "smsLogId"
+    }
   },
   "acls": [],
   "methods": {}
