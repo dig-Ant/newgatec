@@ -1,6 +1,6 @@
 import dva from 'dva';
 import './index.css';
-
+// test
 
 const sys = require('../core/sys');
 console.log(sys.cfg)
