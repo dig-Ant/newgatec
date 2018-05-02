@@ -32,6 +32,11 @@
       "type": "hasOne",
       "model": "SmsLog",
       "foreignKey": "smsCodeId"
+    },
+    "SmsModel": {
+      "type": "hasOne",
+      "model": "SmsLog",
+      "foreignKey": "smsModelId"
     }
   },
   "acls": [],

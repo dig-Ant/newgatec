@@ -16,6 +16,10 @@
       "type": "string",
       "required": true
     },
+    "smsLength":{
+      "type": "number",
+      "required": true
+    },
     "saveTime":{
       "type": "string",
       "required": false,
@@ -23,13 +27,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "SmsModel": {
-      "type": "hasMany",
-      "model": "SmsLog",
-      "foreignKey": "smsModelId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }

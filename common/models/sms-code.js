@@ -2,46 +2,74 @@
  
 module.exports = function(SmsCode) {
 let smsFn = require('../core/smsFn')
-let smsSql = require('../core/smsSql') 
+
 let msg = {
   tstString: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',
   stringArr: [23465, 60]
 }
 
-  SmsCode.greet = async function (msgId, cb) {
-    // var jm = JSON.stringify(msgId)
-    // var smsObject = {}
-    // smsObject.phone ='18651833910',
-    // smsObject.smscode = '662403'
-    
-    // SmsCode.create(smsObject,function(err,smsTemplateIns){
-    //   smsTemplateIns.phone = '18651833910'
-    //   smsTemplateIns.smscode= '1234'
-    //   smsTemplateIns.status = '2'
-    //   smsTemplateIns.save(function(err,smsInsNew){
-    //     cb(null,  smsInsNew);
-    //   })
-    // })
-      let num = await SmsCode.app.models.SmsLog.createLog().then((result)=>{
-          console.log(result)
-      }).catch((e)=>{
-          console.log(e)
-      })
-      // console.log(msgId)
-      // console.log(num)
+  SmsCode.createCode = async function (phone,codeNum,codeType) {
+  
+    var smsObject = {}
+      smsObject.phone = phone;
+        smsObject.smsCode = codeNum;
+        smsObject.status = 0;
+        smsObject.codeType = codeType;
+        smsObject.expirationTime =  new Date().getTime()+600000 
+        
+      let num = await SmsCode.create(smsObject)
  
+      return num;
     
-    
-    console.log(msgId)
-    // console.log(jm)
+  
     
   }
+  SmsCode.smsModel = async (modelObj) =>{
+    return new Promise( async (resolve, reject) => {
+      let checkCode = {where: modelObj}
+      try {
+        let result = await SmsCode.find(checkCode)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    
+      
+    // console.log(result)
+    
+    });
 
-  SmsCode.remoteMethod('greet', {
-        accepts: {arg: 'msgId', type: 'string'},
 
-        returns: {arg: 'greeting', type: 'object'}
+  }
+  SmsCode.smsStatus = async (modelObj,upObj) =>{
+    return new Promise( async (resolve, reject) => {
+      let checkCode = {where: modelObj}
+      try {
+        let result = await SmsCode.updateAll(modelObj,upObj)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    
+      
+    // console.log(result)
+    
+    });
+    
+
+  }
+
+  SmsCode.remoteMethod('smsModel', {
+        accepts: [{arg: 'modelId', type: 'string'},{arg: 'codeNum', type: 'string'}],
+
+        returns: {arg: 'result', type: 'object'}
   });
+
+  // SmsCode.remoteMethod('greet', {
+  //       accepts: [{arg: 'modelId', type: 'string'},{arg: 'codeNum', type: 'string'}],
+
+  //       returns: {arg: 'id', type: 'object'}
+  // });
 
 };
 
