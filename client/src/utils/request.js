@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import cfg from '../config/cfg';
 
 function parseJSON(response) {
   return response.json();
@@ -29,7 +30,7 @@ export default function request(url, options) {
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
-        // Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8',
         ...newOptions.headers,
       };
@@ -37,17 +38,28 @@ export default function request(url, options) {
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
-        // Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'multipart/form-data',
         ...newOptions.headers,
       };
     }
   }
-  console.log(JSON.stringify(newOptions));
-  console.log(url);
+
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
     .then(data => (data))
     .catch(err => ({ err }));
+}
+
+// 需要 authorization  的请求
+export function requestAuth(url, options) {
+  // options
+  const newOptions = { ...options };
+  newOptions.headers = {
+    "Authorization": `bearer ${window.localStorage.getItem(cfg.access_token)}`,
+    ...newOptions.headers
+  }
+
+  return request(url, newOptions)
 }

@@ -1,9 +1,8 @@
 import dva from 'dva';
 import './index.css';
+// test
 
 
-const sys = require('../core/sys');
-console.log(sys.cfg)
 // 1. Initialize
 const app = dva();
 

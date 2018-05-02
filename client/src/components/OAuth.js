@@ -1,6 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import sys from '../../core/sys';
+import util from '../utils/util';
+import cfg from '../config/cfg';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 
@@ -20,13 +21,13 @@ class OAuth extends React.Component {
   }
   //判断是否是微信浏览器
   checkBrower() {
-    let isWx = sys.lib.util._isWx.isWxBrower();
+    let isWx = util._isWx.isWxBrower();
     return isWx;
   }
 
   buildWxUrl() {
-    let encodeRedirect = encodeURIComponent(sys.cfg.wxCfg.redirect_uri);
-    let Url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${sys.cfg.wxCfg.appid}&redirect_uri=${encodeRedirect}&response_type=code&scope=${sys.cfg.wxCfg.scope}&state=${sys.cfg.wxCfg.wxState}#wechat_redirect`;
+    let encodeRedirect = encodeURIComponent(cfg.wxCfg.redirect_uri);
+    let Url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${cfg.wxCfg.appid}&redirect_uri=${encodeRedirect}&response_type=code&scope=${cfg.wxCfg.scope}&state=${cfg.wxCfg.wxState}#wechat_redirect`;
 
     return Url;
 

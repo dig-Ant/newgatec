@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'dva';
 import styles from './IndexPage.css';
-import sys from '../../core/sys';
 import AuthPage from '../components/AuthPage';
 
 class Test extends AuthPage {

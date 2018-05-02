@@ -1,10 +1,10 @@
 
-import request from '../utils/request';
-import sys from '../../core/sys';
+import request, { requestAuth } from '../utils/request';
+import cfg from '../config/cfg';
 import api from './lb-api';
-
+// 不需要经过 kong 的请求
 let lbapi = new api();
-lbapi.url = sys.cfg.server_base_url + sys.cfg.api_route;
+lbapi.url = cfg.server_base_url + cfg.api_route;
 
 export async function getAccessToken(code) {
   return request(lbapi.getAccessTokenRoute(), {
@@ -13,17 +13,16 @@ export async function getAccessToken(code) {
   });
 }
 
+
+// 需要经过 kong 的请求
 let kongApi = new api();
-kongApi.url = sys.cfg.kong_base_url + sys.cfg.kong_route
+kongApi.url = cfg.kong_base_url + cfg.kong_route
 
 // test api
 export async function getInfo(data) {
   console.log('data--',data);
-  return request(kongApi.getInfoRoute(), {
+  return requestAuth(kongApi.getInfoRoute(), {
     method: 'POST',
-    headers: {
-      "Authorization": "bearer pyxnM5HpraEHyDy6J2kIJn1z44lbY9by"
-    },
     body: { data }
   });
 }
