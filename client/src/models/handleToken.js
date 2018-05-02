@@ -22,7 +22,7 @@ export default {
       console.log('token00----',token);
       window.localStorage.setItem(cfg.access_token,token.res);
       yield put({ type: 'changeToken', payload: token.res});
-      // yield put(routerRedux.push('/homepage'));
+      yield put(routerRedux.push('/homepage'));
     }
   },
   subscriptions: {
