@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import sys from '../../core/sys';
+import util from '../utils/util';
 
 class WxCode extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class WxCode extends Component {
   }
 
   getCode() {
-    let urlQs = sys.lib.util._queryString.getQSJsonWithoutHash();
+    let urlQs = util._queryString.getQSJsonWithoutHash();
     return urlQs.code
   }
 

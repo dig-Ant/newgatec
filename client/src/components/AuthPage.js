@@ -1,6 +1,6 @@
 import React from 'react';
 // import propTypes from 'prop-types';
-import sys from '../../core/sys';
+import util from '../utils/util';
 import { routerRedux } from 'dva/router';
 
 class AuthPage extends React.Component {
@@ -12,7 +12,7 @@ class AuthPage extends React.Component {
   }
 
   getAuthToken() {
-    let queryString = sys.lib.util._queryString.getQSJson(window.location.href);
+    let queryString = util._queryString.getQSJson(window.location.href);
     if (queryString.auth_token ){
       window.localStorage.setItem('auth_token', queryString.auth_token);
     }
@@ -27,7 +27,7 @@ class AuthPage extends React.Component {
       this.setState({
         isShow: false
       })
-      let isWx = sys.lib.util._isWx.isWxBrower();
+      let isWx = util._isWx.isWxBrower();
       if (isWx) {
         this.gotoUrl("http://bc1f9980.ngrok.io/wx/auth?path=");
       } else {
@@ -41,7 +41,7 @@ class AuthPage extends React.Component {
     this.getAuthToken();
     this.checkAuthToken();
     this.setState({
-      log: sys.lib.util._queryString.getQSJson(),
+      log: util._queryString.getQSJson(),
       isShow: true
     });
   }
