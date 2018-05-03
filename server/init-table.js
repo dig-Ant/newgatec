@@ -48,7 +48,7 @@ let promseArr = []
 //   "sign":"675",
 //   "modelId":"767",
 //   "content":"",
-// "time":"2108-05-03 10-10-00"
+//   "time":"2108-05-03 10-10-00"
 //   }
 
 // {
@@ -78,7 +78,26 @@ let promseArr = []
 // }
 // reqTest ()
 
-let testArr = ['18651833910','1751254391']
+// let testArr = ['18651833910','1751254391']
+(async ()=>{
+  let gw = app.dataSources.smsGw;
+  try {
+    let result = await gw.sendSms("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","767","18651833910","")
+    console.log(result)
+  } catch (error) {
+    console.log(error)
+  }
+  
+})()
+// app.dataSources.MyModel.geocode("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","3839","18651833910","1234556", function(err,res){
+// console.log(err),
+// console.log(res)
+// }
+// )
 
-
+// {
+//   code: "0",
+//   msg: "SUCCESS",
+//   smUuid:"xxxx"
+// }
 
