@@ -24,7 +24,7 @@ let promseArr = []
     promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))
     
   }
-creatTables(promseArr);
+// creatTables(promseArr);
 
 // function addDatetime(olddatetime,second){
 //   var a = new Date(dd)
@@ -35,16 +35,50 @@ creatTables(promseArr);
 // }
 
 // {
-// "phone":"18651833910",
-// "type":1,
-// "modelId":1,
-// "strArr":["60"],
-// "codeType":1
-// }
+//   "phone":"18651833910",
+//   "type":1,
+//   "sign":"675",
+//   "modelId":"3839",
+//   "content":"{code}",
+//   "codeType":1
+//   }
 
+// {
+//   "phones":["18651833910","1751254391"],
+//   "sign":"675",
+//   "modelId":"767",
+//   "content":"",
+// "time":"2108-05-03 10-10-00"
+//   }
 
 // {
 //   "phone":"18651833910",
 //   "code":"844047",
 //   "codeType":1
 //   }
+
+// let request = require('request');
+// let util = require('../common/util/util');
+
+// reqTest = async()=>{
+//   let requestRes = util.promisify(request.bind(this));
+//   let tokenResult =await requestRes({
+//     method: "POST",
+//     url: "http://api.1cloudsp.com/api/v2/single_send",
+//     form: {
+//       accesskey:'7xKGcAJzQVkKL5y8',
+//       secret:'XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA',
+//       sign:'675',
+//       templateId:'3839',
+//       mobile:'1865183391',
+//       content:'1234556'
+//     }
+//   });
+//   console.log(tokenResult.body)
+// }
+// reqTest ()
+
+let testArr = ['18651833910','1751254391']
+
+
+
