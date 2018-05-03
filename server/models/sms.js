@@ -15,6 +15,13 @@ let msg = {
   
     
   }
+  /**
+   * 存放短信模版
+   * @param {string} model 模版内容
+   * @param {string} modelType 模版类型
+   * @param {number} length 模版除了验证码之外需要的字符串数组的长度
+   * @returns {object} result 返回数据库插入条目的对象
+   */
   Sms.saveModel = async (model,modelType,length) =>{
       let modelObj = {
         txt:model,
@@ -35,21 +42,22 @@ let msg = {
 
 
   }
-  Sms.smsModel = async (id) =>{
-    
-    let result = await Sms.app.models.SmsModel.find_id(id)
-    
-    return result;
-    // console.log(result)
 
-
-
+/**
+ * 发送单条短信验证码
+ * 模型示例
+ * {
+  "phone":"18651833910",
+  "type":1,//是否需要生成随机验证码
+  "sign":"675",//平台上申请的接口短信签名或者签名ID（须审核通过）
+  "modelId":"3839",//平台上申请的接口短信模板Id（须审核通过）
+  "content":"{code}",//发送的短信内容是模板变量内容，多个变量中间用##或者$$隔开，采用utf8编码需要随机数验证码时请用'{code}'替代
+  "codeType":1//验证码应用的领域，如修改密码，修改微信账号
   }
-  // Sms.remoteMethod('smsModel', {
-  //       accepts: {arg: 'modelId', type: 'number'},
-
-  //       returns: {arg: 'result', type: 'object'}
-  // });
+ * 
+ * @param {object} obj 传入的json对象 
+ * @param {function} cb 回调
+ */
   Sms.smsCode = async (obj,cb) => {
     
     try {
@@ -106,6 +114,19 @@ let msg = {
 
    
   }
+  /**
+   * 短信群发
+   * 模型示例
+   * {
+  "phones":["18651833910","1751254391"], //电话号码的数组
+  "sign":"675", //平台上申请的接口短信签名或者签名ID（须审核通过）
+  "modelId":"767", //平台上申请的接口短信模板Id（须审核通过）
+  "content":"", //发送的短信内容是模板变量内容，多个变量中间用##或者$$隔开，采用utf8编码
+  "time":"2108-05-03 10-10-00" //短信定时发送时间，格式为：2016-01-01 18:00:00；参数如果为空表示立即发送
+  }
+   * @param {object} obj 传入的参数 
+   * @param {function} cb 回调的参数
+   */
   Sms.groupSms = async (obj,cb) => {
     let promiseArr = [];
     try {
@@ -171,6 +192,17 @@ let msg = {
 
 
   }
+  /**
+   * 短信验证码确认
+   * 模型示例
+   * {
+  "phone":"18651833910",//手机号码
+  "code":"844047",//验证码
+  "codeType":1 // 验证码用途类型
+  }
+   * 
+   * @param {object} obj 
+   */
   Sms.checkCode = async (obj)=>{
     
     // console.log(obj)
