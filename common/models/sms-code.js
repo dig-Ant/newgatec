@@ -15,7 +15,7 @@ let msg = {
         smsObject.smsCode = codeNum;
         smsObject.status = 0;
         smsObject.codeType = codeType;
-        smsObject.expirationTime =  new Date().getTime()+600000 
+        smsObject.expirationTime =  new Date().getTime()+6000000 
         
       let num = await SmsCode.create(smsObject)
  

@@ -9,8 +9,11 @@ let msg = {
 }
 
   Sms.greet = async function (obj, cb) {
-  
-    
+    let result = 0
+    if(obj.test == '1'){
+      result = 1
+    }
+      return result;
     
   
     
@@ -186,10 +189,6 @@ let msg = {
     //   cb(null,enums.error)
     //   // console.log(error)
     // })
-
-
-
-
 
   }
   /**
