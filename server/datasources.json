@@ -46,11 +46,25 @@
         "functions": {
           "sendSms": ["accesskey", "secret","sign","templateId","mobile","content"]
         }
+      }
+    ]
+  },
+  "groupSms": {
+    "name": "smsGw",
+    "connector": "rest",
+    "debug": false,
+    "options": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json"
       },
+      "strictSSL": false
+    },
+    "operations": [
       {
         "template": {
           "method": "POST",
-          "url": "http://api.1cloudsp.com/api/v2/send",
+          "url": "http://api.1cloudsp.com/api/v2/single_send",
           "body": {
             "accesskey": "{accesskey}",
             "secret":"{secret}",
@@ -67,7 +81,7 @@
           "responsePath": "$"
         },
         "functions": {
-          "groupSms": ["accesskey", "secret","sign","templateId","mobile","content","scheduleSendTime"]
+          "gSms": ["accesskey", "secret","sign","templateId","mobile","content","scheduleSendTime"]
         }
       }
     ]

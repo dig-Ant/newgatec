@@ -80,16 +80,16 @@ let promseArr = []
 
 // let testArr = ['18651833910','1751254391']
 (async ()=>{
-  let gw = app.dataSources.smsGw;
+  let gw = app.dataSources.groupSms;
   try {
-    let result = await gw.sendSms("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","767","18651833910","")
+    let result = await gw.gSms("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","767","18651833910,17512543910","","")
     console.log(result)
   } catch (error) {
     console.log(error)
   }
   
 })()
-// app.dataSources.MyModel.geocode("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","3839","18651833910","1234556", function(err,res){
+// app.dataSources.smsGw.sendSms("7xKGcAJzQVkKL5y8", "XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA","675","3839","18651833910","1234556", function(err,res){
 // console.log(err),
 // console.log(res)
 // }
