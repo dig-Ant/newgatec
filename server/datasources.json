@@ -12,5 +12,80 @@
     "password": "123",
     "user": "postgres",
     "ssl": false
+  },
+  "smsGw": {
+    "name": "smsGw",
+    "connector": "rest",
+    "debug": false,
+    "options": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      "strictSSL": false
+    },
+    "operations": [
+      {
+        "template": {
+          "method": "POST",
+          "url": "http://api.1cloudsp.com/api/v2/single_send",
+          "body": {
+            "accesskey": "{accesskey}",
+            "secret":"{secret}",
+            "sign":"{sign}",
+            "templateId":"{templateId}",
+            "mobile":"{mobile}",
+            "content":"{content}"
+          },
+          "options": {
+            "strictSSL": true,
+            "useQuerystring": true
+          },
+          "responsePath": "$"
+        },
+        "functions": {
+          "sendSms": ["accesskey", "secret","sign","templateId","mobile","content"]
+        }
+      }
+    ]
+  },
+  "groupSms": {
+    "name": "smsGw",
+    "connector": "rest",
+    "debug": false,
+    "options": {
+      "headers": {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      "strictSSL": false
+    },
+    "operations": [
+      {
+        "template": {
+          "method": "POST",
+          "url": "http://api.1cloudsp.com/api/v2/single_send",
+          "body": {
+            "accesskey": "{accesskey}",
+            "secret":"{secret}",
+            "sign":"{sign}",
+            "templateId":"{templateId}",
+            "mobile":"{mobile}",
+            "content":"{content}",
+            "scheduleSendTime":"{scheduleSendTime}"
+          },
+          "options": {
+            "strictSSL": true,
+            "useQuerystring": true
+          },
+          "responsePath": "$"
+        },
+        "functions": {
+          "gSms": ["accesskey", "secret","sign","templateId","mobile","content","scheduleSendTime"]
+        }
+      }
+    ]
   }
 }
+
+

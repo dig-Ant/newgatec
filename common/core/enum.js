@@ -26,6 +26,7 @@ module.exports = {
     smsMsg:null,
     smsModelId:null,
     smsCodeId:null,
+    smsSign:null
   },
   smsModel:{
     id:null,
