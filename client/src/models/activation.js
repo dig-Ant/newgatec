@@ -26,7 +26,6 @@ export default {
     *getCaptcha({ payload: code }, { call, put, select }) {
       //发送请求
       let tel = yield select(state => state.activation.tel)
-      if (tel.trim() == '') alert('手机号不存在'); return;
       // let isSend = yield call();
       let isSend = true;
 
