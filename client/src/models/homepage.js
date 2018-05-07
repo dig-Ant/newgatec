@@ -15,8 +15,7 @@ export default {
 
   effects: {
     *getInfo({ payload }, { call, put }) {  // eslint-disable-line
-      let data = yield call(handleTokenSvc.getInfo,'传入的就是我');
-      console.log(data);
+      let data = yield call(handleTokenSvc.getInfo,'请求接受成功');
       yield put({ type: 'changeData' ,payload: data.res.data});
     },
   
