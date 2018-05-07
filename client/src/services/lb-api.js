@@ -11,17 +11,29 @@ export default class lbapi {
     return `${this.url}`;
   }
   
-  getWxSvcroute() {
+  getWxSvcRoute() {
     return `${this.getBaseRoute()}/WxSvcs`
   }
 
   // get accessToken 
   getAccessTokenRoute() {
-    return `${this.getWxSvcroute()}/getAccessToken`
+    return `${this.getWxSvcRoute()}/getAccessToken`
   }
 
   // test api
   getInfoRoute() {
-    return `${this.getWxSvcroute()}/getInfo`
+    return `${this.getWxSvcRoute()}/getInfo`
   }
+
+  // 短信相关基础route
+  getSmsRoute() {
+    return `${this.getBaseRoute()}/Sms`
+  }
+
+  // 发送短信验证码
+  getSmsCodeRoute() {
+    return `${this.getSmsRoute()}/SmsCode`
+  }
+
+
 }
