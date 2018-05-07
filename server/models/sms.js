@@ -1,5 +1,6 @@
 'use strict';
 const enums = require('../../common/core/enum');
+const jsonCkeck = require('../../common/core/jsonCheck')
 module.exports = function(Sms) {
 let smsFn = require('../../common/core/smsFn');
 
@@ -62,8 +63,9 @@ let msg = {
  * @param {function} cb 回调
  */
   Sms.smsCode = async (obj,cb) => {
-    
+    let jsonKeys = ['phone','type','sign','modelId','content','codeType']
     try {
+       let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
        var promise = await smsFn.phoneNumCheck(obj.phone)
    
       if (obj.type == 1) {
@@ -75,7 +77,7 @@ let msg = {
         // let smsMsg = smsFn.returnMsg(codeMsg,obj.strArr);//插入必填字段生成提示语；
         try {
           let smsSend = await smsFn.smsSend(obj.sign, obj.modelId, obj.phone, codeMsg)
-          let modelCode = await Sms.app.models.SmsCode.createCode(obj.phone, testNum, obj.codeType);//写入smscode数据库
+          let modelCode = await Sms.app.models.SmsCode.createCode(obj.phone, testNum, obj.codeType||1);//写入smscode数据库
           console.log(modelCode)
           enums.smsLogObj.phone = obj.phone
           enums.smsLogObj.smsCode = modelCode.smsCode;
@@ -109,8 +111,8 @@ let msg = {
         return enums.error;
       }
     } catch (error) {
-      console.log(error)
-      enums.error.msg = '手机号码格式不正确'
+      console.log(error.message)
+      enums.error.msg = error.message
       return enums.error;
       
     }
@@ -131,8 +133,10 @@ let msg = {
    * @param {function} cb 回调的参数
    */
   Sms.groupSms = async (obj,cb) => {
+    let jsonKeys = ['phone','sign','modelId']
     let promiseArr = [];
     try {
+      let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
       var promise = await smsFn.phoneNumCheck(obj.phones)
       
       let phoneArr = obj.phones.join(',')
@@ -177,7 +181,7 @@ let msg = {
       }
     } catch (error) {
       console.log(error)
-      enums.error.msg='手机号码格式不正确'
+      enums.error.msg=error.message
       return enums.error;
     }
     
@@ -205,7 +209,9 @@ let msg = {
   Sms.checkCode = async (obj)=>{
     
     // console.log(obj)
+    let jsonKeys = ['phone','code','codeType']
     try {
+      let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
       var promise = await smsFn.phoneNumCheck(obj.phone)
       enums.smsCodeCheck.phone = obj.phone;
       enums.smsCodeCheck.smsCode = obj.code;
@@ -249,11 +255,11 @@ let msg = {
 
     returns: {arg: 'result', type: 'object'}
 });
-  Sms.remoteMethod('smsCode', {
-  accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+  // Sms.remoteMethod('smsCode', {
+  // accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
-  returns: {arg: 'result', type: 'object'}
-  });
+  // returns: {arg: 'result', type: 'object'}
+  // });
   Sms.remoteMethod('checkCode', {
     accepts: [{ arg: 'obj', type: 'object', http: { source: 'body' } }],
 
