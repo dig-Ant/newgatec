@@ -54,5 +54,9 @@
   "Sms": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "Anon": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }
