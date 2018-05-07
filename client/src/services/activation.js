@@ -10,10 +10,9 @@ kongApi.url = cfg.kong_base_url + cfg.kong_route
 
 // 给用户发送验证码
 export async function getCaptcha(data) {
-  console.log('data--',data);
-  return requestAuth(kongApi.getInfoRoute(), {
+  return requestAuth(kongApi.getSmsCodeRoute(), {
     method: 'POST',
-    body: { data }
+    body: data
   });
 }
 
@@ -25,3 +24,4 @@ export async function activeUser(data) {
     body: { data }
   });
 }
+

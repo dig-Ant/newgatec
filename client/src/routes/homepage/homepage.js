@@ -25,6 +25,7 @@ class Homepage extends Component {
       <div>
         <h1>我是home页面</h1>
         <h2>{this.props.data}</h2>
+        <h2>{this.props.token}</h2>
         <Button
         onClick={this.onActivation.bind(this)}
         >点击激活账号</Button>
@@ -41,7 +42,9 @@ Homepage.propTypes = {
 };
 function mapStateToProps(state) {
   return {
-    data: state.homepage.data
+    data: state.homepage.data,
+    token: state.handleToken.token
   }
 }
+
 export default connect(mapStateToProps)(Homepage);
