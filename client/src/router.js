@@ -6,6 +6,7 @@ import OAuth from './components/OAuth';
 import WxCode from './routes/wxCode';
 import TestHomeB from './routes/testHomeB';
 import Homepage from './routes/homepage/homepage';
+import Activation from './routes/activation/activation';
 
 function RouterConfig({ history }) {
   return (
@@ -17,6 +18,7 @@ function RouterConfig({ history }) {
         <Route path="/oauth" exact component={OAuth} />
         <Route path="/wxCode" exact component={WxCode} />
         <Route path="/testHomeB" exact component={TestHomeB} />
+        <Route path="/active" exact component={Activation} />
       </Switch>
     </Router>
   );

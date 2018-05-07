@@ -3,15 +3,19 @@ const path = require('path');
 
 export default {
   entry: 'src/index.js',
-  // extraBabelPlugins: [
-  //   'transform-decorators-legacy',
-  //   ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }],
-  // ],
-  // env: { // 针对特定的环境进行配置 dev 环境下使用 dva-hmr
-  //   development: {
-  //     extraBabelPlugins: ['dva-hmr'],
-  //   },
-  // },
+  extraBabelPlugins: [
+    // 'transform-decorators-legacy',
+    ["import",{ "libraryName": "antd-mobile", "style": true },"antd-mobile-import"],
+    // ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
+  ],
+  env: { // 针对特定的环境进行配置 dev 环境下使用 dva-hmr
+    development: {
+      extraBabelPlugins: [
+        'dva-hmr',
+      ],
+      
+    },
+  },
   // alias: { // 别名
   //   components: path.resolve(__dirname, 'src/components/'),
   // },

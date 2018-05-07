@@ -14,6 +14,7 @@ const app = dva();
 app.model(require('./models/OAuth').default);
 app.model(require('./models/handleToken').default);
 app.model(require('./models/homepage').default);
+app.model(require('./models/activation').default);
 
 // 4. Router
 app.router(require('./router').default);
