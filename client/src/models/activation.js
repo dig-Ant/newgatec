@@ -29,7 +29,7 @@ export default {
       //发送请求
       let tel = yield select(state => state.activation.tel)
       let obj = {
-        "phone": 15067773371,
+        "phone": tel,
         "type": 1,
         "sign": "675",
         "modelId": "3839",
