@@ -27,7 +27,7 @@ class Activation extends Component {
       type: `activation/${data.type}`,
       payload: data.data
     })
-    if (data.data.length >= 4) {
+    if (data.data.length >= 4 && data.type === 'changeCaptcha') {
       this.onSubmitBtn();
     }
   }

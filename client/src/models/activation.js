@@ -1,5 +1,6 @@
 import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
+import * as activeSvc from '../services/activation';
 
 export default {
   namespace: 'activation',
@@ -10,6 +11,7 @@ export default {
   },
   reducers: {
     changeTel(state, { payload: tel }) {
+      tel = tel.replace(/\s/g, "");
       return { ...state, tel }
     },
     changeName(state, { payload: name }) {
@@ -19,20 +21,30 @@ export default {
       return { ...state, captcha }
     },
     resetForm(state, { payload }) {
-      return { ...state, tel: '',name: '', captcha: '' }
+      return { ...state, tel: '', name: '', captcha: '' }
     }
   },
   effects: {
     *getCaptcha({ payload: code }, { call, put, select }) {
       //发送请求
       let tel = yield select(state => state.activation.tel)
-      // let isSend = yield call();
-      let isSend = true;
+      let obj = {
+        "phone": 15067773371,
+        "type": 1,
+        "sign": "675",
+        "modelId": "3839",
+        "content": "{code}",
+        "codeType": 1
+      }
 
-      if (isSend) alert('已发送验证码');
-      //todo 倒计时启动
+      let isSend = yield call(activeSvc.getCaptcha,obj);
+      // let isSend = true;
 
-     
+      if (isSend.result){
+        alert(isSend.result.msg);
+      }
+
+
 
     },
     *activeUser({ payload: code }, { call, put, select }) {
@@ -47,7 +59,7 @@ export default {
       // alert('激活成功');
       yield put({ type: 'resetForm' });
       yield put(routerRedux.push('/homepage'));
-      return ;
+      return;
     }
   },
   subscriptions: {
