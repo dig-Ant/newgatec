@@ -57,7 +57,7 @@ export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
   newOptions.headers = {
-    "Authorization": `bearer ${window.localStorage.getItem(cfg.access_token)}`,
+    "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[newOptions.api_name]}`,
     ...newOptions.headers
   }
 

@@ -20,9 +20,9 @@ kongApi.url = cfg.kong_base_url + cfg.kong_route
 
 // test api
 export async function getInfo(data) {
-  console.log('data--',data);
   return requestAuth(kongApi.getInfoRoute(), {
     method: 'POST',
-    body: { data }
+    body: { data },
+    api_name: 'token_wx'
   });
 }
