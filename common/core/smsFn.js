@@ -136,6 +136,7 @@ module.exports = {
             resolve(phoneArr)
           } catch (error) {
             reject(error)
+            console.log(error)
           }
          
       }else{
@@ -155,7 +156,7 @@ phoneCheck=(phone)=>{
     if(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(phone)){
       resolve(phone);
     }else{
-      reject(new Error('手机号码格式不正确'))
+      reject(new Error(phone+' 手机号码格式不正确'))
     }
   })
 }
