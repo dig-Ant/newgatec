@@ -22,13 +22,13 @@ describe('sms', function() {
 
   describe('smsCode',() =>{
     // it('should return success',(done)=>{
-    //   superagent.post(serverUrl+'Anons/codeSms')
+    //   superagent.post(serverUrl+'Anons/smsCodeSend')
     //   .send({
     //     "phone":"18651833910",
-    //     "type":1
     //   })
 
     //   .end((err,res)=>{
+    //     console.log(err)
     //     expect(err).toEqual(null);
     //     expect(res.status).toEqual(200);
     //     expect(res.body.result.code).toEqual(1);
@@ -38,10 +38,10 @@ describe('sms', function() {
     // })
 
     it('should return pnone number error',()=>{
-      superagent.post(serverUrl+'Anons/codeSms')
+      superagent.post(serverUrl+'Anons/smsCodeSend')
       .send({
         "phone":"1865183391",
-        "type":1
+        
       })
 
       .end((err,res)=>{
@@ -54,16 +54,16 @@ describe('sms', function() {
     })
 
     it('should return formed error',()=>{
-      superagent.post(serverUrl+'Anons/codeSms')
+      superagent.post(serverUrl+'Anons/smsCodeSend')
       .send({
-        "phone":"1865183391",
+        
         
       })
       .end((err,res)=>{
         expect(err).toEqual(null);
         expect(res.status).toEqual(200);
         expect(res.body.result.code).toEqual(0);
-        expect(res.body.result.msg).toEqual('type不能为空');
+        expect(res.body.result.msg).toEqual('phone不能为空');
         done();
       })
     })
