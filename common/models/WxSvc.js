@@ -50,6 +50,7 @@ module.exports = function (WxSvc) {
 
 
   WxSvc.getAccessToken = async function (code) { 
+    console.log('code---',code);
     let client = WxSvc.getClient();
     // 请求微信 access_token 
     let wx_accessToken = await client.getAccessToken_ify(code.code);
@@ -57,7 +58,7 @@ module.exports = function (WxSvc) {
     let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
     //通过请求头返回token
     let requestRes = util.promisify(request.bind(this));
-    let tokenResult =await requestRes({
+    let tokenResult =await requestRes({ 
       method: "POST",
       url: "http://10.186.1.222:8888/api/get_access_token",
       form: {
@@ -69,13 +70,12 @@ module.exports = function (WxSvc) {
 
     // let api = WxSvc.getApi();
     // cb(null,token)
-    console.log(token);
+    console.log('token--',tokenResult.body);
     return token;
   }
   WxSvc.getInfo = async function (code) { 
 
     console.log('res---',code);
-    console.log(code);
 
     return code;
   }

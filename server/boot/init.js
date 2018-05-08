@@ -1,5 +1,7 @@
 'use strict';
 
+
+
 //注入自行实现的方法级别的权限判定
 function aopPermission(app) {
   var remotes = app.remotes();
@@ -31,14 +33,67 @@ function disableAllDefaultApis(app) {
   var models = app.models();
   for (var i = 0; i < models.length; i++) {
     ModelHelper.disableAllDefaultApis(models[i]);
-    
+
   }
   // sys.lib.log.trace("Remove the system default api exposed!");
 }
 
+// function setMenu(app) {
+//   let api = app.models.WxSvc.getApi();
+//   console.log('api---', api);
+//   let menuObj = {
+//     "button": [
+//       {
+//         "type": "click",
+//         "name": "急速入口",
+//         "sub_button": [
+//           {
+//             "type": "view",
+//             "name": "自动入职",
+//             "url": "http://www.soso.com/"
+//           },
+//           {
+//             "type": "view",
+//             "name": "补全材料",
+//             "url": "http://www.soso.com/"
+//           },
+//           {
+//             "type": "view",
+//             "name": "一件报销",
+//             "url": "http://www.soso.com/"
+//           },
+//           {
+//             "type": "click",
+//             "name": "打卡",
+//             "key": "V1001_GOOD"
+//           }]
+//       },
+//       {
+//         "type": "click",
+//         "name": "服务中心",
+//         "url": "V1001_TODAY_MUSIC"
+//       },
+//       {
+//         "name": "才赋有礼",
+//         "sub_button": [
+//           {
+//             "type": "view",
+//             "name": "礼卡兑换",
+//             "url": "http://www.soso.com/"
+//           },
+//           {
+//             "type": "click",
+//             "name": "才赋渊源",
+//             "key": "V1001_GOOD"
+//           }]
+//       }]
+//   }
+//   api.createMenu(menu, ()=> {});
+// }
 
 module.exports = async function (app) {
   disableAllDefaultApis(app);
   aopPermission(app);
-  
+  // setMenu(app);
+
 };
