@@ -27,7 +27,7 @@ class Activation extends Component {
       type: `activation/${data.type}`,
       payload: data.data
     })
-    if (data.data.length >= 4 && data.type === 'changeCaptcha') {
+    if (data.data.length >= 6 && data.type === 'changeCaptcha') {
       this.onSubmitBtn();
     }
   }
@@ -50,12 +50,13 @@ class Activation extends Component {
       type: 'activation/getCaptcha'
     })
   }
- 
+
   onSubmitBtn() {
     this.props.dispatch({
       type: 'activation/activeUser'
     })
   }
+
   render() {
     const { type } = this.state;
     return (
@@ -90,7 +91,7 @@ class Activation extends Component {
             className={styles.body}
             clear
             moneyKeyboardAlign="left"
-            maxLength={4}
+            maxLength={6}
           >短信验证:</InputItem>
         </List>
         {/* {

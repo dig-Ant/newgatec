@@ -27,39 +27,39 @@ export default {
   effects: {
     *getCaptcha({ payload: code }, { call, put, select }) {
       //发送请求
-      let tel = yield select(state => state.activation.tel)
+      let tel = yield select(state => state.activation.tel);
       let obj = {
         "phone": tel,
         "type": 1,
-        "sign": "675",
-        "modelId": "3839",
-        "content": "{code}",
-        "codeType": 1
       }
 
       let isSend = yield call(activeSvc.getCaptcha,obj);
       // let isSend = true;
-
       if (isSend.result){
         alert(isSend.result.msg);
       }
-
-
-
     },
     *activeUser({ payload: code }, { call, put, select }) {
       // 发送请求
-      // let isActive = yield call();
-      let isActive = true;
-      console.log(isActive);
+      let { tel, name, captcha } = yield select(state => state.activation);
+      //mobile,name,sms_code
+      let obj = {
+        mobile: tel,
+        name: name,
+        sms_code: captcha
+      }
+      let isActive = yield call(activeSvc.activeUser, obj);
+      // let isActive = true;
+      alert(JSON.stringify(isActive));
       // 判断激活成功 or 失败
       if (!isActive) {
         alert('激活失败,请确认您的手机号是否正确');
+        return;
       }
       // alert('激活成功');
-      yield put({ type: 'resetForm' });
-      yield put(routerRedux.push('/homepage'));
-      return;
+      // yield put({ type: 'resetForm' });
+      // yield put(routerRedux.push('/homepage'));
+      // return;
     }
   },
   subscriptions: {

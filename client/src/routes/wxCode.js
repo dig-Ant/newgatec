@@ -28,7 +28,10 @@ class WxCode extends Component {
       <div>
         wxCode page
           <h2>{
-            this.props.token
+            this.props.token.token_wx
+          }</h2>
+          <h2>{
+            this.props.token.token_cf
           }</h2>
       </div>
     )

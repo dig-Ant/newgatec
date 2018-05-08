@@ -27,13 +27,16 @@ export default class lbapi {
 
   // 短信相关基础route
   getSmsRoute() {
-    return `${this.getBaseRoute()}/Sms`
+    return `${this.getBaseRoute()}/Anons`
   }
 
   // 发送短信验证码
   getSmsCodeRoute() {
-    return `${this.getSmsRoute()}/SmsCode`
+    return `${this.getSmsRoute()}/codeSms`
   }
 
-
+  // 激活手机号
+  getUserActivateRoute() {
+    return `${this.getBaseRoute()}/user_activate`
+  }
 }

@@ -12,16 +12,21 @@ kongApi.url = cfg.kong_base_url + cfg.kong_route
 export async function getCaptcha(data) {
   return requestAuth(kongApi.getSmsCodeRoute(), {
     method: 'POST',
-    body: data
+    body: data,
+    api_name: 'token_wx'
   });
 }
 
+// 需要经过 kong 的请求
+let kongApi_uc = new api();
+kongApi_uc.url = cfg.kong_base_url + cfg.kong_Uc
+
 // 给用户发送验证码
 export async function activeUser(data) {
-  console.log('data--',data);
-  return requestAuth(kongApi.getInfoRoute(), {
+  return requestAuth(kongApi_uc.getUserActivateRoute(), {
     method: 'POST',
-    body: { data }
+    body: data,
+    api_name: 'token_cf'
   });
 }
 
