@@ -58,20 +58,31 @@ module.exports = function (WxSvc) {
     let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
     //通过请求头返回token
     let requestRes = util.promisify(request.bind(this));
-    let tokenResult =await requestRes({ 
+    let wx_tokenResult =await requestRes({ 
       method: "POST",
       url: "http://10.186.1.222:8888/api/get_access_token",
       form: {
-        user_id: wx_accessToken.data.openid,
+        openid: wx_accessToken.data.openid,
         api_name:"wx_svc",
       }
-    });
-    let token = util.toJson(tokenResult.body).body.access_token;
-
+    }); 
+    let cf_tokenResult =await requestRes({ 
+      method: "POST",
+      url: "http://10.186.1.222:8888/api/get_access_token",
+      form: {
+        openid: wx_accessToken.data.openid,
+        api_name:"cf_api",
+      }
+    }); 
+    let token_wx = util.toJson(wx_tokenResult.body).body.access_token;
+    let token_cf = util.toJson(cf_tokenResult.body).body.access_token;
     // let api = WxSvc.getApi();
     // cb(null,token)
-    console.log('token--',tokenResult.body);
-    return token;
+    console.log('token--',wx_tokenResult.body);
+    return {
+      token_wx,
+      token_cf
+    };
   }
   WxSvc.getInfo = async function (code) { 
 
@@ -84,7 +95,7 @@ module.exports = function (WxSvc) {
     http: { verb: 'post' },
     accepts: [{ arg: 'code', type: 'object',http: { source: 'body' } }],
     returns: {
-      arg: 'res', type: 'string'
+      arg: 'res', type: 'object'
     }
   })
 
