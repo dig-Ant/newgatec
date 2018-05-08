@@ -224,8 +224,8 @@ let msg = {
           enums.success.msg = '验证码正确'
           return enums.success;
         } else {
-          enums.success.msg = '验证码过期'
-          return enums.success;
+          enums.error.msg = '验证码过期'
+          return enums.error;
         }
 
 
@@ -234,11 +234,11 @@ let msg = {
 
         console.log(smsCodeModel)
       } else {
-        enums.success.msg = '验证码错误'
-        return '验证码错误'
+        enums.error.msg = '验证码错误'
+        return enums.error;
       }
     } catch (error) {
-      enums.error.msg='手机号码格式不正确'
+      enums.error.msg=error.message
       return enums.error;
     }
     
