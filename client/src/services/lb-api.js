@@ -32,7 +32,7 @@ export default class lbapi {
 
   // 发送短信验证码
   getSmsCodeRoute() {
-    return `${this.getSmsRoute()}/codeSms`
+    return `${this.getSmsRoute()}/smsCodeSend`
   }
 
   // 激活手机号
