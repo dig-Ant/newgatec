@@ -25,7 +25,8 @@ class Homepage extends Component {
       <div>
         <h1>我是home页面</h1>
         <h2>{this.props.data}</h2>
-        <h2>{this.props.token}</h2>
+        <h2>{this.props.token.token_wx}</h2>
+        <h2>{this.props.token.token_cf}</h2>
         <Button
         onClick={this.onActivation.bind(this)}
         >点击激活账号</Button>

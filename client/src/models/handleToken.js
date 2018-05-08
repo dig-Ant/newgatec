@@ -19,7 +19,7 @@ export default {
     *getAccessToken({ payload: code }, { call, put }) {
       let token = yield call(handleToken.getAccessToken, code);
       // 储存token
-      window.localStorage.setItem(cfg.access_token,token.res);
+      window.localStorage.setItem(cfg.access_token,JSON.stringify(token.res));
       yield put({ type: 'changeToken', payload: token.res});
       yield put(routerRedux.push('/homepage'));
     }
