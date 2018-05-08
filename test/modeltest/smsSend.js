@@ -48,7 +48,7 @@ describe('sms', function() {
         expect(err).toEqual(null);
         expect(res.status).toEqual(200);
         expect(res.body.result.code).toEqual(0);
-        expect(res.body.result.msg).toEqual('手机号码格式不正确');
+        expect(res.body.result.msg).toEqual('1865183391 手机号码格式不正确');
         done();
       })
     })
@@ -59,7 +59,6 @@ describe('sms', function() {
         "phone":"1865183391",
         
       })
-
       .end((err,res)=>{
         expect(err).toEqual(null);
         expect(res.status).toEqual(200);
