@@ -58,5 +58,13 @@
   "Anon": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "Public": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Private": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }

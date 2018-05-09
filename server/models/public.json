@@ -1,0 +1,19 @@
+{
+  "name": "Public",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+  
+  },
+  "validations": [],
+  "relations": {
+   
+  },
+  "acls": [],
+  "methods": {}
+}

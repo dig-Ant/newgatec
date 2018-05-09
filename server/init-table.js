@@ -100,3 +100,8 @@ let promseArr = []
 //   msg: "SUCCESS",
 //   smUuid:"xxxx"
 // }
+
+let dateNow = new Date().getTime();
+let time = new Date(dateNow+28800000)
+
+console.log(time.toJSON().slice(0, 19).replace('T', ' '))

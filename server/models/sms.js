@@ -63,6 +63,7 @@ let msg = {
  * @param {function} cb 回调
  */
   Sms.smsCode = async (obj,cb) => {
+    return new Promise(async (resolve, reject) => {
     let jsonKeys = ['phone','type','sign','modelId','content','codeType']
     try {
        let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
@@ -88,35 +89,34 @@ let msg = {
 
           let modelLog = await Sms.app.models.SmsLog.createLog(enums.smsLogObj)//写入日志
           // console.log(modelLog)
-          enums.success.msg = '验证码已发送';
+          let success = { code:1};
+          success.msg = '验证码已发送';
           let successSend = JSON.parse(smsSend)
-          enums.success.data = {
+          success.data = {
             smUuid:successSend.smUuid
           }
           
           // cb(null,enums.success)
           // console.log(enums.success)
-          return enums.success;
+          resolve(success)
         } catch (error) {
-          enums.error.msg = '验证码发送失败';
-          console.log(error)
-          return enums.error;
+         
+          reject(new Error('验证码发送失败'))
         }
 
       } else if (obj.type == 2) {
-        enums.error.msg = '暂不支持此类型';
-        return enums.error;
+       
+        reject(new Error('暂不支持此类型'))
       } else {
-        enums.error.msg = '暂不支持此类型';
-        return enums.error;
+        
+        reject(new Error('暂不支持此类型'))
       }
     } catch (error) {
-      console.log(error.message)
-      enums.error.msg = error.message
-      return enums.error;
+      error.statusCode = 412
+      reject(error)
       
     }
-
+  })
    
   }
   /**
@@ -133,16 +133,18 @@ let msg = {
    * @param {function} cb 回调的参数
    */
   Sms.groupSms = async (obj,cb) => {
-    let jsonKeys = ['phone','sign','modelId']
+    return new Promise(async (resolve, reject) => {
+    let jsonKeys = ['phones','sign','modelId']
     let promiseArr = [];
     try {
       let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
       var promise = await smsFn.phoneNumCheck(obj.phones)
       
-      let phoneArr = obj.phones.join(',')
+      let phoneArr = promise.join(',')
       // return phoneArr;
+      console.log(obj)
       let groupSmsSend = await smsFn.groupSmsSend(obj.sign, obj.modelId, phoneArr, obj.content, obj.time)
-
+      console.log(groupSmsSend)
       if (JSON.parse(groupSmsSend).code == '0') {
 
 
@@ -161,35 +163,36 @@ let msg = {
           console.log(result)
           let successSend = JSON.parse(groupSmsSend)
           console.log(successSend)
-          enums.success.msg='发送成功'
-          enums.success.data = {
+          let success = {code:1}
+          success.msg='发送成功'
+          success.data = {
             batchId:successSend.batchId
           }
           // return enums.success;
-          cb(null,enums.success);
+          
+          resolve(success)
         }).catch((error) => {
-          enums.error.msg = '数据库写入失败，但短信发送成功';
-          enums.error.data = error;
+          error.statusCode = 500
+          error.message = '数据库写入失败，但短信发送成功';
+          
           // return enums.error
-          cb(null,enums.error)
+          reject(error)
         })
       } else {
-        enums.error.msg = '短信发送失败'
-        enums.error.data = groupSmsSend;
-        return enums.error;
-        // cb(null,enums.error);
+        
+        reject(new Error('短信发送失败'))
       }
     } catch (error) {
-      console.log(error)
-      enums.error.msg=error.message
-      return enums.error;
+      
+      error.statusCode = 412
+      reject(error);
     }
     
       
-    
+  })
     // }).catch((error) => {
     //   console.log(error)
-    //   enums.error.msg='手机号码格式不正确'
+    //   enums.error.message='手机号码格式不正确'
     //   cb(null,enums.error)
     //   // console.log(error)
     // })
@@ -206,43 +209,49 @@ let msg = {
    * 
    * @param {object} obj 
    */
-  Sms.checkCode = async (obj)=>{
-    
-    // console.log(obj)
-    let jsonKeys = ['phone','code','codeType']
-    try {
-      let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
-      var promise = await smsFn.phoneNumCheck(obj.phone)
-      enums.smsCodeCheck.phone = obj.phone;
-      enums.smsCodeCheck.smsCode = obj.code;
-      enums.smsCodeCheck.codeType = obj.codeType;
-      let smsCodeObj = await Sms.app.models.SmsCode.smsModel(enums.smsCodeCheck);
-      // console.log(smsCodeObj[smsCodeObj.length-1].expirationTime )
-      if (smsCodeObj.length > 0) {
-        if (parseInt(new Date().getTime()) < parseInt(smsCodeObj[smsCodeObj.length - 1].expirationTime)) {
-          let smsUpdateStatus = await Sms.app.models.SmsCode.updateAll(enums.smsCodeCheck, { status: 1 })
-          enums.success.msg = '验证码正确'
-          return enums.success;
+  Sms.checkCode = async (obj, cb) => {
+    console.log('开始',enums.success)
+    return new Promise(async (resolve, reject) => {
+
+
+      // console.log(obj)
+      let jsonKeys = ['phone', 'code', 'codeType']
+      try {
+        let objCheck = await jsonCkeck.keysCheck(jsonKeys, obj)
+        var promise = await smsFn.phoneNumCheck(obj.phone)
+        enums.smsCodeCheck.phone = obj.phone;
+        enums.smsCodeCheck.smsCode = obj.code;
+        enums.smsCodeCheck.codeType = obj.codeType;
+        let smsCodeObj = await Sms.app.models.SmsCode.smsModel(enums.smsCodeCheck);
+        // console.log(smsCodeObj[smsCodeObj.length-1].expirationTime )
+        if (smsCodeObj.length > 0) {
+          if (parseInt(new Date().getTime()) < parseInt(smsCodeObj[smsCodeObj.length - 1].expirationTime)) {
+            let smsUpdateStatus = await Sms.app.models.SmsCode.updateAll(enums.smsCodeCheck, { status: 1 })
+            let success = {
+              code:1
+            };
+            success.msg = '验证码正确'
+            console.log(success)
+            resolve(success)
+          } else {
+            reject(new Error('验证码已过期'))
+          }
+
+
+
+          let smsCodeModel = await Sms.app.models.SmsCode.smsStatus(smsCodeObj[smsCodeObj.length - 1].id)
+
+          console.log(smsCodeModel)
         } else {
-          enums.error.msg = '验证码过期'
-          return enums.error;
+         reject(new Error('验证码错误'))
         }
+      } catch (error) {
 
 
-
-        let smsCodeModel = await Sms.app.models.SmsCode.smsStatus(smsCodeObj[smsCodeObj.length - 1].id)
-
-        console.log(smsCodeModel)
-      } else {
-        enums.error.msg = '验证码错误'
-        return enums.error;
+        reject(error)
       }
-    } catch (error) {
-      enums.error.msg=error.message
-      return enums.error;
-    }
-    
-    
+    })
+
   }
 
   Sms.remoteMethod('greet', {
@@ -260,17 +269,17 @@ let msg = {
 
   // returns: {arg: 'result', type: 'object'}
   // });
-  Sms.remoteMethod('checkCode', {
-    accepts: [{ arg: 'obj', type: 'object', http: { source: 'body' } }],
+  // Sms.remoteMethod('checkCode', {
+  //   accepts: [{ arg: 'obj', type: 'object', http: { source: 'body' } }],
 
-    returns: { arg: 'result', type: 'object' }
-  });
+  //   returns: { arg: 'result', type: 'object' }
+  // });
 
-  Sms.remoteMethod('groupSms', {
-    accepts: [{ arg: 'obj', type: 'object', http: { source: 'body' } }],
+  // Sms.remoteMethod('groupSms', {
+  //   accepts: [{ arg: 'obj', type: 'object', http: { source: 'body' } }],
 
-    returns: { arg: 'result', type: 'object' }
-  });
+  //   returns: { arg: 'result', type: 'object' }
+  // });
 };
 
 
