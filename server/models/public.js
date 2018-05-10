@@ -1,4 +1,4 @@
-let jsonCheck = require('../../common/core/jsonCheck')
+let jsonCheck = require('../../common/smsFn/jsonCheck')
 let enums = require('../../common/core/enum')
 module.exports = function(Public) {
 

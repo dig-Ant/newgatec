@@ -1,8 +1,8 @@
 'use strict';
 const enums = require('../../common/core/enum');
-const jsonCkeck = require('../../common/core/jsonCheck')
+const jsonCkeck = require('../../common/smsFn/jsonCheck')
 module.exports = function(Sms) {
-let smsFn = require('../../common/core/smsFn');
+let smsFn = require('../../common/smsFn/smsFn');
 
 let msg = {
   tstString: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',

@@ -1,5 +1,5 @@
 module.exports = function (SmsModel) {
-let smsFn = require('../core/smsFn')
+let smsFn = require('../smsFn/smsFn')
   /**
    * @method 模版储存
    * @param {object} 传入对象
