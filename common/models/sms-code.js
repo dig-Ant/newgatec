@@ -1,7 +1,7 @@
 'use strict';
  
 module.exports = function(SmsCode) {
-let smsFn = require('../core/smsFn')
+let smsFn = require('../smsFn/smsFn')
 
 let msg = {
   tstString: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',
