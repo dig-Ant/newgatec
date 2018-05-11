@@ -3,24 +3,19 @@ import React, { Component } from 'react';
 import styles from './activation.less';
 import { connect } from 'dva';
 import { Button, List, InputItem } from 'antd-mobile';
-
 import CountDown from '../../components/CountDown/CountDown';
+
 
 class Activation extends Component {
   constructor() {
     super();
     this.state = {
-      type: 'money',
-      isShow: true,
-      count: 5
+
     }
     this.time = '';
   }
 
-  componentWillUnmount() {
-    clearInterval(this.time);
-    this.setState({ isShow: true, count: 5 });
-  }
+
 
   changeForm(data) {
     this.props.dispatch({
@@ -32,20 +27,10 @@ class Activation extends Component {
     }
   }
   onClickValid() {
-    this.setState({
-      isShow: false
-    });
-    this.time = setInterval(() => {
-      this.setState({
-        count: this.state.count - 1
-      }, () => {
-        if (this.state.count == 0) {
-          clearInterval(this.time);
-          this.setState({ isShow: true, count: 5 });
-        }
-      });
-    }, 1000);
-
+ 
+    if(this.props.data.tel.trim().length <= 0) {
+      alert('手机号不存在');
+    }
     this.props.dispatch({
       type: 'activation/getCaptcha'
     })
@@ -58,7 +43,6 @@ class Activation extends Component {
   }
 
   render() {
-    const { type } = this.state;
     return (
       <div className={styles.background}>
         <div className={styles.top}>
@@ -87,18 +71,14 @@ class Activation extends Component {
           <InputItem
             value={this.props.data.captcha}
             onChange={(data) => this.changeForm({ type: 'changeCaptcha', data })}
-            type={type}
+            type={'money'}
             className={styles.body}
             clear
             moneyKeyboardAlign="left"
             maxLength={6}
           >短信验证:</InputItem>
         </List>
-        {/* {
-          this.state.isShow ?
-            <Button onClick={this.onClickValid.bind(this)} className={styles.validBtn}>获取验证码</Button> :
-            <Button disabled className={styles.validBtn}>{this.state.count}秒后重新发送</Button>
-        } */}
+      
         <CountDown
           count={6} //倒计时
           // buttonStyle={styles.validBtn} //传入的类名

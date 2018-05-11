@@ -1,11 +1,12 @@
-import * as handleToken from '../services/handleToken';
+import * as handleTokenSvc from '../services/handleToken';
 import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
 
 export default {
   namespace: 'handleToken',
   state: {
-    token: ''
+    token: '',
+    config: ''
   },
   reducers: {
     changeToken(state, { payload: token }) {
@@ -13,15 +14,28 @@ export default {
         ...state,
         token
       }
+    },
+    changeWxConfig(state, { payload: config }) {
+      return {
+        ...state,
+        config
+      }
     }
+
   },
   effects: {
     *getAccessToken({ payload: code }, { call, put }) {
-      let token = yield call(handleToken.getAccessToken, code);
+      // let config = yield call(handleTokenSvc.getWxConfig);
+
+      // yield put({ type: 'changeWxConfig', payload: config.body});
+    
+
+      let token = yield call(handleTokenSvc.getAccessToken, code);
+      // token_wx  token_cf
       // 储存token
       window.localStorage.setItem(cfg.access_token,JSON.stringify(token.res));
       yield put({ type: 'changeToken', payload: token.res});
-      yield put(routerRedux.push('/homepage'));
+      yield put(routerRedux.replace('/homepage'));
     }
   },
   subscriptions: {

@@ -39,4 +39,10 @@ export default class lbapi {
   getUserActivateRoute() {
     return `${this.getBaseRoute()}/user_activate`
   }
+
+
+  // 获取 wx js sdk config
+  getWxConfigRoute() {
+    return `${this.getWxSvcRoute()}/getWxConfig`
+  }
 }
