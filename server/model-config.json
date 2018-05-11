@@ -66,5 +66,9 @@
   "Private": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "Inner": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }
