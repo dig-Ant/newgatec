@@ -41,6 +41,8 @@ class OAuth extends React.Component {
 
   checkToken() {
     let token = window.localStorage.getItem('auth_token1');
+    // let token = JSON.parse(window.localStorage.getItem(cfg.access_token));
+    // if (!token.token_cf) {
     if (!token) {
       let isWx = this.checkBrower();
       if (isWx) {
@@ -50,6 +52,8 @@ class OAuth extends React.Component {
         //跳转到登录授权页面
         this.props.dispatch(routerRedux.push('/testHomeB'));
       }
+    } else {
+      this.props.dispatch(routerRedux.replace('/homepage'));
     }
   }
 

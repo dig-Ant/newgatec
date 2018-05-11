@@ -26,3 +26,11 @@ export async function getInfo(data) {
     api_name: 'token_wx'
   });
 }
+
+export async function getWxConfig(param) {
+  return requestAuth(kongApi.getWxConfigRoute(), {
+    method: "POST",
+    body: param,
+    api_name: 'token_wx'
+  });
+}

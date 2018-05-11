@@ -32,11 +32,17 @@ export default class lbapi {
 
   // 发送短信验证码
   getSmsCodeRoute() {
-    return `${this.getSmsRoute()}/codeSms`
+    return `${this.getSmsRoute()}/smsCodeSend`
   }
 
   // 激活手机号
   getUserActivateRoute() {
     return `${this.getBaseRoute()}/user_activate`
+  }
+
+
+  // 获取 wx js sdk config
+  getWxConfigRoute() {
+    return `${this.getWxSvcRoute()}/getWxConfig`
   }
 }

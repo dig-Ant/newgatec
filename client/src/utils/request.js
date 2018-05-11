@@ -11,6 +11,7 @@ function checkStatus(response) {
   }
 
   const error = new Error(response.statusText);
+  // const error = new Error(response.msg);
   error.response = response;
   throw error;
 }
@@ -44,7 +45,8 @@ export default function request(url, options) {
       };
     }
   }
-
+  console.log('option--', newOptions);
+  console.log('url--', url);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
@@ -56,10 +58,27 @@ export default function request(url, options) {
 export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
-  newOptions.headers = {
-    "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[newOptions.api_name]}`,
-    ...newOptions.headers
+  // newOptions.headers = {
+  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[newOptions.api_name]}`,
+  //   ...newOptions.headers
+  // }
+  if (newOptions.api_name == 'token_wx') {
+    newOptions.headers = {
+      "Authorization": `bearer gnvhIFqbTtZApFIBy9aCuV9SM3lWJNA4`,
+      ...newOptions.headers
+    }
+  } else if (newOptions.api_name == 'token_cf') {
+    newOptions.headers = {
+      "Authorization": `bearer dG9R3GLR6QkbqyvRNNZ9i5E0N2TSmsrV`,
+      ...newOptions.headers
+    }
   }
+
+
 
   return request(url, newOptions)
 }
+
+//token 
+//gnvhIFqbTtZApFIBy9aCuV9SM3lWJNA4
+//dG9R3GLR6QkbqyvRNNZ9i5E0N2TSmsrV

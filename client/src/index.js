@@ -10,11 +10,10 @@ const app = dva();
 // app.use({});
 
 // 3. Model
-// app.model(require('./models/example').default);
-app.model(require('./models/OAuth').default);
 app.model(require('./models/handleToken').default);
 app.model(require('./models/homepage').default);
 app.model(require('./models/activation').default);
+app.model(require('./models/wxSdk').default);
 
 // 4. Router
 app.router(require('./router').default);

@@ -29,10 +29,8 @@ export default {
       //发送请求
       let tel = yield select(state => state.activation.tel);
       let obj = {
-        "phone": tel,
-        "type": 1,
+        "phone": tel
       }
-
       let isSend = yield call(activeSvc.getCaptcha,obj);
       // let isSend = true;
       if (isSend.result){
