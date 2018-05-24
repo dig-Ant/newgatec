@@ -25,11 +25,11 @@
       "required": true
     },
     "expirationTime":{
-      "type": "string",
+      "type": "date",
       "required": true
     },
     "sendTime":{
-      "type": "string",
+      "type": "date",
       "required": false,
       "defaultFn":"now"
     }
