@@ -1,7 +1,5 @@
 import React from 'react';
 // import propTypes from 'prop-types';
-import util from '../../utils/util';
-import { routerRedux } from 'dva/router';
 import { Button } from 'antd-mobile';
 import styles from './CountDown.less';
 

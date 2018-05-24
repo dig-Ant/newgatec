@@ -1,4 +1,4 @@
-import { routerRedux } from 'dva/router';
+// import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
 import * as activeSvc from '../services/activation';
 

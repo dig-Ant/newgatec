@@ -1,5 +1,4 @@
 'use strict';
-import moment from 'moment';
 
 let util = {
   /**
@@ -247,28 +246,6 @@ let util = {
    */
   _date: {
     /**
-     * 时间字符串转化为date对象
-     * @method getStrToDate
-     * @return {Date} ticks
-     **/
-    getStrToDate: function (timeStr) {
-      if(!timeStr) {
-        return moment().toDate();
-      }
-      return moment(timeStr).toDate();
-    },
-    /**
-     * 获取当前时间的ticks
-     * @method getTicks
-     * @return {number} ticks
-     **/
-    getDateToStr: function (date) {
-      if(!date) {
-        return moment().format().slice(0, 19).replace('T',' ');
-      }
-      return moment(date).format().slice(0, 19).replace('T',' ');
-    },
-    /**
      * 获取当前时间的ticks
      * @method getTicks
      * @return {number} ticks
@@ -451,39 +428,6 @@ let util = {
       return result;
     },
     /**
-     * 获取QueryString的JSON数据 除去hash
-     * @method getQSJson
-     * @param {string} url 路径,无效时从当前location中获取
-     * @return {json} json格式的QueryString
-     **/
-    getQSJsonWithoutHash: function (url) {
-      url = url || window.location.href;
-
-      var pos = url.indexOf("#");
-      url = pos > 0 ? url.substr(0, pos) : url;
-
-      let str = util._queryString.getQSStrFromUrl(url);
-      var pairs = str.split('&');
-      var result = {};
-      pairs.forEach(function (pair) {
-        pair = pair.split('=');
-        var name = pair[0];
-        var value = pair[1];
-        if (name.length) {
-          name = name.toLowerCase();
-          if (result[name] !== undefined) {
-            if (!result[name].push) { //重复的key变成数组保存起来
-              result[name] = [result[name]];
-            }
-            result[name].push(value || '');
-          } else {
-            result[name] = value || '';
-          }
-        }
-      });
-      return result;
-    },
-    /**
      * 移除微信分享所带的QS上额外的信息
      * @method removeWXUrlExtra
      * @param {string} url 待处理的url
@@ -492,26 +436,6 @@ let util = {
     removeWXUrlExtra: function (url) {
       url = url.replace("#rd", "");
       return url;
-    },
-    /**
-     * 拼接对象为请求字符串
-     * @param {Object} obj - 待拼接的对象
-     * @returns {string} - 拼接成的请求字符串
-     */
-    encodeSearchParams: function (obj) {
-      const params = []
-
-      Object.keys(obj).forEach((key) => {
-        let value = obj[key]
-        // 如果值为undefined我们将其置空
-        if (typeof value === 'undefined') {
-          value = ''
-        }
-        // 对于需要编码的文本（比如说中文）我们要进行编码
-        params.push([key, encodeURIComponent(value)].join('='))
-      })
-
-      return params.join('&')
     }
 
   },
@@ -575,31 +499,13 @@ let util = {
       }
       return `${fileSize} B`;
     },
-  },
-
-  /**
-   * 用于判断是否是微信浏览器
-   * @class isWxBrower
-   */
-  _isWx: {
-    isWxBrower: function () {
-      let ua = window.navigator.userAgent.toLowerCase();
-      let isWeixin = ua.indexOf('micromessenger') !== -1;
-      if (isWeixin) {
-        return true;
-      } else {
-        return false;
-      }
-    }
   }
-
-
 }
 
 //比较对象的属性，合并时是否有冲突
-util._common.compareObjs(util, util._array, util._common, util._date, util._detection, util._file, util._string, util._isWx)
+util._common.compareObjs(util, util._array, util._common, util._date, util._detection, util._file, util._string, util._queryString)
 
-export default {
+util = module.exports = {
   ...util,
   ...util._array,
   ...util._common,
@@ -607,5 +513,5 @@ export default {
   ...util._detection,
   ...util._file,
   ...util._string,
-  ...util._isWx
+  ...util._queryString,
 }

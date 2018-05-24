@@ -1,0 +1,32 @@
+.listHeader p:nth-child(1) {
+  color: #000;
+  font-size: 20px;
+}
+.submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+.submit > div:nth-child(1) :global .am-button {
+  background-color: #97d9d5;
+}
+.submit > div:nth-child(1) :global .am-button-active {
+  background-color: #ddd;
+}
+.submit > div:nth-child(2) :global .am-button {
+  background-color: #cccccc;
+}
+.submit > div:nth-child(2) :global .am-button-active {
+  background-color: #ddd;
+}
+.submit a {
+  border-radius: 50px;
+  color: #fff;
+}
+.subList :global .am-input-control input {
+  text-align: right;
+}
+.subList :global .am-textarea-control textarea {
+  text-align: right;
+}

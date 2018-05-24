@@ -15,14 +15,33 @@ export default class lbapi {
     return `${this.getBaseRoute()}/WxSvcs`
   }
 
+  getSharepublicRoute() {
+    return `${this.getBaseRoute()}/sharepublic`
+  }
+  getShareprivateRoute() {
+    return `${this.getBaseRoute()}/shareprivate`
+  }
+  getUserpublicRoute() {
+    return `${this.getBaseRoute()}/userpublic`
+  }
+  getUserprivateRoute() {
+    return `${this.getBaseRoute()}/userprivate`
+  }
+  getCbizpublicRoute() {
+    return `${this.getBaseRoute()}/cbizpublic`
+  }
+  getCbizprivateRoute() {
+    return `${this.getBaseRoute()}/cbizprivate`
+  }
+
   // get accessToken 
   getAccessTokenRoute() {
-    return `${this.getWxSvcRoute()}/getAccessToken`
+    return `${this.getSharepublicRoute()}/getAccessToken`
   }
 
   // test api
   getInfoRoute() {
-    return `${this.getWxSvcRoute()}/getInfo`
+    return `${this.getSharepublicRoute()}/getInfo`
   }
 
   // 短信相关基础route
@@ -43,6 +62,16 @@ export default class lbapi {
 
   // 获取 wx js sdk config
   getWxConfigRoute() {
-    return `${this.getWxSvcRoute()}/getWxConfig`
+    return `${this.getSharepublicRoute()}/getWxConfig`
+  }
+
+  // user 判断用户是否需要验证
+  getIsVerifyUserRoute() {
+    return `${this.getUserprivateRoute()}/is_verify_user`
+  }
+
+  // user 获取用户草稿
+  getIdentityDraftRoute() {
+    return `${this.getUserprivateRoute()}/get_identity_draft`
   }
 }
