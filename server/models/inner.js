@@ -53,6 +53,24 @@ module.exports = function(Inner) {
       cb(error)
     }
   }
+  Inner.registerCodeCheck = async (obj,cb) =>{
+    try {
+      let input = {
+        phone:obj.phone,
+        smsCode:obj.code,
+        codeType:1,
+        status:0
+        }
+        let jsonKeys = ['phone','code']
+        let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
+        let result = await Inner.app.models.SmsCode.findOne({where:input})
+        return enums.success;
+    } catch (error) {
+      // enums.error.msg=error.message
+      error.statusCode = 412
+      cb(error)
+    }
+  }
   Inner.groupSms = async () =>{
     try {
       
@@ -62,7 +80,11 @@ module.exports = function(Inner) {
   }
 
   
+  Inner.remoteMethod('registerCodeCheck', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
+    returns: {arg: 'body', type: 'object'}
+  });
   Inner.remoteMethod('smsCodeSend', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 

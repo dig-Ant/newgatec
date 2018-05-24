@@ -3,7 +3,9 @@
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
-    "validateUpsert": true
+    "validateUpsert": true,
+    "http": {"path": "/inner"}
+
   },
   "mixins": {
   },
