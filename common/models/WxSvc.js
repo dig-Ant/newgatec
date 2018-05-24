@@ -59,7 +59,6 @@ module.exports = function (WxSvc) {
     let wx_api = WxSvc.getApi(); 
 
     let ticket_ify = await wx_api.getTicket_ify();
-    console.log('ticket_ify---', ticket_ify); 
     var param = {
       debug: paramObj.debug,
       jsApiList: paramObj.jsApiList,
@@ -70,6 +69,17 @@ module.exports = function (WxSvc) {
     return getJsConfig_ify;
   }
 
+  async function requestToken(url,data) {
+    let requestRes = util.promisify(request.bind(this));
+    let token = await requestRes({
+      method: "POST",
+      url: url,
+      form: data
+    });
+    return token;
+  }
+
+
   WxSvc.getAccessToken = async function (code) {
   
     console.log('code---', code);
@@ -79,34 +89,30 @@ module.exports = function (WxSvc) {
     // 请问 client token
     let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
     //通过请求头返回token
-    let requestRes = util.promisify(request.bind(this));
-    let wx_tokenResult = await requestRes({
-      method: "POST",
-      url: "http://10.186.1.222:8888/api/get_access_token",
-      // url: "http://172.16.1.139:8888/userhost/api/inner/get_access_token",
-      form: {
-        openid: wx_accessToken.data.openid,
-        api_name: "wx_svc",
-      }
+ 
+    let getTokenUrl = 'http://172.16.1.139:8888/api/inner/get_access_token';
+    let token_wx_svc = await requestToken(getTokenUrl, {
+      openid: wx_accessToken.data.openid,
+      api_name: "wx_svc",
     });
-    let cf_tokenResult = await requestRes({
-      method: "POST",
-      url: "http://10.186.1.222:8888/api/get_access_token",
-      // url: "http://172.16.1.139:8888/userhost/api/inner/get_access_token",
-      form: {
-        openid: wx_accessToken.data.openid,
-        api_name: "cf_api",
-      }
+    let token_userpublic = await requestToken(getTokenUrl, {
+      openid: wx_accessToken.data.openid,
+      api_name: "userpublic", 
     });
-    let token_wx = util.toJson(wx_tokenResult.body).body.access_token;
-    let token_cf = util.toJson(cf_tokenResult.body).body.access_token;
+    let token_userprivate = await requestToken(getTokenUrl, {
+      openid: wx_accessToken.data.openid,
+      api_name: "userprivate", 
+    });
+    let tokenObj = {
+      token_wx_svc: util.toJson(token_wx_svc.body).body.access_token,
+      token_userpublic: util.toJson(token_userpublic.body).body.access_token,
+      token_userprivate: util.toJson(token_userprivate.body).body.access_token,
+    }
+   
     // let api = WxSvc.getApi();
     // cb(null,token)
-    console.log('token--', wx_tokenResult.body);
-    return {
-      token_wx,
-      token_cf
-    };
+    console.log('token1--', tokenObj);
+    return tokenObj;
   }
   WxSvc.getInfo = async function (code) {
 
@@ -119,7 +125,7 @@ module.exports = function (WxSvc) {
     http: { verb: 'post' },
     accepts: [{ arg: 'code', type: 'object', http: { source: 'body' } }],
     returns: {
-      arg: 'res', type: 'object'
+      arg: 'body', type: 'object'
     }
   })
 
@@ -135,7 +141,7 @@ module.exports = function (WxSvc) {
     http: { verb: 'post' },
     accepts: [{ arg: 'code', type: 'object', http: { source: 'body' } }],
     returns: {
-      arg: 'res', type: 'object'
+      arg: 'body', type: 'object'
     }
   })
 }
