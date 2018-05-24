@@ -1,10 +1,9 @@
-
 let jsonCheck = require('../../common/smsFn/jsonCheck')
 let enums = require('../../common/core/enum')
-module.exports = function(Anon) {
+module.exports = function(Inner) {
 
 
-  Anon.testAnon = async function (obj, cb) {
+  Inner.testAnon = async function (obj, cb) {
     let result = 0
     if(obj.test == '1'){
       result = 1
@@ -15,7 +14,7 @@ module.exports = function(Anon) {
     
   }
 
-  Anon.smsCodeSend = async (obj,cb)=>{
+  Inner.smsCodeSend = async (obj,cb)=>{
     try {
       let input = {
       phone:obj.phone,
@@ -27,16 +26,16 @@ module.exports = function(Anon) {
       }
       let jsonKeys = ['phone']
       let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
-      let result = await Anon.app.models.Sms.smsCode(input);
+      let result = await Inner.app.models.Sms.smsCode(input);
       return result;
     } catch (error) {
       // enums.error.msg=error.message
-      // error.statusCode = 412
+      error.statusCode = 412
       cb(error)
     }
    
   }
-  Anon.smsCodeCheck = async (obj,cb)=>{
+  Inner.smsCodeCheck = async (obj,cb)=>{
     try {
       let input = {
         phone:obj.phone,
@@ -46,7 +45,7 @@ module.exports = function(Anon) {
         }
         let jsonKeys = ['phone','code']
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
-        let result = await Anon.app.models.Sms.checkCode(input);
+        let result = await Inner.app.models.Sms.checkCode(input);
         return result;
     } catch (error) {
       // enums.error.msg=error.message
@@ -54,7 +53,25 @@ module.exports = function(Anon) {
       cb(error)
     }
   }
-  Anon.groupSms = async () =>{
+  Inner.registerCodeCheck = async (obj,cb) =>{
+    try {
+      let input = {
+        phone:obj.phone,
+        smsCode:obj.code,
+        codeType:1,
+        status:0
+        }
+        let jsonKeys = ['phone','code']
+        let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
+        let result = await Inner.app.models.SmsCode.findOne({where:input})
+        return enums.success;
+    } catch (error) {
+      // enums.error.msg=error.message
+      error.statusCode = 412
+      cb(error)
+    }
+  }
+  Inner.groupSms = async () =>{
     try {
       
     } catch (error) {
@@ -63,13 +80,17 @@ module.exports = function(Anon) {
   }
 
   
-
-  Anon.remoteMethod('smsCodeSend', {
+  Inner.remoteMethod('registerCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
   });
-  Anon.remoteMethod('smsCodeCheck', {
+  Inner.remoteMethod('smsCodeSend', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+  Inner.remoteMethod('smsCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}

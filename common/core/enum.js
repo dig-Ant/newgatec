@@ -4,9 +4,10 @@ module.exports = {
     end:6
   },
   error:{
-    code:0,
-    msg:'错误',
-    data:null,
+    statusCode:0,
+    name:'错误',
+    message:''
+    
   },
   success:{
     code:1,

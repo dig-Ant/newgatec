@@ -1,0 +1,21 @@
+{
+  "name": "Inner",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "http": {"path": "/inner"}
+
+  },
+  "mixins": {
+  },
+  "properties": {
+  
+  },
+  "validations": [],
+  "relations": {
+   
+  },
+  "acls": [],
+  "methods": {}
+}
