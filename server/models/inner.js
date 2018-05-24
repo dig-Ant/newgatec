@@ -39,14 +39,22 @@ module.exports = function(Inner) {
     try {
       let input = {
         phone:obj.phone,
-        code:obj.code,
-        codeType:1
-        
+        smsCode:obj.code,
+        codeType:1,
+        status:0,
+        expirationTime:{gt: new Date()}
         }
+        
         let jsonKeys = ['phone','code']
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
-        let result = await Inner.app.models.Sms.checkCode(input);
-        return result;
+        let result = await Inner.app.models.SmsCode.findOne({where:input})
+        if(result==null){
+          cb(new Error('验证码错误'))
+        }else{
+          let smsUpdateStatus = await Inner.app.models.SmsCode.updateAll({where:input}, { status: 1 })
+          return enums.success;
+        }
+        
     } catch (error) {
       // enums.error.msg=error.message
       error.statusCode = 412
@@ -59,12 +67,21 @@ module.exports = function(Inner) {
         phone:obj.phone,
         smsCode:obj.code,
         codeType:1,
-        status:0
+        status:0,
+        expirationTime:{gt: new Date()}
         }
+        
         let jsonKeys = ['phone','code']
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
         let result = await Inner.app.models.SmsCode.findOne({where:input})
-        return enums.success;
+
+        if(result==null){
+          cb(new Error('验证码错误'))
+        }else{
+          console.log(result)
+          return enums.success;
+        }
+        
     } catch (error) {
       // enums.error.msg=error.message
       error.statusCode = 412
