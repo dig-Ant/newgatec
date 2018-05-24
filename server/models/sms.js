@@ -79,7 +79,7 @@ let msg = {
         try {
           let smsSend = await smsFn.smsSend(obj.sign, obj.modelId, obj.phone, codeMsg)
           let modelCode = await Sms.app.models.SmsCode.createCode(obj.phone, testNum, obj.codeType||1);//写入smscode数据库
-          console.log(modelCode)
+          console.log('=====>',modelCode)
           enums.smsLogObj.phone = obj.phone
           enums.smsLogObj.smsCode = modelCode.smsCode;
           enums.smsLogObj.smsMsg = codeMsg;
@@ -222,7 +222,8 @@ let msg = {
         enums.smsCodeCheck.phone = obj.phone;
         enums.smsCodeCheck.smsCode = obj.code;
         enums.smsCodeCheck.codeType = obj.codeType;
-        let smsCodeObj = await Sms.app.models.SmsCode.smsModel(enums.smsCodeCheck);
+        enums.smsCodeCheck.expirationTime = {lte:new Date()}
+        let smsCodeObj = await Sms.app.models.SmsCode.findOne(enums.smsCodeCheck);
         // console.log(smsCodeObj[smsCodeObj.length-1].expirationTime )
         if (smsCodeObj.length > 0) {
           if (parseInt(new Date().getTime()) < parseInt(smsCodeObj[smsCodeObj.length - 1].expirationTime)) {

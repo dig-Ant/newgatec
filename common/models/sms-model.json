@@ -21,7 +21,7 @@
       "required": true
     },
     "saveTime":{
-      "type": "string",
+      "type": "date",
       "required": false,
       "defaultFn":"now"
     }

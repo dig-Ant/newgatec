@@ -18,13 +18,13 @@ creatTables = async (promiseArr)=>{
   })
 }
 
-let pArr = ['SmsLog','SmsCode']
+let pArr = ['SmsCode','SmsLog']
 let promseArr = []
   for (let index = 0; index < pArr.length; index++) {
     promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))
     
   }
-// creatTables(promseArr);
+creatTables(promseArr);
 
 // function addDatetime(olddatetime,second){
 //   var a = new Date(dd)
@@ -101,7 +101,6 @@ let promseArr = []
 //   smUuid:"xxxx"
 // }
 
-let dateNow = new Date().getTime();
-let time = new Date(dateNow+28800000)
-
-console.log(time.toJSON().slice(0, 19).replace('T', ' '))
+// let moment = require('moment')
+// let tenTime = moment().add(10, 'm');
+// console.log(new Date(tenTime))
