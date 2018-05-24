@@ -28,10 +28,11 @@ export default {
     *setConfig({ payload }, { call, put, select }) {  // eslint-disable-line 
       let params = {
         debug: false,
-        jsApiList: ["chooseImage"],
+        jsApiList: ["chooseImage","getLocalImgData"],
         url: window.location.href.split('#')[0]
       }
       let configOpt = yield call(handleTokenSvc.getWxConfig,params);
+      console.log('configOpt---',configOpt);
       let { appId, debug, timestamp, signature,nonceStr,jsApiList } = configOpt.body;
       // console.log('config--',configOpt);
       window.wx.config({
@@ -40,7 +41,7 @@ export default {
         timestamp, // 必填，生成签名的时间戳
         nonceStr, // 必填，生成签名的随机串
         signature,// 必填，签名
-        jsApiList// 必填，需要使用的JS接口列表
+        jsApiList:jsApiList// 必填，需要使用的JS接口列表
       });
     },
 

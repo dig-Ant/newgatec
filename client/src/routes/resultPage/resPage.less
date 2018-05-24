@@ -1,0 +1,67 @@
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background-color: #fff;
+  padding: 20vh 10px;
+  .img {
+    width: 100px;
+    height: 100px;
+  }
+  .title {
+    // text-align: left;
+    margin-top: 5vh;
+    p:nth-child(1) {
+      margin-bottom: 10px;
+    }    
+  }
+  :global {
+    .am-result-pic {
+      width: 100px;
+      height: 100px;
+    }
+    .am-button {
+      margin: 0 40px;
+      margin-top: 3vh;
+      border-radius: 50px;
+      background-color: #97d9d5;
+      color: #fff;
+    }
+    .am-button-active {
+      background-color: #ddd;
+    }
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+      html:not([data-scale]) .am-result::after {
+        height: 0;
+      }
+    }
+  }
+  .subButton {
+    :global(.am-button) {
+      background-color: #cccccc;
+    }
+  }
+
+}
+
+
+
+// @font-face {
+//   font-family: 'iconfont';
+//   src: url('../../assets/font/iconfont.eot');
+//   src: url('../../assets/font/iconfont.eot?#iefix') format('embedded-opentype'),
+//   url('../../assets/font/iconfont.woff') format('woff'),
+//   url('../../assets/font/iconfont.ttf') format('truetype'),
+//   url('../../assets/font/iconfont.svg#iconfont') format('svg');
+// }
+
+// :global(.iconfont){
+//   font-family:"iconfont" !important;
+//   font-size:16px;font-style:normal;
+//   -webkit-font-smoothing: antialiased;
+//   -webkit-text-stroke-width: 0.2px;
+//   -moz-osx-font-smoothing: grayscale;
+// }

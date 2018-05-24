@@ -1,0 +1,52 @@
+.container {
+  padding: 7px;
+}
+.container .containerInfo {
+  display: flex;
+  flex-direction: column;
+  align-Items: center;
+}
+.container .containerInfo .imageItems {
+  flex: 1;
+  width: 100%;
+  padding: 0 20px;
+}
+.container .containerInfo .imageItems .imageInfo {
+  display: flex;
+  align-Items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+.container .containerInfo .imageItems .imageInfo .imageAdd {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-Items: center;
+  justify-content: center;
+  width: 37.2vh;
+  height: 22.8vh;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 60px;
+  color: #a5a5a5;
+}
+.container .containerInfo .imageItems .imageInfo .image {
+  position: relative;
+  width: 37.2vh;
+  height: 22.8vh;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.container .containerInfo .imageItems .imageInfo .image img {
+  width: 100%;
+  height: 100%;
+}
+.container .containerInfo .imageItems .imageInfo .image span {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 20px;
+}
+.container .containerInfo .imageItems p {
+  margin-bottom: 10px;
+}

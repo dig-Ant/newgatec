@@ -14,6 +14,7 @@ app.model(require('./models/handleToken').default);
 app.model(require('./models/homepage').default);
 app.model(require('./models/activation').default);
 app.model(require('./models/wxSdk').default);
+app.model(require('./models/validUser').default);
 
 // 4. Router
 app.router(require('./router').default);
