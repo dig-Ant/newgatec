@@ -25,10 +25,10 @@ export default {
     },
     imgData: [{
       idCardSide: 0,
-      localData: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=365802004,2376021258&fm=27&gp=0.jpg',
+      localData: '',
     },{
       idCardSide: 1,
-      localData: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4223191570,3601086825&fm=27&gp=0.jpg',
+      localData: '',
     }]
   },
   reducers: {
