@@ -1,4 +1,5 @@
 'use strict';
+import moment from 'moment';
 
 let util = {
   /**
@@ -246,6 +247,28 @@ let util = {
    */
   _date: {
     /**
+     * 时间字符串转化为date对象
+     * @method getStrToDate
+     * @return {Date} ticks
+     **/
+    getStrToDate: function (timeStr) {
+      if(!timeStr) {
+        return moment().toDate();
+      }
+      return moment(timeStr).toDate();
+    },
+    /**
+     * 获取当前时间的ticks
+     * @method getTicks
+     * @return {number} ticks
+     **/
+    getDateToStr: function (date) {
+      if(!date) {
+        return moment().format().slice(0, 19).replace('T',' ');
+      }
+      return moment(date).format().slice(0, 19).replace('T',' ');
+    },
+    /**
      * 获取当前时间的ticks
      * @method getTicks
      * @return {number} ticks
@@ -438,7 +461,7 @@ let util = {
 
       var pos = url.indexOf("#");
       url = pos > 0 ? url.substr(0, pos) : url;
-      
+
       let str = util._queryString.getQSStrFromUrl(url);
       var pairs = str.split('&');
       var result = {};
@@ -561,7 +584,7 @@ let util = {
   _isWx: {
     isWxBrower: function () {
       let ua = window.navigator.userAgent.toLowerCase();
-      let isWeixin = ua.indexOf('micromessenger') != -1;
+      let isWeixin = ua.indexOf('micromessenger') !== -1;
       if (isWeixin) {
         return true;
       } else {

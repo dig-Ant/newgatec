@@ -25,16 +25,13 @@ export default {
   },
   effects: {
     *getAccessToken({ payload: code }, { call, put }) {
-      // let config = yield call(handleTokenSvc.getWxConfig);
-
-      // yield put({ type: 'changeWxConfig', payload: config.body});
-    
 
       let token = yield call(handleTokenSvc.getAccessToken, code);
+      console.log('token---',token);
       // token_wx  token_cf
       // 储存token
-      window.localStorage.setItem(cfg.access_token,JSON.stringify(token.res));
-      yield put({ type: 'changeToken', payload: token.res});
+      window.localStorage.setItem(cfg.access_token,JSON.stringify(token.body));
+      yield put({ type: 'changeToken', payload: token.body});
       yield put(routerRedux.replace('/homepage'));
     }
   },

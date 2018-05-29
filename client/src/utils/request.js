@@ -6,6 +6,15 @@ function parseJSON(response) {
 }
 
 function checkStatus(response) {
+  console.log('check response--', response);
+  // if (response.error) {
+  //   const error = new Error(response.error.message);
+  //   // const error = new Error(response.msg);
+  //   error.response = response;
+  //   throw error;
+  // }
+  // return response;
+
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
@@ -39,14 +48,13 @@ export default function request(url, options) {
     } else {
       // newOptions.body is FormData
       newOptions.headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
+        // 'Accept': 'application/json',
+        // 'Content-Type': 'multipart/form-data',//上传文件不能使用 
         ...newOptions.headers,
       };
     }
   }
-  console.log('option--', newOptions);
-  console.log('url--', url);
+  // console.log('url---',url,newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)
     .then(parseJSON)
@@ -54,31 +62,28 @@ export default function request(url, options) {
     .catch(err => ({ err }));
 }
 
+
+let apiNameObj = {
+  shareprivate: 'token_shareprivate',
+  userprivate: 'token_userprivate',
+  cbizprivate: 'token_cbizprivate'
+}
 // 需要 authorization  的请求
 export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
+  let selectToken = apiNameObj[newOptions.api_name];
   // newOptions.headers = {
-  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[newOptions.api_name]}`,
+  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
   //   ...newOptions.headers
   // }
-  if (newOptions.api_name == 'token_wx') {
+  if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer gnvhIFqbTtZApFIBy9aCuV9SM3lWJNA4`,
-      ...newOptions.headers
-    }
-  } else if (newOptions.api_name == 'token_cf') {
-    newOptions.headers = {
-      "Authorization": `bearer dG9R3GLR6QkbqyvRNNZ9i5E0N2TSmsrV`,
+      "Authorization": `bearer 9mcMA5b9jZjHfhXQsNNsYw2JezsRCO0q`,
       ...newOptions.headers
     }
   }
 
 
-
   return request(url, newOptions)
 }
-
-//token 
-//gnvhIFqbTtZApFIBy9aCuV9SM3lWJNA4
-//dG9R3GLR6QkbqyvRNNZ9i5E0N2TSmsrV
