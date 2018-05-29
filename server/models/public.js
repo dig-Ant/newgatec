@@ -163,9 +163,9 @@ module.exports = function (Public) {
     // 请求微信 access_token 
     let wx_accessToken = await client.getAccessToken_ify(code.code);
     // 请问 client token
-    let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
+    // let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
     //通过请求头返回token
-
+    // console.log('wx-wx_userinfo',wx_userinfo);
     let getTokenUrl = 'http://172.16.1.139:8888/api/inner/get_access_token';
     // let token_wx_svc = await requestToken(getTokenUrl, {
     //   openid: wx_accessToken.data.openid,
