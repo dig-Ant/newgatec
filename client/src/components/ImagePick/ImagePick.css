@@ -38,8 +38,11 @@
   overflow: hidden;
 }
 .container .containerInfo .imageItems .imageInfo .image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 100%;
-  height: 100%;
+  transform: translate(-50%, -50%);
 }
 .container .containerInfo .imageItems .imageInfo .image span {
   position: absolute;

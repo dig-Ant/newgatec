@@ -15,7 +15,6 @@ import NoticeBars from '../../components/NoticeBars/NoticeBars';
 const Item = List.Item;
 const Brief = Item.Brief;
 
-
 const seasons = [[
   {
     label: '中国大陆身份证',
@@ -40,25 +39,19 @@ const sexPickerSource = [[
     value: '女',
   }
 ]]
-const data = [{
-  url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
-  id: '2121',
-}, {
-  url: 'https://zos.alipayobjects.com/rmsportal/hqQWgTXdrlmVVYi.jpeg',
-  id: '2122',
-}];
 
 
 class VerifyForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       value: 1,
       date: util.getStrToDate(),
-      identity: ['护照'],
+      identity: ['id_card'],
       names: ''
     }
     this.time = '';
+
   }
 
   componentDidMount() {
@@ -70,22 +63,74 @@ class VerifyForm extends Component {
       type: 'validUser/getIdentityDraft'
     });
   }
+
+  // form 对象格式处理
+  handleFormFormat = (obj, toBackendData) => {
+    if (obj && toBackendData == true) {
+      return {
+        id_type: obj.id_type[0],
+        name: obj.name,
+        gender: obj.gender[0],
+        folk: obj.folk,
+        date_of_birth: util.getDateToStr(obj.date_of_birth),
+        hukou_address: obj.hukou_address,
+        id_number: obj.id_number,
+        issuance: obj.issuance,
+        start_date: util.getDateToStr(obj.start_date),
+        end_date: util.getDateToStr(obj.end_date)
+      }
+    } else {
+      return {
+        id_type: [obj.id_type],
+        name: obj.name,
+        gender: [obj.gender],
+        folk: obj.folk,
+        date_of_birth: util.getStrToDate(obj.date_of_birth),
+        hukou_address: obj.hukou_address,
+        id_number: obj.id_number,
+        issuance: obj.issuance,
+        start_date: util.getStrToDate(obj.start_date),
+        end_date: util.getStrToDate(obj.end_date)
+      }
+    }
+  }
+
   // 提交表单
   onSubmit = () => {
     this.props.form.validateFields({ force: true }, (error, res) => {
       if (!error) {
-        console.log(this.props.form.getFieldsValue());
         let formObj = this.props.form.getFieldsValue();
         // formObj.
-        console.log('res---', formObj);
+        let newForm = this.handleFormFormat(formObj, true);
+        console.log('res---', newForm);
+        this.props.dispatch({
+          type: 'validUser/getValidateUser',
+          payload: newForm
+        });
       } else {
         alert('Validation failed');
       }
     });
+    // this.onReset();
+  }
+
+  // 存稿
+  onSaveIdentityDraft = () => {
+    let formObj = this.props.form.getFieldsValue();
+    // formObj.
+    let newForm = this.handleFormFormat(formObj, true);
+    console.log('res---', newForm);
+    this.props.dispatch({
+      type: 'validUser/saveIdentityDraft',
+      payload: newForm
+    });
+
   }
 
   // 重置表单数据
   onReset = () => {
+    let frontForm = ['name', 'gender', 'folk', 'date_of_birth', 'hukou_address', 'id_number']
+    // this.props.form.setFieldsInitialValue(); 
     this.props.form.resetFields();
   }
 
@@ -113,18 +158,17 @@ class VerifyForm extends Component {
       identity: type
     });
   }
-  // 调用wx触发相机相册
-  onAddImageClick = (e) => {
-    e.preventDefault();
 
-    let this_ = this;
+  // 添加图片
+  addImage = (i) => {
+    let _this = this;
+    let src = '';
     window.wx.chooseImage({
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-        alert(localIds[0]);
         window.wx.getLocalImgData({
           localId: localIds[0], // 图片的localID
           success: async function (res) {
@@ -136,35 +180,65 @@ class VerifyForm extends Component {
             } else {
               localData = 'data:image/jpeg;base64,' + localData;
             }
-            this_.img.src = localData;
-            let formData = new FormData();
-            formData.append('file', localData.split(',')[1]);
-            formData.append('id_card_side', 'front');
-            formData.append('fname', 'yang.jpeg');
-            let rest = await request('http://172.16.1.139:8888/api/private/general_id_card', {
-              method: 'POST',
-              body: formData,
+            _this.props.dispatch({
+              type: 'validUser/getGeneralIdCard',
+              payload: {
+                idCardSide: i,
+                localData
+              }
             });
-            alert(JSON.stringify(rest));
-
 
           }
         });
       }
     });
-  };
+    // return src;
+  }
 
-  // 添加图片
-  addImage = () => {
-    let img = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526908066009&di=e12c2183fb6fd4ff807858fe48320933&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimgad%2Fpic%2Fitem%2Fb3119313b07eca807f814fc39b2397dda1448309.jpg';
-    return img;
+  delImage = (i) => {
+    let dispatch = this.props.dispatch;
+    // this.onReset();
+    let data = {};
+    if (i == 0) {
+      data = {
+        name: '',
+        gender: '男',
+        folk: '',
+        date_of_birth: '2018-05-17 13:39:42',//2018-05-17 13:39:42
+        hukou_address: '',
+        id_number: '',
+      }
+    } else if (i == 1) {
+      data = {
+        issuance: '',
+        start_date: '2018-05-17 13:39:42',
+        end_date: '2018-05-17 13:39:42',
+      }
+    }
+    dispatch({
+      type: 'validUser/changeFormData',
+      payload: data
+    });
+    dispatch({
+      type: 'validUser/changeImgData',
+      payload: [{
+        idCardSide: 0,
+        localData: '',
+      },{
+        idCardSide: 1,
+        localData: '',
+      }]
+    });
   }
 
   // 渲染 step1 的 list 内容
   renderFirstListBody = () => {
-    if (this.state.identity[0] === 'id_card') {
+    let imgData = this.props.imgData;
+
+    let res = this.props.form.getFieldValue('id_type');
+    if (res[0] === 'id_card') {
       return (
-        <ImagePick addImage={this.addImage} type={'idCard'} />
+        <ImagePick addImage={this.addImage} delImage={this.delImage} type={'idCard'} data={imgData} />
       )
     }
 
@@ -173,12 +247,12 @@ class VerifyForm extends Component {
   // 渲染 step2 的 list 内容
   renderSubListBody = () => {
     const { getFieldProps, getFieldError } = this.props.form;
-
+    const formData = this.handleFormFormat(this.props.formData);
     return (
       <div className={styles.subList}>
         <InputItem
           {...getFieldProps('name', {
-            initialValue: this.state.names,
+            initialValue: formData.name,
             rules: [{ required: true, message: '姓名不能为空' }],
           })}
           clear
@@ -191,7 +265,7 @@ class VerifyForm extends Component {
           cascade={false}
           extra="请选择(必选)"
           {...getFieldProps('gender', {
-            initialValue: ['女'],
+            initialValue: formData.gender,
             onChange(v, b) {
               console.log(v, b);
             },
@@ -200,6 +274,7 @@ class VerifyForm extends Component {
         </Picker>
         <InputItem
           {...getFieldProps('folk', {
+            initialValue: formData.folk,
             rules: [{ required: true, message: '名族不能为空' }]
           })}
           clear
@@ -209,11 +284,12 @@ class VerifyForm extends Component {
 
         <DatePicker
           {...getFieldProps('date_of_birth', {
-            initialValue: this.state.date,
+            initialValue: formData.date_of_birth,
             rules: [
               { required: true, message: 'Must select a date' },
             ],
           })}
+          minDate={util.getStrToDate('1984-4-6')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">
@@ -221,6 +297,7 @@ class VerifyForm extends Component {
         </DatePicker>
         <TextareaItem
           {...getFieldProps('hukou_address', {
+            initialValue: formData.hukou_address,
             rules: [{ required: true, message: '地址不能为空' }]
           })}
           title="住址"
@@ -233,6 +310,7 @@ class VerifyForm extends Component {
         />
         <InputItem
           {...getFieldProps('id_number', {
+            initialValue: formData.id_number,
             rules: [{ required: true, message: '公民身份号码不能为空' }]
           })}
           clear
@@ -241,6 +319,7 @@ class VerifyForm extends Component {
         >公民身份号码</InputItem>
         <InputItem
           {...getFieldProps('issuance', {
+            initialValue: formData.issuance,
             rules: [{ required: true, message: '签发机关住址不能为空' }]
           })}
           clear
@@ -249,11 +328,12 @@ class VerifyForm extends Component {
         >签发机关</InputItem>
         <DatePicker
           {...getFieldProps('start_date', {
-            initialValue: this.state.date,
+            initialValue: formData.start_date,
             rules: [
               { required: true, message: 'Must select a date' },
             ],
           })}
+          minDate={util.getStrToDate('1984-4-6')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">
@@ -261,11 +341,12 @@ class VerifyForm extends Component {
         </DatePicker>
         <DatePicker
           {...getFieldProps('end_date', {
-            initialValue: this.state.date,
+            initialValue: formData.end_date,
             rules: [
               { required: true, message: 'Must select a date' },
             ],
           })}
+          minDate={util.getStrToDate('1984-4-6')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">
@@ -277,11 +358,13 @@ class VerifyForm extends Component {
 
 
   render() {
+
     const { getFieldProps, getFieldError } = this.props.form;
+    const formData = this.handleFormFormat(this.props.formData);
     return (
       <div className={styles.container}>
-        <NoticeBars ref={ref => this.notice = ref} type={0}/>
-        
+        <NoticeBars ref={ref => this.notice = ref} type={0} />
+        {/* <div>idCardSide:{this.props.imgData.idCardSide}</div> */}
         {/* step1  */}
         <List
           renderHeader={this.renderFirstListHeader}
@@ -292,7 +375,7 @@ class VerifyForm extends Component {
             cascade={false}
             extra="请选择(必选)"
             {...getFieldProps('id_type', {
-              // initialValue: this.state.identity,
+              initialValue: formData.id_type,
               onChange: this.id_typeChange
             })}
           >
@@ -305,14 +388,14 @@ class VerifyForm extends Component {
         <List
           renderHeader={this.renderSubListHeader}
           // renderFooter={() => {
-          // return (
-          //   <div>
-          //     {getFieldError('name')}
-          //     {getFieldError('address')}
-          //     {getFieldError('idCard')}
-          //     {getFieldError('organ')}
-          //   </div>
-          // )
+            // return (
+            //   <div>
+            //     {getFieldError('name')}
+            //     {getFieldError('address')}
+            //     {getFieldError('idCard')}
+            //     {getFieldError('organ')}
+            //   </div>
+            // )
           // }}
           className={styles.stepFirst}
         >
@@ -322,7 +405,7 @@ class VerifyForm extends Component {
         {/* foot button */}
         <div className={styles.submit}>
           <div><Button inline onClick={this.onSubmit}>填写完毕, 提交审核</Button><WhiteSpace /></div>
-          <div><Button inline onClick={this.onReset}>存稿, 稍后继续</Button></div>
+          <div><Button inline onClick={this.onSaveIdentityDraft}>存稿, 稍后继续</Button></div>
         </div>
       </div>
     )
@@ -331,8 +414,10 @@ class VerifyForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.activation
+    data: state.activation,
+    formData: state.validUser.formData,
+    imgData: state.validUser.imgData
   }
 }
 const VerifyFormWrapper = createForm()(VerifyForm);
-export default connect()(VerifyFormWrapper);
+export default connect(mapStateToProps)(VerifyFormWrapper);

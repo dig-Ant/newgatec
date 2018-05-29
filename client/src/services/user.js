@@ -23,3 +23,37 @@ export async function getIdentityDraft(data) {
   });
 }
 
+// 保存用户草稿
+export async function getValidateUser(data) {
+  return requestAuth(kongApi.getValidateUserRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 保存用户草稿
+export async function saveIdentityDraft(data) {
+  return requestAuth(kongApi.saveIdentityDraftRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+
+// 获取ai识别图片信息
+export async function getGeneralIdCard(data) {
+  return requestAuth(kongApi.getGeneralIdCardRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 转人工
+export async function getApplyManualReview(data) {
+  return requestAuth(kongApi.getApplyManualReviewRoute(), {
+    method: 'POST',
+    body: {},
+    api_name: 'userprivate'
+  });
+}
+
