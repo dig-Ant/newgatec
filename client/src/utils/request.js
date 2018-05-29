@@ -2,27 +2,28 @@ import fetch from 'dva/fetch';
 import cfg from '../config/cfg';
 
 function parseJSON(response) {
+  console.log('respose,,,',response.json());
   return response.json();
 }
 
-function checkStatus(response) {
-  console.log('check response--', response);
-  // if (response.error) {
-  //   const error = new Error(response.error.message);
-  //   // const error = new Error(response.msg);
-  //   error.response = response;
-  //   throw error;
-  // }
-  // return response;
-
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+async function checkStatus(response) {
+  console.log('response---', response);
+  if (response.status >= 200 && response.status < 400) {
+    let res = await response.json().then((data) => {
+      return data;
+    });
+    if (!res.error) {
+      return res;
+    }
+    throw res.error
   }
+  throw await response.json().then((data) => {
+    return data;
+  });
 
-  const error = new Error(response.statusText);
-  // const error = new Error(response.msg);
-  error.response = response;
-  throw error;
+  // const error = new Error(response);
+  // error.response = response;
+  // throw error;
 }
 
 /**
@@ -54,12 +55,23 @@ export default function request(url, options) {
       };
     }
   }
-  // console.log('url---',url,newOptions);
+  console.log('newOptions',newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(parseJSON)
-    .then(data => (data))
-    .catch(err => ({ err }));
+    // .then(parseJSON)
+    // .then(data => (data))
+    // .catch(err => ({ err }));
+    .catch(err => {
+      console.log('err--', err);
+      // let s = err.json().then((data)=> {
+      //   console.log('data-=---',data);
+      //   return data 
+      // });
+      // err.then((data)=> {
+      //   alert(data.error.message);
+      // });
+      return err
+    });
 }
 
 
@@ -72,14 +84,14 @@ let apiNameObj = {
 export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
-  let selectToken = apiNameObj[newOptions.api_name];
+  // let selectToken = apiNameObj[newOptions.api_name];
   // newOptions.headers = {
   //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
   //   ...newOptions.headers
   // }
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer 9mcMA5b9jZjHfhXQsNNsYw2JezsRCO0q`,
+      "Authorization": `bearer pTuBOUCKNrJJSisD439UU70TJANGywnu`,
       ...newOptions.headers
     }
   }

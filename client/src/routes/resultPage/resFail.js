@@ -25,7 +25,10 @@ class ResSuccess extends Component {
     this.props.dispatch(routerRedux.replace('/homepage'));
   }
   onClickFail = () => {
-    this.props.dispatch(routerRedux.replace('/homepage'));
+    this.props.dispatch({
+      type: 'validUser/getApplyManualReview'
+    });
+    this.props.dispatch(routerRedux.replace('/resAwait'));
   }
   renderMessage = () => {
     return (

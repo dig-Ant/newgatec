@@ -5,44 +5,51 @@ import styles from './ImagePick.less';
 class ImagePick extends React.Component {
   constructor(props) {
     super(props);
-    let message = this.prepare(props);
-    this.state = {
-      message: message || []
-    };
-  }
 
-  
-  // 根据类型准备相对应message
-  prepare = (props) => {
-    let msg = this.selectType(props.type);
-    return msg;
-  }
-  // 根据type 返回 默认的数据
-  selectType = (type) => {
-    if (type === 'idCard') {
-      let message = [{
+    this.state = {
+      message: [{
         title: '身份证姓名面:',
-        img: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
-        isShow: false
+        img: '',
+        isShow: false,
       }, {
         title: '身份证国徽面:',
-        img: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
+        img: '123',
         isShow: false
-      }];
-      return message;
-    }
+      }]
+    };
   }
+  componentDidMount() {
+
+  }
+  componentWillReceiveProps(props) {
+    let s = {
+      idCardSide: 0,
+      localData: '',
+    }
+    console.log(props.data);
+    if (props.data[0].localData) {
+      let newMsg = [...this.state.message];
+      for (let i = 0; i < props.data.length; i++) {
+        newMsg[props.data[i].idCardSide].img = props.data[i].localData;
+        newMsg[props.data[i].idCardSide].isShow = true;
+      }
+      console.log('newmsg', newMsg);
+      this.setState({
+        message: newMsg
+      });
+    }
+
+  }
+
   addImage = (i) => {
     if (this.props.addImage) {
-      let src = this.props.addImage(i, this.props.message);
+      this.props.addImage(i, this.props.message);
       let newMessage = [...this.state.message];
-      newMessage[i].isShow = true;
-      newMessage[i].img = src;
+      // newMessage[i].isShow = true;
       this.setState({
         message: newMessage
       });
     }
-
 
   }
   delImage = (i) => {
@@ -54,7 +61,7 @@ class ImagePick extends React.Component {
     });
 
     if (this.props.delImage) {
-      return this.props.delImage();
+      this.props.delImage(i);
     }
   }
   renderItems(i, value) {
@@ -103,7 +110,7 @@ ImagePick.defaultProps = {
   type: 'idCard',
 };
 ImagePick.propTypes = {
-  data: propTypes.array
+  // data: propTypes.array
 };
 
 export default ImagePick;

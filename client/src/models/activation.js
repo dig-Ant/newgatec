@@ -1,4 +1,4 @@
-// import { routerRedux } from 'dva/router';
+import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
 import * as activeSvc from '../services/activation';
 
@@ -32,6 +32,7 @@ export default {
         "phone": tel
       }
       let isSend = yield call(activeSvc.getCaptcha,obj);
+      console.log('isSend',isSend);
       // let isSend = true;
       if (isSend.result){
         alert(isSend.result.msg);
@@ -50,14 +51,14 @@ export default {
       // let isActive = true;
       alert(JSON.stringify(isActive));
       // 判断激活成功 or 失败
-      if (!isActive) {
+      if (isActive.status != 200) {
         alert('激活失败,请确认您的手机号是否正确');
         return;
       }
       // alert('激活成功');
-      // yield put({ type: 'resetForm' });
-      // yield put(routerRedux.push('/homepage'));
-      // return;
+      yield put({ type: 'resetForm' });
+      yield put(routerRedux.push('/homepage'));
+      return;
     }
   },
   subscriptions: {

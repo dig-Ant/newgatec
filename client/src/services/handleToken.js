@@ -30,7 +30,7 @@ export async function getInfo(data) {
   return request(kongApi.getInfoRoute(), {
     method: 'POST',
     body: { data },
-    api_name: 'sharepublic'
+    // api_name: 'sharepublic'
   });
 }
 
@@ -38,6 +38,6 @@ export async function getWxConfig(param) {
   return requestAuth(kongApi.getWxConfigRoute(), {
     method: "POST",
     body: param,
-    api_name: 'sharepublic'
+    // api_name: 'sharepublic'
   });
 }
