@@ -9,7 +9,7 @@ let fs = require('fs');
 let util = require('../util/util');
 let request = require('request');
 
-
+  
 
 module.exports = function (Public) {
 
@@ -167,21 +167,21 @@ module.exports = function (Public) {
     //通过请求头返回token
 
     let getTokenUrl = 'http://172.16.1.139:8888/api/inner/get_access_token';
-    let token_wx_svc = await requestToken(getTokenUrl, {
-      openid: wx_accessToken.data.openid,
-      api_name: "wx_svc",
-    });
-    let token_userpublic = await requestToken(getTokenUrl, {
-      openid: wx_accessToken.data.openid,
-      api_name: "userpublic",
-    });
+    // let token_wx_svc = await requestToken(getTokenUrl, {
+    //   openid: wx_accessToken.data.openid,
+    //   api_name: "wx_svc",
+    // });
+    // let token_userpublic = await requestToken(getTokenUrl, {
+    //   openid: wx_accessToken.data.openid,
+    //   api_name: "userpublic",
+    // });
     let token_userprivate = await requestToken(getTokenUrl, {
       openid: wx_accessToken.data.openid,
       api_name: "userprivate",
     });
     let tokenObj = {
-      token_wx_svc: util.toJson(token_wx_svc.body).body.access_token,
-      token_userpublic: util.toJson(token_userpublic.body).body.access_token,
+      // token_wx_svc: util.toJson(token_wx_svc.body).body.access_token,
+      // token_userpublic: util.toJson(token_userpublic.body).body.access_token,
       token_userprivate: util.toJson(token_userprivate.body).body.access_token,
     }
 
