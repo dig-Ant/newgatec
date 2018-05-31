@@ -28,6 +28,30 @@ module.exports = function(Inner) {
       let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
       let result = await Inner.app.models.Sms.smsCode(input);
       return result;
+      console.log('result===================>',result)
+    } catch (error) {
+      // enums.error.msg=error.message
+      error.statusCode = 412
+      cb(error)
+    }
+   
+  }
+
+  Inner.pay_smsCodeSend = async (obj,cb)=>{
+    try {
+      let input = {
+      phone:obj.phone,
+      type:1,
+      sign:"675",
+      modelId:"3839",
+      content:"{code}",
+      codeType:2
+      }
+      let jsonKeys = ['phone']
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
+      let result = await Inner.app.models.Sms.smsCode(input);
+      return result;
+      console.log('result===================>',result)
     } catch (error) {
       // enums.error.msg=error.message
       error.statusCode = 412
@@ -61,6 +85,34 @@ module.exports = function(Inner) {
       cb(error)
     }
   }
+
+  Inner.pay_smsCodeCheck = async (obj,cb)=>{
+    try {
+      let input = {
+        phone:obj.phone,
+        smsCode:obj.code,
+        codeType:2,
+        status:0,
+        expirationTime:{gt: new Date()}
+        }
+        
+        let jsonKeys = ['phone','code']
+        let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
+        let result = await Inner.app.models.SmsCode.findOne({where:input})
+        if(result==null){
+          cb(new Error('验证码错误'))
+        }else{
+          let smsUpdateStatus = await Inner.app.models.SmsCode.updateAll({where:input}, { status: 1 })
+          return enums.success;
+        }
+        
+    } catch (error) {
+      // enums.error.msg=error.message
+      error.statusCode = 412
+      cb(error)
+    }
+  }
+
   Inner.registerCodeCheck = async (obj,cb) =>{
     try {
       let input = {
@@ -107,7 +159,17 @@ module.exports = function(Inner) {
 
     returns: {arg: 'body', type: 'object'}
   });
+  Inner.remoteMethod('pay_smsCodeSend', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
   Inner.remoteMethod('smsCodeCheck', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+  Inner.remoteMethod('pay_smsCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
