@@ -179,10 +179,15 @@ module.exports = function (Public) {
       openid: wx_accessToken.data.openid,
       api_name: "userprivate",
     });
+    let token_cbizprivate = await requestToken(getTokenUrl, {
+      openid: wx_accessToken.data.openid,
+      api_name: "cbizprivate",
+    });
     let tokenObj = {
       // token_wx_svc: util.toJson(token_wx_svc.body).body.access_token,
       // token_userpublic: util.toJson(token_userpublic.body).body.access_token,
       token_userprivate: util.toJson(token_userprivate.body).body.access_token,
+      token_cbizprivate: util.toJson(token_cbizprivate.body).body.access_token,
     }
 
     // let api = Public.getApi();
