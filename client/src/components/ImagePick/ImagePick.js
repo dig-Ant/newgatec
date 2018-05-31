@@ -27,17 +27,17 @@ class ImagePick extends React.Component {
       localData: '',
     }
     console.log(props.data);
-    if (props.data[0].localData) {
-      let newMsg = [...this.state.message];
-      for (let i = 0; i < props.data.length; i++) {
+    let newMsg = [...this.state.message];
+    for (let i = 0; i < props.data.length; i++) {
+      if (props.data[i].localData) {
         newMsg[props.data[i].idCardSide].img = props.data[i].localData;
         newMsg[props.data[i].idCardSide].isShow = true;
       }
-      console.log('newmsg', newMsg);
-      this.setState({
-        message: newMsg
-      });
     }
+    console.log('newmsg', newMsg); 
+    this.setState({
+      message: newMsg
+    });
 
   }
 

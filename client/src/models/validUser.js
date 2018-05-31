@@ -39,7 +39,6 @@ export default {
       }
     },
     changeFormData(state, { payload: formData }) {
-      alert('changeFormDAta ');
       let obj = {
         ...state.formData,
         ...formData
@@ -50,7 +49,6 @@ export default {
       }
     },
     changeImgData(state, { payload: imgData }) {
-      alert('chagneImgData');
       return {
         ...state,
         imgData
@@ -117,54 +115,25 @@ export default {
       console.log('保存草稿--', res);
     },
     // 获取ai识别图片信息
-    *getGeneralIdCard({ payload: data }, { call, put }) {
-      let random = Math.random();
+    *getGeneralIdCard({ payload: data }, { call, put, select }) {
+      let imgData = yield select(state => state.validUser.imgData);
       let formData = new FormData();
       formData.append('file', data.localData.split(',')[1]);
       formData.append('id_card_side', data.idCardSide == 0 ? 'front' : 'back');
       formData.append('fname', 'yang.jpeg');
 
       let res = yield call(userSvc.getGeneralIdCard, formData);
-      alert(JSON.stringify(res));
+      imgData[data.idCardSide].localData = data.localData;
       if (!res.error) {
         yield put({
           type: 'changeImgData',
-          payload: data
+          payload: imgData
         });
         yield put({
           type: 'changeFormData',
           payload: res.body
         });
       }
-
-      // let res = {
-      //   body: {
-      //     name: '杨',
-      //     gender: '男',
-      //     folk: '汉族',
-      //     date_of_birth: '1994-07-25 13:39:42',//2018-05-17 13:39:42
-      //     hukou_address: '你家',
-      //     id_number: '330382199407251732',
-      //   }
-      // };
-      // let datas= [{
-      //   idCardSide: 0,
-      //   localData: 'http://img5.imgtn.bdimg.com/it/u=942910320,1513017347&fm=27&gp=0.jpg',
-      // }, {
-      //   idCardSide: 1,
-      //   localData: '',
-      // }]
-      // alert(JSON.stringify(res));
-      // if (!res.error) {
-      //   yield put({
-      //     type: 'changeImgData',
-      //     payload: datas
-      //   });
-      //   yield put({
-      //     type: 'changeFormData',
-      //     payload: res.body
-      //   });
-      // }
 
     },
     // 验证失败转人工
