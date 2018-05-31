@@ -1,6 +1,7 @@
 import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
 import * as activeSvc from '../services/activation';
+import { Toast} from 'antd-mobile';
 
 export default {
   namespace: 'activation',
@@ -47,15 +48,17 @@ export default {
         name: name,
         sms_code: captcha
       }
+      console.log('tel---',obj);
       let isActive = yield call(activeSvc.activeUser, obj);
       // let isActive = true;
-      alert(JSON.stringify(isActive));
+      console.log('isActive---',isActive.aa); 
       // 判断激活成功 or 失败
-      if (isActive.status != 200) {
-        alert('激活失败,请确认您的手机号是否正确');
+      if (isActive.error) {
+        Toast.fail(isActive.error.message,2,null,false);
         return;
       }
       // alert('激活成功');
+      Toast.success('手机号已激活',2,null,false); 
       yield put({ type: 'resetForm' });
       yield put(routerRedux.push('/homepage'));
       return;

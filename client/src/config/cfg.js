@@ -1,5 +1,5 @@
 export default {
-  server_base_url: "http://8ad603f2.ngrok.io",//后台域名
+  server_base_url: "http://33333.fortunehr.com.cn",//后台域名
   page_route: "/",
   api_route: "/api",
   kong_base_url: "http://172.16.1.139:8000",
@@ -8,7 +8,7 @@ export default {
   access_token: 'access_token',
   wxCfg: {
     appid: 'wx705a4d4af2a47e55',
-    redirect_uri: 'http://b86bc5a0.ngrok.io/#/wxCode',
+    redirect_uri: 'http://ee568b63.ngrok.io/#/wxCode',
     scope: 'snsapi_base',
     wxState: '1'
   }
