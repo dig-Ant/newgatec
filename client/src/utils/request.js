@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch';
 import cfg from '../config/cfg';
+import { Toast} from 'antd-mobile';
 
 function parseJSON(response) {
   console.log('respose,,,',response.json());
@@ -15,7 +16,7 @@ async function checkStatus(response) {
     if (!res.error) {
       return res;
     }
-    throw res.error
+    throw res
   }
   throw await response.json().then((data) => {
     return data;
@@ -55,7 +56,6 @@ export default function request(url, options) {
       };
     }
   }
-  console.log('newOptions',newOptions);
   return fetch(url, newOptions)
     .then(checkStatus)
     // .then(parseJSON)
@@ -63,6 +63,9 @@ export default function request(url, options) {
     // .catch(err => ({ err }));
     .catch(err => {
       console.log('err--', err);
+      if(err.error) {
+        Toast.fail(err.error.message, 1, null, false);
+      }
       // let s = err.json().then((data)=> {
       //   console.log('data-=---',data);
       //   return data 
@@ -84,17 +87,17 @@ let apiNameObj = {
 export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
-  // let selectToken = apiNameObj[newOptions.api_name];
-  // newOptions.headers = {
-  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
-  //   ...newOptions.headers
-  // }
-  if (newOptions.api_name === 'userprivate') {
-    newOptions.headers = {
-      "Authorization": `bearer pTuBOUCKNrJJSisD439UU70TJANGywnu`,
-      ...newOptions.headers
-    }
+  let selectToken = apiNameObj[newOptions.api_name];
+  newOptions.headers = {
+    "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
+    ...newOptions.headers
   }
+  // if (newOptions.api_name === 'userprivate') {
+  //   newOptions.headers = {
+  //     "Authorization": `bearer pTuBOUCKNrJJSisD439UU70TJANGywnu`,
+  //     ...newOptions.headers
+  //   }
+  // }
 
 
   return request(url, newOptions)

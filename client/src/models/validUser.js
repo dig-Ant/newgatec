@@ -2,7 +2,7 @@
 import * as userSvc from '../services/user';
 import util from '../utils/util';
 import { routerRedux } from 'dva/router';
-
+import { Toast, Button } from 'antd-mobile';
 export default {
 
   namespace: 'validUser',
@@ -26,7 +26,7 @@ export default {
     imgData: [{
       idCardSide: 0,
       localData: '',
-    },{
+    }, {
       idCardSide: 1,
       localData: '',
     }]
@@ -60,7 +60,7 @@ export default {
     // 判断用户是否需要验证
     *getIsVerifyUser({ payload }, { call, put }) {  // eslint-disable-line
       let data = yield call(userSvc.getIsVerifyUser);
-      console.log('是否需要验证',data);
+      console.log('是否需要验证', data);
       yield put({ type: 'changeData', payload: data.body.state });
     },
     // 获取草稿
@@ -115,29 +115,36 @@ export default {
       console.log('保存草稿--', res);
     },
     // 获取ai识别图片信息
-    *getGeneralIdCard({ payload: data }, { call, put }) {
+    *getGeneralIdCard({ payload: data }, { call, put, select }) {
+      let imgData = yield select(state => state.validUser.imgData);
       let formData = new FormData();
       formData.append('file', data.localData.split(',')[1]);
       formData.append('id_card_side', data.idCardSide == 0 ? 'front' : 'back');
       formData.append('fname', 'yang.jpeg');
 
       let res = yield call(userSvc.getGeneralIdCard, formData);
-      yield put({
-        type: 'changeImgData',
-        payload: data
-      });
-      yield put({
-        type: 'changeFormData',
-        payload: res.body
-      });
+      imgData[data.idCardSide].localData = data.localData;
+      if (!res.error) {
+        yield put({
+          type: 'changeImgData',
+          payload: imgData
+        });
+        yield put({
+          type: 'changeFormData',
+          payload: res.body
+        });
+      }
+
     },
     // 验证失败转人工
     *getApplyManualReview({ payload: data }, { call, put }) {
-      
+
       let res = yield call(userSvc.getApplyManualReview);
-      
-      
-      alert(JSON.stringify(res));
+
+      if (!res.error) {
+        Toast.success('Load success !!!', 1);
+        yield put(routerRedux.push('/resAwait'));
+      };
     }
 
   },

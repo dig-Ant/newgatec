@@ -22,13 +22,13 @@ class ResSuccess extends Component {
     )
   }
   onClickSuccess = () => {
-    this.props.dispatch(routerRedux.replace('/homepage'));
+    this.props.dispatch(routerRedux.replace('/verifyForm'));
   }
   onClickFail = () => {
     this.props.dispatch({
       type: 'validUser/getApplyManualReview'
     });
-    this.props.dispatch(routerRedux.replace('/resAwait'));
+    // this.props.dispatch(routerRedux.replace('/resAwait'));
   }
   renderMessage = () => {
     return (
