@@ -6,10 +6,10 @@
   "pgDs": {
     "name": "pgDs",
     "connector": "postgresql",
-    "host": "10.186.1.222",
+    "host": "47.98.205.89",
     "port": 54321,
     "database": "test",
-    "password": "123",
+    "password": "admin",
     "user": "postgres",
     "ssl": false
   },
