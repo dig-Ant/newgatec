@@ -8,7 +8,7 @@ export default {
   access_token: 'access_token',
   wxCfg: {
     appid: 'wx705a4d4af2a47e55',
-    redirect_uri: 'http://ee568b63.ngrok.io/#/wxCode',
+    redirect_uri: 'http://a77ac46f.ngrok.io/#/wxCode',
     scope: 'snsapi_base',
     wxState: '1'
   }
