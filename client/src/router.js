@@ -12,6 +12,9 @@ import VerifyForm from './routes/identityVerify/verifyForm';
 import ResSuccess from './routes/resultPage/resSuccess';
 import ResFail from './routes/resultPage/resFail';
 import ResAwait from './routes/resultPage/resAwait';
+// 薪资查询页
+import SalaryPwd from './routes/salaryQuery/salaryPwd';
+import RegistPwd from './routes/salaryQuery/registPwd';
 
 function RouterConfig({ history }) {
   return (
@@ -23,12 +26,16 @@ function RouterConfig({ history }) {
         <Route path="/wxCode" exact component={WxCode} />
         <Route path="/testHomeB" exact component={TestHomeB} />
         <Route path="/active" exact component={Activation} />
+        {/* 身份验证页 */}
         <Route path="/identityVerify" exact component={IdentityVerify} />
         <Route path="/verifyForm" exact component={VerifyForm} />
         {/* 结果页 */}
         <Route path="/resSuccess" exact component={ResSuccess} />
         <Route path="/resFail" exact component={ResFail} />
         <Route path="/resAwait" exact component={ResAwait} />
+        {/* 薪资查询页面 */}
+        <Route path="/salaryPwd" exact component={SalaryPwd} />
+        <Route path="/registPwd" exact component={RegistPwd} />
       </Switch>
     </Router>
   );

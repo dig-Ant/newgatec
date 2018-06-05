@@ -8,9 +8,8 @@ import { routerRedux } from 'dva/router';
 import util from '../../utils/util';
 import moment from 'moment';
 import request from '../../utils/request';
-import ImagePick from '../../components/ImagePick/ImagePick';
+import ImagePick from 'components/ImagePick';
 
-import NoticeBars from '../../components/NoticeBars/NoticeBars';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -363,7 +362,6 @@ class VerifyForm extends Component {
     const formData = this.handleFormFormat(this.props.formData);
     return (
       <div className={styles.container}>
-        <NoticeBars ref={ref => this.notice = ref} type={0} />
         {/* <div>idCardSide:{this.props.imgData.idCardSide}</div> */}
         {/* step1  */}
         <List

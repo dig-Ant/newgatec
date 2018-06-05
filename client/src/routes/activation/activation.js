@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import styles from './activation.less';
 import { connect } from 'dva';
-import { Button, List, InputItem } from 'antd-mobile';
-import CountDown from '../../components/CountDown/CountDown';
+import { Button, List, Toast, InputItem } from 'antd-mobile';
+import CountDown from 'components/CountDown';
 
 
 class Activation extends Component {
@@ -27,13 +27,15 @@ class Activation extends Component {
     }
   }
   onClickValid() {
- 
-    if(this.props.data.tel.trim().length <= 0) {
-      alert('手机号不存在');
+
+    if (this.props.data.tel.trim().length <= 0) {
+      Toast.fail('手机号不能为空',2,null,false);
+      return false;//
     }
     this.props.dispatch({
       type: 'activation/getCaptcha'
     })
+    return true;
   }
 
   onSubmitBtn() {
@@ -78,9 +80,9 @@ class Activation extends Component {
             maxLength={6}
           >短信验证:</InputItem>
         </List>
-      
+
         <CountDown
-          count={6} //倒计时
+          count={60} //倒计时
           // buttonStyle={styles.validBtn} //传入的类名
           addClick={this.onClickValid.bind(this)}
         />
