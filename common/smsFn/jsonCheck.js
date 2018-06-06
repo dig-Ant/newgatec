@@ -29,7 +29,9 @@ keyCheck = (key,obj)=>{
       resolve(1)
       
     }else{
-      reject(new Error(key+ '不能为空'))
+      let err = new Error(key+ '不能为空');
+      err.statusCode = 412;
+      reject(err)
     }
   
   })
