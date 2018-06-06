@@ -100,19 +100,23 @@ let msg = {
           // console.log(enums.success)
           resolve(success)
         } catch (error) {
-         
-          reject(new Error('验证码发送失败'))
+          let err = new Error('验证码发送失败');
+          err.statusCode = 412
+          reject(err)
         }
 
       } else if (obj.type == 2) {
-       
-        reject(new Error('暂不支持此类型'))
+        let err = new Error('暂不支持此类型');
+          err.statusCode = 412
+          reject(err)
       } else {
         
-        reject(new Error('暂不支持此类型'))
+        let err = new Error('暂不支持此类型');
+          err.statusCode = 412
+          reject(err)
       }
     } catch (error) {
-      error.statusCode = 412
+      
       reject(error)
       
     }
@@ -179,8 +183,9 @@ let msg = {
           reject(error)
         })
       } else {
-        
-        reject(new Error('短信发送失败'))
+        let err = new Error('短信发送失败');
+        err.statusCode = 412
+        reject(err)
       }
     } catch (error) {
       
@@ -235,7 +240,10 @@ let msg = {
             console.log(success)
             resolve(success)
           } else {
-            reject(new Error('验证码已过期'))
+            let err = new Error('验证码已过期');
+            err.statusCode = 412
+            reject(err)
+            
           }
 
 
@@ -244,7 +252,9 @@ let msg = {
 
           console.log(smsCodeModel)
         } else {
-         reject(new Error('验证码错误'))
+          let err = new Error('验证码错误');
+            err.statusCode = 412
+            reject(err)
         }
       } catch (error) {
 
