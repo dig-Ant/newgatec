@@ -57,3 +57,36 @@ export async function getApplyManualReview(data) {
   });
 }
 
+
+// ------------------- 薪资 查询-----------------
+// 判断用户是否有查询薪资密码
+export async function getPlantStatus(data) {
+  return requestAuth(kongApi.getPlantStatusRoute(), {
+    method: 'GET',
+    api_name: 'cbizprivate'
+  });
+}
+// 发送短信
+export async function getPaySmsSend(data) {
+  return requestAuth(kongApi.getPaySmsSendRoute(), {
+    method: 'GET',
+    api_name: 'cbizprivate'
+  });
+}
+// 忘记密码注册密码接口
+export async function setPassword(data) {
+  return requestAuth(kongApi.getSetPasswordRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 薪酬查询登录
+export async function salaryLogin(data) {
+  return requestAuth(kongApi.getSalaryLoginRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+

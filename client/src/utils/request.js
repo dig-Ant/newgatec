@@ -87,18 +87,23 @@ let apiNameObj = {
 export function requestAuth(url, options) {
   // options
   const newOptions = { ...options };
-  let selectToken = apiNameObj[newOptions.api_name];
-  newOptions.headers = {
-    "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
-    ...newOptions.headers
-  }
-  // if (newOptions.api_name === 'userprivate') {
-  //   newOptions.headers = {
-  //     "Authorization": `bearer pTuBOUCKNrJJSisD439UU70TJANGywnu`,
-  //     ...newOptions.headers
-  //   }
+  // let selectToken = apiNameObj[newOptions.api_name];
+  // newOptions.headers = {
+  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
+  //   ...newOptions.headers
   // }
 
+  if (newOptions.api_name === 'userprivate') {
+    newOptions.headers = {
+      "Authorization": `bearer D9QN3cEJFCbVV1jyRbik6P5PIcFejwMV`,
+      ...newOptions.headers
+    }
+  } else if (newOptions.api_name === 'cbizprivate') {
+    newOptions.headers = {
+      "Authorization": `bearer F9kXapRNxPW8eLA5frCCO9cFB4DeLOiw`,
+      ...newOptions.headers
+    }
+  }
 
   return request(url, newOptions)
 }

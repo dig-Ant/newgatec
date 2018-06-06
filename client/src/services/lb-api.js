@@ -44,6 +44,7 @@ export default class lbapi {
     return `${this.getSharepublicRoute()}/getInfo`
   }
 
+  // -------------------- 激活用户 -----------------
   // 短信相关基础route
   getSmsRoute() {
     // return `${this.getBaseRoute()}/Anons`
@@ -67,6 +68,7 @@ export default class lbapi {
     return `${this.getSharepublicRoute()}/getWxConfig`
   }
 
+  //------------------ 用户身份验证 ---------------
   // user 判断用户是否需要验证
   getIsVerifyUserRoute() {
     return `${this.getUserprivateRoute()}/is_verify_user`
@@ -91,5 +93,23 @@ export default class lbapi {
   // user 身份验证失败转人工
   getApplyManualReviewRoute() {
     return `${this.getUserprivateRoute()}/apply_manual_review`
+  }
+
+  // ----------------- 薪资查询 ----------------
+  // 判断用户是否有查询薪资密码
+  getPlantStatusRoute() {
+    return `${this.getCbizprivateRoute()}/plant_status`
+  }
+  // 发送短信
+  getPaySmsSendRoute() {
+    return `${this.getCbizprivateRoute()}/pay_smsSend`
+  }
+  // 忘记密码注册密码接口
+  getSetPasswordRoute() {
+    return `${this.getCbizprivateRoute()}/forGet`
+  }
+  // 薪酬查询登录
+  getSalaryLoginRoute() {
+    return `${this.getCbizprivateRoute()}/login`
   }
 }

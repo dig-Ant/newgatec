@@ -1,0 +1,3 @@
+.container .inputPwd :global .am-input-control input {
+  -webkit-text-security: disc;
+}

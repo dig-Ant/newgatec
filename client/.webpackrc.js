@@ -16,9 +16,11 @@ export default {
       
     },
   },
-  // alias: { // 别名
-  //   components: path.resolve(__dirname, 'src/components/'),
-  // },
+  alias: { // 别名
+    components: path.resolve(__dirname, 'src/components/'),
+    util: path.resolve(__dirname, 'src/utils'),
+    cfg: path.resolve(__dirname, 'src/config'),
+  },
   // ignoreMomentLocale: true, //忽略 moment 的 locale 文件，用于减少尺寸。
   // theme: './src/theme.js', // 配置主题
   html: { // 配合hash使用

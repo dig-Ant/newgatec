@@ -1,8 +1,7 @@
-// import * as handleTokenSvc from '../services/handleToken';
 import * as userSvc from '../services/user';
 import util from '../utils/util';
 import { routerRedux } from 'dva/router';
-import { Toast, Button } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 export default {
 
   namespace: 'validUser',
@@ -23,13 +22,15 @@ export default {
       img_id_front: '',
       img_id_back: ''
     },
-    imgData: [{
-      idCardSide: 0,
-      localData: '',
-    }, {
-      idCardSide: 1,
-      localData: '',
-    }]
+    imgData: [
+      {
+        idCardSide: 0,
+        localData: '',
+      }, {
+        idCardSide: 1,
+        localData: '',
+      }
+    ]
   },
   reducers: {
     changeData(state, { payload: noticeData }) {
@@ -109,7 +110,7 @@ export default {
       console.log('data--', data);
       let res = yield call(userSvc.saveIdentityDraft, data);
       if (res.status == 200) {
-        alert('保存草稿成功');
+        Toast.success('保存草稿成功', 1);
         yield put(routerRedux.replace('/homepage'))
       }
       console.log('保存草稿--', res);
@@ -142,7 +143,7 @@ export default {
       let res = yield call(userSvc.getApplyManualReview);
 
       if (!res.error) {
-        Toast.success('Load success !!!', 1);
+        Toast.success('success !', 1);
         yield put(routerRedux.push('/resAwait'));
       };
     }

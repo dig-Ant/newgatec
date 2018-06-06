@@ -54,6 +54,7 @@ input.shortInput {
   background: #74D7DA;
   color: #fff;
   margin: 0 15px;
+  margin-top: 10px;
 }
 .foot {
   flex: 3;

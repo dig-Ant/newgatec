@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Toast, Button } from 'antd-mobile';
+import { Toast, WhiteSpace, Button } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import request from '../../utils/request';
-import NoticeBars from '../../components/NoticeBars/NoticeBars';
+import NoticeBars from 'components/NoticeBars';
 
 class Homepage extends Component {
   constructor() {
@@ -30,25 +29,16 @@ class Homepage extends Component {
   onActivation() {
     this.props.dispatch(routerRedux.push('/active'));
   }
-  test = () => {
-    Toast.info('Toast without mask !!!', 2, null, false);
-  }
-  test1 = () => {
-    Toast.fail('Toast without mask !!!', 2, null, false)
-  }
-  test2 = () => {
-    Toast.info('Toast without mask !!!', 2, null, false)
-  }
-  test3 = () => {
-    Toast.loading('Toast without mask !!!', 2, null, false)
-  }
-  test4 = () => {
-    Toast.offline('Toast without mask !!!', 2, null, false)
-  }
-  test5 = () => {
-    Toast.success('Load success !!!', 1);
+
+  salaryBtn = () => {
+    //点击 发送请求 
+    this.props.dispatch(routerRedux.push('/salaryPwd'))
+    // this.props.dispatch({
+    //   type: 'salary/getPlantStatus'
+    // })
   }
 
+ 
   render() {
     return (
       <div>
@@ -57,25 +47,11 @@ class Homepage extends Component {
         <h2>{this.props.data}</h2>
         <Button
           onClick={this.onActivation.bind(this)}
-        >点击激活账号</Button>
+        >点击激活账号</Button><WhiteSpace />
         <Button
-          onClick={this.test}
-        >info</Button>
-        <Button
-          onClick={this.test1}
-        >fail</Button>
-        <Button
-          onClick={this.test2}
-        >info</Button>
-        <Button
-          onClick={this.test3}
-        >loading</Button>
-        <Button
-          onClick={this.test4}
-        >offline</Button>
-        <Button
-          onClick={this.test5}
-        >success</Button>
+          onClick={this.salaryBtn}
+        >薪资查询</Button>
+     
       </div>
     )
   }

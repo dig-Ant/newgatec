@@ -15,6 +15,7 @@ app.model(require('./models/homepage').default);
 app.model(require('./models/activation').default);
 app.model(require('./models/wxSdk').default);
 app.model(require('./models/validUser').default);
+app.model(require('./models/salary').default);
 
 // 4. Router
 app.router(require('./router').default);
