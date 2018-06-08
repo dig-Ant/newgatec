@@ -89,4 +89,28 @@ export async function salaryLogin(data) {
     api_name: 'cbizprivate'
   });
 }
+// 获取薪酬年份查询
+export async function getYearArray(data) {
+  return requestAuth(kongApi.getYearArrayRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 获取薪酬年份查询
+export async function getPlantSlect(data) {
+  return requestAuth(kongApi.getPlantSlectRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 用户已读确认
+export async function getPlantRead(data) {
+  return requestAuth(kongApi.getPlantReadRoute(), {
+    method: 'POST',
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
 

@@ -1,9 +1,9 @@
 import fetch from 'dva/fetch';
 import cfg from '../config/cfg';
-import { Toast} from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 
 function parseJSON(response) {
-  console.log('respose,,,',response.json());
+  console.log('respose,,,', response.json());
   return response.json();
 }
 
@@ -17,14 +17,17 @@ async function checkStatus(response) {
       return res;
     }
     throw res
+  } else if (response.status >= 500) {
+    const error = new Error(response);
+    error.response = response;
+    error.status = response.status;
+    throw error;
   }
   throw await response.json().then((data) => {
     return data;
   });
 
-  // const error = new Error(response);
-  // error.response = response;
-  // throw error;
+
 }
 
 /**
@@ -63,7 +66,7 @@ export default function request(url, options) {
     // .catch(err => ({ err }));
     .catch(err => {
       console.log('err--', err);
-      if(err.error) {
+      if (err.error) {
         Toast.fail(err.error.message, 1, null, false);
       }
       // let s = err.json().then((data)=> {

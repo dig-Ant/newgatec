@@ -11,6 +11,6 @@ export default {
     redirect_uri: 'http://159239e2.ngrok.io/#/wxCode',
     scope: 'snsapi_base',
     wxState: '1'
-  }
-
+  },
+  plant_id: 'plant_id'
 }

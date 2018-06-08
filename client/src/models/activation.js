@@ -53,15 +53,11 @@ export default {
       // let isActive = true;
       console.log('isActive---',isActive.aa); 
       // 判断激活成功 or 失败
-      if (isActive.error) {
-        Toast.fail(isActive.error.message,2,null,false);
-        return;
+      if (!isActive.error) {
+        Toast.success('手机号已激活',2,null,false); 
+        yield put({ type: 'resetForm' });
+        yield put(routerRedux.push('/homepage'));
       }
-      // alert('激活成功');
-      Toast.success('手机号已激活',2,null,false); 
-      yield put({ type: 'resetForm' });
-      yield put(routerRedux.push('/homepage'));
-      return;
     }
   },
   subscriptions: {

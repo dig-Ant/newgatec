@@ -15,6 +15,7 @@ import ResAwait from './routes/resultPage/resAwait';
 // 薪资查询页
 import SalaryPwd from './routes/salaryQuery/salaryPwd';
 import RegistPwd from './routes/salaryQuery/registPwd';
+import SalaryList from './routes/salaryQuery/salaryList';
 
 function RouterConfig({ history }) {
   return (
@@ -36,6 +37,7 @@ function RouterConfig({ history }) {
         {/* 薪资查询页面 */}
         <Route path="/salaryPwd" exact component={SalaryPwd} />
         <Route path="/registPwd" exact component={RegistPwd} />
+        <Route path="/salaryList" exact component={SalaryList} />
       </Switch>
     </Router>
   );
