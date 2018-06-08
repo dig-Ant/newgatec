@@ -40,8 +40,8 @@ class OAuth extends React.Component {
   }
 
   checkToken() {
-    let token = window.localStorage.getItem('auth_token1');
-    // let token = JSON.parse(window.localStorage.getItem(cfg.access_token));
+    // let token = window.localStorage.getItem('auth_token1');
+    let token = JSON.parse(window.localStorage.getItem(cfg.access_token));
     // if (!token.token_cf) {
     if (!token) {
       let isWx = this.checkBrower();

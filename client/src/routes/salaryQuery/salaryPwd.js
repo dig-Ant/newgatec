@@ -30,7 +30,7 @@ class SalaryPwd extends Component {
   }
 
   gotoSetPwd = () => {
-    this.props.dispatch(routerRedux.push('/registPwd'));
+    this.props.dispatch(routerRedux.replace('/registPwd'));
   }
 
   renderModel = (props) => {
@@ -40,12 +40,7 @@ class SalaryPwd extends Component {
         { text: '返回', onPress: () => this.goback(), style: 'default' },
         { text: '前往设置', onPress: () => this.gotoSetPwd() },
       ]);
-    } else if(props.salaryData.isShowPwdModel) {
-      const alertInstance = alert('提示', '密码错误,如忘记请重新设置密码', [
-        { text: '再看看', onPress: () => console.log('取消'), style: 'default' },
-        { text: '前往设置', onPress: () => this.gotoSetPwd() },
-      ]);
-    }
+    } 
   }
 
   onsubmit = () => {
@@ -63,6 +58,9 @@ class SalaryPwd extends Component {
   pwdChange = (value) => {
     this.setState({ pwd: value });
   }
+  forgotClick = () => {
+    this.props.dispatch(routerRedux.replace('/registPwd'));
+  }
 
   render() {
     return (
@@ -76,7 +74,7 @@ class SalaryPwd extends Component {
             <Button onClick={this.onsubmit}>确认</Button>
           </div>
           <div className={styles.foot}>
-            <span>忘记密码</span>
+            <span onClick={this.forgotClick}>忘记密码</span>
           </div>
         </div>
       </div>

@@ -112,4 +112,16 @@ export default class lbapi {
   getSalaryLoginRoute() {
     return `${this.getCbizprivateRoute()}/login`
   }
+  // 获取薪酬年份查询
+  getYearArrayRoute() {
+    return `${this.getCbizprivateRoute()}/year_array`
+  }
+  // 获取薪酬年份查询
+  getPlantSlectRoute() {
+    return `${this.getCbizprivateRoute()}/plant_slect`
+  }
+  // 用户已读route
+  getPlantReadRoute() {
+    return `${this.getCbizprivateRoute()}/plant_read`
+  }
 }
