@@ -73,7 +73,9 @@ module.exports = function(Inner) {
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
         let result = await Inner.app.models.SmsCode.findOne({where:input})
         if(result==null){
-          cb(new Error('验证码错误'))
+          let err = new Error('验证码错误');
+          err.statusCode = 412
+          cb(err)
         }else{
           let smsUpdateStatus = await Inner.app.models.SmsCode.updateAll({where:input}, { status: 1 })
           return enums.success;
@@ -81,7 +83,7 @@ module.exports = function(Inner) {
         
     } catch (error) {
       // enums.error.msg=error.message
-      error.statusCode = 412
+     
       cb(error)
     }
   }
@@ -100,7 +102,9 @@ module.exports = function(Inner) {
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
         let result = await Inner.app.models.SmsCode.findOne({where:input})
         if(result==null){
-          cb(new Error('验证码错误'))
+          let err = new Error('验证码错误');
+          err.statusCode = 412
+          cb(err)
         }else{
           let smsUpdateStatus = await Inner.app.models.SmsCode.updateAll({where:input}, { status: 1 })
           return enums.success;
@@ -128,7 +132,9 @@ module.exports = function(Inner) {
         let result = await Inner.app.models.SmsCode.findOne({where:input})
 
         if(result==null){
-          cb(new Error('验证码错误'))
+          let err = new Error('验证码错误');
+          err.statusCode = 412
+          cb(err)
         }else{
           console.log(result)
           return enums.success;
