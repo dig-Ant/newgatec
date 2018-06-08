@@ -1,0 +1,85 @@
+
+
+
+.container{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  flex: 1;
+  background-color:#fff;
+  .top{
+    height: 50px;
+    border-bottom: 1px solid #666666;
+    background-color: #fff;
+    padding: 0 10px;
+    color: #666666;
+    .flexCenter;
+    justify-content: space-between;
+    .topText{
+      color: #666666;
+    }
+  }
+  .down{
+    flex: 1;
+    .flexCenter;
+    flex-direction: column;
+    .dTop{
+      height: 50px;
+      width: 100%;
+      background-color: rgba(1,1,1,.1);
+      .flexCenter;
+      justify-content: flex-start;
+      align-items: flex-start;
+      padding-left: 10px;
+      .dtText1{
+        width: 40px;
+        display: block;
+      }
+      div{
+        flex: 1;
+        overflow: hidden;
+      }
+      .dtText2{
+        word-wrap: break-word;
+      }
+    }
+    .dCenter{
+      flex: 1;
+      width: 100%;
+      background-color: #fff;
+      padding: 30px;
+      .flexCenter;
+      .listDiv{
+        height: 100%;
+        width: 100%;
+        border: 2px solid #ddd;
+        border-radius: 20px;
+        padding:  5px;
+        .listItem{
+          height: 50px;
+          width: 100%;
+          padding: 0 10px;
+          border-bottom: 1px solid #ddd;
+          .flexCenter;
+          justify-content: space-between;
+        }
+      }
+    }
+    .dDown{
+      height: 50px;
+      width: 100%;
+      background-color: rgba(1,1,100,.6);
+      .flexCenter;
+    }
+  }
+}
+
+
+.flexCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  
+}
