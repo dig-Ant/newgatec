@@ -9,7 +9,9 @@ class Password extends Component {
       showNumber: 0
     }
   }
-
+  componentDidMount(){
+    this.input.focus();
+  }
   onClick = () => {
     this.input.focus();
   }

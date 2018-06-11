@@ -17,6 +17,7 @@ import SalaryPwd from './routes/salaryQuery/salaryPwd';
 import RegistPwd from './routes/salaryQuery/registPwd';
 import SalaryList from './routes/salaryQuery/salaryList';
 import SalaryData from './routes/salaryQuery/salaryData';
+import Complaint from './routes/salaryQuery/complaint';
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
@@ -39,6 +40,7 @@ function RouterConfig({ history }) {
         <Route path="/registPwd" exact component={RegistPwd} />
         <Route path="/salaryList" exact component={SalaryList} />
         <Route path= "/salaryData" exact component = {SalaryData}/>
+        <Route path= "/complaint" exact component = {Complaint}/>
       </Switch>
     </Router>
   );
