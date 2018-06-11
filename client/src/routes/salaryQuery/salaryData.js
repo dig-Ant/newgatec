@@ -88,7 +88,7 @@ class SalaryData extends Component {
   }
 
   _button() {
-    Toast.info('我有异议')
+    this.props.dispatch(routerRedux.replace('/complaint'))
   }
 
   render() {
@@ -116,7 +116,11 @@ class SalaryData extends Component {
 
           </div>
           <div className={styles.dDown}>
-            <Button onClick={() => this._button()} type="primary" inline size="small" style={{ width: 100, background: 'yellow', color: '#000' }}>我有异议</Button>
+            <Button onClick={() => this._button()}  
+            activeStyle={{backgroundColor:'rgba(255,255,255,.7)'}}
+            className = {styles.button}
+            style={{ width: 100,  color: '#000' }}
+            >我有异议</Button>
 
           </div>
 
