@@ -153,8 +153,7 @@ export default {
         payload:rowData
       })
       if (data.body && data.body.state == 1) {
-        yield put(routerRedux.push('/salaryData'
-      ));
+        yield put(routerRedux.push('/salaryData'));
       }
     },
 
