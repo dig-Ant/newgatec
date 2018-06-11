@@ -7,27 +7,6 @@ import styles from './salaryList.less';
 
 const Item = Popover.Item;
 
-const data = [
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-    title: 'Meet hotel',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-    title: 'McDonald\'s invites you',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-];
-const NUM_ROWS = 20; // 一次显示的行数
-let pageIndex = 0; //初始页
-
-
 class SalaryList extends Component {
   constructor() {
     super();
@@ -49,7 +28,9 @@ class SalaryList extends Component {
 
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.props.salaryData.salaryMsg)
+    });
     // simulate in
   }
   componentWillReceiveProps(nextProps) {
@@ -113,10 +94,10 @@ class SalaryList extends Component {
     )
   }
 
-  itemClick = (id) => {
+  itemClick = (rowData) => {
     this.props.dispatch({
       type: 'salary/getPlantRead',
-      payload: id
+      payload: rowData
     }); 
   }
   renderList = () => {
@@ -135,11 +116,10 @@ class SalaryList extends Component {
     };
     // let index = data.length - 1;
     const row = (rowData, sectionID, rowID) => {
-      // console.log(rowData.data)
       // console.log('json',Object.keys(JSON.parse(rowData.data)));
       // console.log('json',Object.values(JSON.parse(rowData.data)));
       return (
-        <div className={styles.item} key={rowID} onClick={() =>this.itemClick(rowData.id)}>
+        <div className={styles.item} key={rowID} onClick={() =>this.itemClick(rowData)}>
           <div className={styles.itemTop}>
             <span>{`${rowData.year}年${rowData.month}`}</span>
             {

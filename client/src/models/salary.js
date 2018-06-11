@@ -11,7 +11,8 @@ export default {
   state: {
     isShowRegistModel: false,//控制没注册密码提示框显示
     yarnArray: [],
-    salaryMsg: []
+    salaryMsg: [],
+    salary_obj:{},
   },
   reducers: {
     changeIsShowRegistModel(state, { payload: isShowRegistModel }) {
@@ -32,6 +33,12 @@ export default {
         salaryMsg
       }
     },
+    channgeSalary_obj(state,{payload:salary_obj}){
+      return {
+        ...state,
+        salary_obj
+      }
+    }
   },
 
   effects: {
@@ -133,17 +140,21 @@ export default {
       }
     },
     // 用户已读确认
-    *getPlantRead({ payload: payslip_id }, { call, put }) {  // eslint-disable-line
+    *getPlantRead({ payload: rowData }, { call, put }) {  // eslint-disable-line
       let newObj = {
         plant_id: window.localStorage.getItem(cfg.plant_id),
-        payslip_id
+        payslip_id: rowData.id
       }
-
+      // console.log(rowData)
       let data = yield call(userSvc.getPlantRead, newObj);
       console.log('用户已读确认---', data);
-
+      yield put({
+        type:'channgeSalary_obj',
+        payload:rowData
+      })
       if (data.body && data.body.state == 1) {
-        yield put(routerRedux.push('/salaryInfo'));
+        yield put(routerRedux.push('/salaryData'
+      ));
       }
     },
 
@@ -153,7 +164,7 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         console.log('pathname--', pathname);
-        if (pathname !== '/salaryList' && pathname !== '/salaryInfo') {
+        if (pathname !== '/salaryList' && pathname !== '/salaryData') {
           window.localStorage.removeItem(cfg.plant_id);
         }
       });
