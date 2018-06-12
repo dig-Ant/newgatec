@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import styles from './salaryData.less';
 import { connect } from 'dva';
 import { ListView, Button, Toast } from 'antd-mobile';
