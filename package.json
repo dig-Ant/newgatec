@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "pm2":"pm2 start ."
   },
   "dependencies": {
     "compression": "^1.0.3",
