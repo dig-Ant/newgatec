@@ -1,11 +1,14 @@
 import fetch from 'dva/fetch';
 import cfg from '../config/cfg';
 import { Toast } from 'antd-mobile';
+// import { routerRedux } from 'dva/router';
+// import store from '../index';
+
 
 function parseJSON(response) {
   console.log('respose,,,', response.json());
   return response.json();
-}
+} 
 
 async function checkStatus(response) {
   console.log('response---', response);
@@ -89,24 +92,31 @@ let apiNameObj = {
 // 需要 authorization  的请求
 export function requestAuth(url, options) {
   // options
-  const newOptions = { ...options };
-  // let selectToken = apiNameObj[newOptions.api_name];
-  // newOptions.headers = {
-  //   "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
-  //   ...newOptions.headers
-  // }
 
-  if (newOptions.api_name === 'userprivate') {
+  const newOptions = { ...options };
+  let selectToken = apiNameObj[newOptions.api_name];
+  let localToken = window.localStorage.getItem(cfg.access_token);
+  if(localToken) {
     newOptions.headers = {
-      "Authorization": `bearer D9QN3cEJFCbVV1jyRbik6P5PIcFejwMV`,
+      "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
       ...newOptions.headers
     }
-  } else if (newOptions.api_name === 'cbizprivate') {
-    newOptions.headers = {
-      "Authorization": `bearer F9kXapRNxPW8eLA5frCCO9cFB4DeLOiw`,
-      ...newOptions.headers
-    }
+  } else {
+    // const { dispatch } = store;
+    // dispatch(routerRedux.push('/oauth')); 
   }
+
+  // if (newOptions.api_name === 'userprivate') {
+  //   newOptions.headers = {
+  //     "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,
+  //     ...newOptions.headers
+  //   }
+  // } else if (newOptions.api_name === 'cbizprivate') {
+  //   newOptions.headers = {
+  //     "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
+  //     ...newOptions.headers
+  //   }
+  // }
 
   return request(url, newOptions)
 }

@@ -3,7 +3,7 @@ import util from 'utils/util';
 import cfg from 'cfg/cfg';
 import { routerRedux } from 'dva/router';
 import { Toast } from 'antd-mobile';
-
+console.log('cfg',cfg);
 export default {
 
   namespace: 'salary',
@@ -13,6 +13,7 @@ export default {
     yarnArray: [],
     salaryMsg: [],
     salary_obj:{},
+    btn: 'salaryList'
   },
   reducers: {
     changeIsShowRegistModel(state, { payload: isShowRegistModel }) {
@@ -37,6 +38,11 @@ export default {
       return {
         ...state,
         salary_obj
+      }
+    },
+    changeBtn(state, {payload: btn}) {
+      return {
+        ...state, btn
       }
     }
   },
@@ -84,7 +90,8 @@ export default {
 
     },
     // 薪酬登录
-    *salaryLogin({ payload: pwd }, { call, put }) {  // eslint-disable-line
+    *salaryLogin({ payload: pwd }, { call, put, select }) {  // eslint-disable-line
+      let btn = yield select( state => state.salary.btn );
       // 获取 plant_id 持久化数据
       let data = yield call(userSvc.salaryLogin, pwd);
       // let data = {
@@ -92,6 +99,7 @@ export default {
       // }
       console.log('login--', data);
       if (data.body) {
+        console.log('btn---',btn);
         window.localStorage.setItem(cfg.plant_id, data.body.plant_id);
         yield put(routerRedux.replace('/salaryList'));
 
@@ -110,7 +118,7 @@ export default {
       if (data.body) {
         yield put({
           type: 'getPlantSlect',
-          payload: { year: data.body.year[1] }
+          payload: { year: data.body.year[0] } 
         });
         yield put({
           type: 'changeYarnArray',
@@ -161,9 +169,9 @@ export default {
 
   subscriptions: {
     setup({ dispatch, history }) {
+      console.log('history',history);
       history.listen(({ pathname }) => {
-        console.log('pathname--', pathname);
-        if (pathname !== '/salaryList' && pathname !== '/salaryData') {
+        if (pathname !== '/salaryList' && pathname !== '/salaryData' && pathname !== '/complaint') {
           window.localStorage.removeItem(cfg.plant_id);
         }
       });

@@ -2,17 +2,6 @@
 import request, { requestAuth } from '../utils/request';
 import cfg from '../config/cfg';
 import api from './lb-api';
-// 不需要经过 kong 的请求
-let lbapi = new api();
-lbapi.url = cfg.server_base_url + cfg.api_route;
-
-// export async function getAccessToken(code) {
-//   return request(lbapi.getAccessTokenRoute(), {
-//     method: 'POST',
-//     body: { code }
-//   });
-// }
-
 
 // 需要经过 kong 的请求
 let kongApi = new api();

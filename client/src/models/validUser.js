@@ -61,14 +61,14 @@ export default {
     // 判断用户是否需要验证
     *getIsVerifyUser({ payload }, { call, put }) {  // eslint-disable-line
       let data = yield call(userSvc.getIsVerifyUser);
-      console.log('是否需要验证', data);
-      yield put({ type: 'changeData', payload: data.body.state });
+      if(!data.error) {
+        yield put({ type: 'changeData', payload: data.body.state });
+      }
     },
     // 获取草稿
     *getIdentityDraft({ payload }, { call, put }) {
 
       let data = yield call(userSvc.getIdentityDraft);
-      console.log('获取草稿--', data);
       if (data.body && data.body.id_type) {
         yield put({ type: 'changeFormData', payload: data.body });
       }
