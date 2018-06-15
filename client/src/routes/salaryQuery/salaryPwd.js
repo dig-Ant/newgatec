@@ -20,6 +20,12 @@ class SalaryPwd extends Component {
     this.props.dispatch({
       type: 'salary/getPlantStatus'
     });
+    if(this.props.location.query) {
+      this.props.dispatch({
+        type: 'salary/changeBtn',
+        payload: this.props.location.query.btn
+      })
+    }
   }
   componentWillReceiveProps(props) {
     this.renderModel(props);
@@ -63,6 +69,7 @@ class SalaryPwd extends Component {
   }
 
   render() {
+    console.log('pwd props',this.props.location);
     return (
       <div className={styles.container}>
         <div className={styles.info}>

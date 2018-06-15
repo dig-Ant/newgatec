@@ -65,7 +65,7 @@ class SalaryList extends Component {
     });
     return (
       <div className={styles.title}>
-        <span className={styles.titleInfo}>{this.state.selected || yearArr[1]}年度</span>
+        <span className={styles.titleInfo}>{this.state.selected || yearArr[0]}年度</span>
         <Popover
           mask
           overlayClassName="fortest" //覆盖类名

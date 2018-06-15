@@ -31,7 +31,9 @@ export default {
         jsApiList: ["chooseImage","getLocalImgData"],
         url: window.location.href.split('#')[0]
       }
+      console.log('params',params);
       let configOpt = yield call(handleTokenSvc.getWxConfig,params);
+      console.log('configOpt',configOpt)
       // console.log('configOpt---',configOpt);
       let { appId, debug, timestamp, signature,nonceStr,jsApiList } = configOpt.body;
       // console.log('config--',configOpt);

@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { Toast, WhiteSpace, Button } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import NoticeBars from 'components/NoticeBars';
+import cfg from '../../config/cfg';
 
 class Homepage extends Component {
   constructor() {
@@ -32,12 +33,21 @@ class Homepage extends Component {
 
   salaryBtn = () => {
     //点击 发送请求 
-    this.props.dispatch(routerRedux.push('/salaryPwd'))
+    // this.props.dispatch(routerRedux.push('/salaryPwd'))
+    this.props.dispatch(routerRedux.push({
+      pathname: '/salaryPwd',
+      query: {
+        btn: 'salaryList'
+      },
+    }))
     // this.props.dispatch({
     //   type: 'salary/getPlantStatus'
     // })
   }
 
+  clear = () => {
+    window.localStorage.removeItem(cfg.access_token);
+  }
  
   render() {
     return (
@@ -50,7 +60,11 @@ class Homepage extends Component {
         >点击激活账号</Button><WhiteSpace />
         <Button
           onClick={this.salaryBtn}
-        >薪资查询</Button>
+        >薪资查询</Button><WhiteSpace /><WhiteSpace />
+        <Button
+          onClick={this.clear}
+        >清理本地存储</Button>
+        <p style={{textAlign:'center'}}>点击此按钮 相当于退出,误点 测试用</p>
      
       </div>
     )
