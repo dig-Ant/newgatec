@@ -39,6 +39,7 @@ class SalaryData extends Component {
 
 
   }
+ 
   componentDidUpdate() {
     if (JSON.stringify(this.props.salaryData.salary_obj) == "{}") {
       this.props.dispatch(routerRedux.replace('/salaryList'))
