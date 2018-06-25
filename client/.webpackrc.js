@@ -3,6 +3,7 @@ const path = require('path');
 
 export default {
   entry: 'src/index.js',
+  // devtool: "source-map",
   extraBabelPlugins: [
     // 'transform-decorators-legacy',
     ["import",{ "libraryName": "antd-mobile", "style": true },"antd-mobile-import"],

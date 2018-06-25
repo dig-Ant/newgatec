@@ -30,9 +30,11 @@ export default {
       console.log('token---',token);
       // token_wx  token_cf
       // 储存token
-      window.localStorage.setItem(cfg.access_token,JSON.stringify(token.body));
-      yield put({ type: 'changeToken', payload: token.body});
-      yield put(routerRedux.replace('/homepage'));
+      if(token.body) {
+        window.localStorage.setItem(cfg.access_token,JSON.stringify(token.body));
+        yield put({ type: 'changeToken', payload: token.body});
+        yield put(routerRedux.replace('/homepage'));
+      }
     }
   },
   subscriptions: {

@@ -166,7 +166,8 @@ module.exports = function (Public) {
     // let wx_userinfo = await client.getUser_ify(wx_accessToken.data.openid);
     //通过请求头返回token
     // console.log('wx-wx_userinfo',wx_userinfo);
-    let getTokenUrl = 'http://172.16.1.139:8888/api/inner/get_access_token';
+    // let getTokenUrl = 'http://172.16.1.139:8888/api/inner/get_access_token';
+    let getTokenUrl = 'http://172.16.126.48:8888/api/inner/get_access_token';
     // let token_wx_svc = await requestToken(getTokenUrl, {
     //   openid: wx_accessToken.data.openid,
     //   api_name: "wx_svc",

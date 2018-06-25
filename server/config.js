@@ -15,9 +15,9 @@ let ENV = {
 //当前选用的环境
 let curEnv = ENV.prod;
 module.exports = {
-    "wx_appid": curEnv == ENV.dev ? "wx705a4d4af2a47e55" : "wx27c35b485ac43ef7",
+    "wx_appid": curEnv == ENV.dev ? "wx705a4d4af2a47e55" : "wxb059193f2e95abc2",
     "wx_secret": curEnv == ENV.dev ? "cc98d52f5449abd0be2fef8145261966" :
-     "a5912946898eb67705db9e9ed88e8de4",
+     "6835a184dfdc17420b134e8ad420b2d9",
     "wx_token": "ActivityDemoToken",
     "wx_cb_domain": "2f4b2aa8.ngrok.io"
 }

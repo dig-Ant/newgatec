@@ -124,4 +124,13 @@ export default class lbapi {
   getPlantReadRoute() {
     return `${this.getCbizprivateRoute()}/plant_read`
   }
+  // ----------------- 社保公积金 -------------------
+  // 获取社保公积金年份查询
+  getSiYearArrayRoute() {
+    return `${this.getCbizprivateRoute()}/si_year`
+  }
+  // 获取社保公积金数据查询
+  getSiSelectRoute() {
+    return `${this.getCbizprivateRoute()}/si_select`
+  }
 }

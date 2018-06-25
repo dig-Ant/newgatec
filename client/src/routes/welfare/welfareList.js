@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Popover, Icon, ListView } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import styles from './salaryList.less';
+import styles from './welfareList.less';
 
 const Item = Popover.Item;
 
-class SalaryList extends Component {
+class WelfareList extends Component {
   constructor() {
     super();
     const dataSource = new ListView.DataSource({
@@ -22,42 +22,42 @@ class SalaryList extends Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type: 'salary/getYearArray'
+      type: 'welfare/getYearArray'
     });
+    console.log(this.props.salaryData);
 
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(this.props.salaryData.salaryMsg)
-    });
-    // simulate in
+  
   }
   componentWillReceiveProps(nextProps) {
+    console.log('props--', nextProps);
     if (nextProps.salaryData.salaryMsg !== this.props.salaryData.salaryMsg) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.salaryData.salaryMsg),
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.salaryData.salaryMsg.data),
       });
     }
   }
   onSelect = (opt) => {
+    // console.log(opt.props.value);
     this.setState({
       visible: false,
       selected: opt.props.value,
     });
     this.props.dispatch({
-      type: 'salary/changeYearSelect',
+      type: 'welfare/changeYearSelect',
       payload: opt.props.value
     });
     this.props.dispatch({
-      type: 'salary/getPlantSlect',
+      type: 'welfare/getPlantSlect',
       payload: { year: opt.props.value }
     });
   }
   handleVisibleChange = (visible) => {
     console.log('handleVisibleChange', visible);
-    this.setState({
-      visible,
-    });
+    // this.setState({
+    //   visible,
+    // });
   }
   renderTitle = () => {
     let { yearSelect, yearArray } = this.props.salaryData;
@@ -65,9 +65,9 @@ class SalaryList extends Component {
     yearArray.map((v, i) => {
       tempArr.push(<Item key={'yearItem' + i} value={v} >{v}年度</Item>);
     });
-    return ( 
+    return (
       <div className={styles.title}>
-        <span className={styles.titleInfo}>{this.state.selected || yearSelect || yearArray[0]}年度</span>
+        <span className={styles.titleInfo}>{this.state.selected || yearArray[0]}年度</span>
         <Popover
           mask
           overlayClassName="fortest" //覆盖类名
@@ -80,8 +80,8 @@ class SalaryList extends Component {
           }}
           onVisibleChange={this.handleVisibleChange}
           onSelect={this.onSelect}
-        > 
-          <div  style={{
+        >
+          <div style={{
             height: '100%',
             padding: '0 15px',
             display: 'flex',
@@ -89,7 +89,7 @@ class SalaryList extends Component {
             justifyContent: 'flex-end',
           }}
           >
-            <Icon type="down" style={{color: '#fff'}}/>
+            <Icon type="down" style={{ color: '#fff' }} />
           </div>
         </Popover>
       </div>
@@ -97,10 +97,11 @@ class SalaryList extends Component {
   }
 
   itemClick = (rowData) => {
-    this.props.dispatch({
-      type: 'salary/getPlantRead',
-      payload: rowData
-    }); 
+    console.log('rowData---', rowData);
+    // this.props.dispatch({
+    // type: 'salary/getPlantRead',
+    // payload: rowData
+    // });
   }
   renderList = () => {
     const separator = (sectionID, rowID) => {
@@ -116,9 +117,43 @@ class SalaryList extends Component {
         />
       )
     };
+    // let index = data.length - 1;
     const row = (rowData, sectionID, rowID) => {
+
+      let tempArr = [];
+      for (let i = 0; i < rowData.length; i++) {
+        tempArr.push((
+          <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(rowData[0])}>
+            <div>
+              <div>{rowData[0].payment_year}年{rowData[0].payment_month}月</div>
+              <div>312.00</div>
+            </div>
+            <div className={styles.tagGreen}>
+              <span>{rowData[0].si_hf_status == 1 ? '正' : '补'}</span>
+            </div>
+          </div>
+        ));
+      }
       return (
-        <div className={styles.item} key={rowID} onClick={() =>this.itemClick(rowData)}>
+        <div className={styles.item}>
+          <div className={styles.itemInfo}>
+            <div className={styles.itemTop}>
+              <div className={styles.topTitle}>
+                <span>{`${rowData[0].ins_year}.${rowData[0].ins_month}`}</span>
+              </div>
+              {
+                rowData[0].plant_get == 0 ?
+                  <div className={styles.tagRed}><span>新</span></div> : null
+              }
+            </div>
+            <div className={styles.itemDown}>
+              {tempArr}
+            </div>
+          </div>
+        </div>
+      );
+      return (
+        <div className={styles.item} key={rowID}>
           <div className={styles.itemTop}>
             <span>{`${rowData.year}年${rowData.month}`}</span>
             {
@@ -129,7 +164,7 @@ class SalaryList extends Component {
           </div>
           <div className={styles.itemInfo} >
             <div className={styles.itemInfo_left}>{rowData.pay_type}</div>
-            <div><span style={{ fontSize: '20px', color: '#FF6E27',verticalAlign:'-2'  }}>{rowData.unit}</span>&nbsp;<span>{rowData.pay}</span></div>
+            <div><span style={{ fontSize: '20px', color: '#FF6E27', verticalAlign: '-2' }}>{rowData.unit}</span>&nbsp;<span>{rowData.pay}</span></div>
           </div>
         </div >
       );
@@ -143,7 +178,7 @@ class SalaryList extends Component {
           这一年的记录已经没有了哦
         </div>)}
         renderRow={row}
-        renderSeparator={separator}
+        // renderSeparator={separator}
         className="am-list"
         pageSize={4}
         useBodyScroll
@@ -162,17 +197,17 @@ class SalaryList extends Component {
     )
   }
 }
-SalaryList.defaultProps = {
+WelfareList.defaultProps = {
 
 };
 
-SalaryList.propTypes = {
+WelfareList.propTypes = {
 
 };
 function mapStateToProps(state) {
   return {
-    salaryData: state.salary
+    salaryData: state.welfare
   }
 }
 
-export default connect(mapStateToProps)(SalaryList);
+export default connect(mapStateToProps)(WelfareList);
