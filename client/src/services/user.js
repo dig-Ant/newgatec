@@ -26,7 +26,6 @@ export async function getIdentityDraft(data) {
 // 保存用户草稿
 export async function getValidateUser(data) {
   return requestAuth(kongApi.getValidateUserRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'userprivate'
   });
@@ -34,7 +33,6 @@ export async function getValidateUser(data) {
 // 保存用户草稿
 export async function saveIdentityDraft(data) {
   return requestAuth(kongApi.saveIdentityDraftRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'userprivate'
   });
@@ -43,7 +41,6 @@ export async function saveIdentityDraft(data) {
 // 获取ai识别图片信息
 export async function getGeneralIdCard(data) {
   return requestAuth(kongApi.getGeneralIdCardRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'userprivate'
   });
@@ -51,7 +48,6 @@ export async function getGeneralIdCard(data) {
 // 转人工
 export async function getApplyManualReview(data) {
   return requestAuth(kongApi.getApplyManualReviewRoute(), {
-    method: 'POST',
     body: {},
     api_name: 'userprivate'
   });
@@ -76,7 +72,6 @@ export async function getPaySmsSend(data) {
 // 忘记密码注册密码接口
 export async function setPassword(data) {
   return requestAuth(kongApi.getSetPasswordRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'cbizprivate'
   });
@@ -84,7 +79,6 @@ export async function setPassword(data) {
 // 薪酬查询登录
 export async function salaryLogin(data) {
   return requestAuth(kongApi.getSalaryLoginRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'cbizprivate'
   });
@@ -92,7 +86,6 @@ export async function salaryLogin(data) {
 // 获取薪酬年份查询
 export async function getYearArray(data) {
   return requestAuth(kongApi.getYearArrayRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'cbizprivate'
   });
@@ -100,7 +93,6 @@ export async function getYearArray(data) {
 // 获取薪酬年份查询
 export async function getPlantSlect(data) {
   return requestAuth(kongApi.getPlantSlectRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'cbizprivate'
   });
@@ -108,9 +100,23 @@ export async function getPlantSlect(data) {
 // 用户已读确认
 export async function getPlantRead(data) {
   return requestAuth(kongApi.getPlantReadRoute(), {
-    method: 'POST',
     body: data,
     api_name: 'cbizprivate'
   });
 }
 
+// --------------- 社保公积金 -------------------
+// 获取社保年份查询
+export async function getSiYearArray(data) {
+  return requestAuth(kongApi.getSiYearArrayRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 获取薪酬年份查询
+export async function getSiSelect(data) {
+  return requestAuth(kongApi.getSiSelectRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}

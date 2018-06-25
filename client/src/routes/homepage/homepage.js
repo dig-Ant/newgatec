@@ -15,15 +15,15 @@ class Homepage extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch({
-      type: 'wxSdk/setConfig'
-    });
+    // this.props.dispatch({
+    //   type: 'wxSdk/setConfig'
+    // });
     this.props.dispatch({
       type: 'validUser/getIsVerifyUser'
     });
-    this.props.dispatch({
-      type: 'homepage/getInfo',
-    });
+    // this.props.dispatch({
+    //   type: 'homepage/getInfo',
+    // });
 
   }
 
@@ -32,17 +32,16 @@ class Homepage extends Component {
   }
 
   salaryBtn = () => {
-    //点击 发送请求 
-    // this.props.dispatch(routerRedux.push('/salaryPwd'))
-    this.props.dispatch(routerRedux.push({
-      pathname: '/salaryPwd',
-      query: {
-        btn: 'salaryList'
-      },
-    }))
-    // this.props.dispatch({
-    //   type: 'salary/getPlantStatus'
-    // })
+    this.props.dispatch({
+      type: 'salary/jumpPage',
+      payload: 'salaryList'
+    })
+  }
+  welfareBtn = () => {
+    this.props.dispatch({
+      type: 'salary/jumpPage',
+      payload: 'welfareList'
+    })
   }
 
   clear = () => {
@@ -61,6 +60,9 @@ class Homepage extends Component {
         <Button
           onClick={this.salaryBtn}
         >薪资查询</Button><WhiteSpace /><WhiteSpace />
+        <Button
+          onClick={this.welfareBtn}
+        >社保公积金</Button><WhiteSpace /><WhiteSpace />
         <Button
           onClick={this.clear}
         >清理本地存储</Button>

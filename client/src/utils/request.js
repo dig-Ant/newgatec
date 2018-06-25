@@ -1,14 +1,14 @@
 import fetch from 'dva/fetch';
 import cfg from '../config/cfg';
 import { Toast } from 'antd-mobile';
-// import { routerRedux } from 'dva/router';
-// import store from '../index';
+import { routerRedux } from 'dva/router';
+import store from '../index';
 
 
 function parseJSON(response) {
   console.log('respose,,,', response.json());
   return response.json();
-} 
+}
 
 async function checkStatus(response) {
   console.log('response---', response);
@@ -19,13 +19,19 @@ async function checkStatus(response) {
     if (!res.error) {
       return res;
     }
-    throw res
+    throw res;
+  } else if (response.status === 401) {
+    const error = new Error(response);
+    error.response = response;
+    error.status = response.status;
+    throw error;
   } else if (response.status >= 500) {
     const error = new Error(response);
     error.response = response;
     error.status = response.status;
     throw error;
   }
+
   throw await response.json().then((data) => {
     return data;
   });
@@ -43,6 +49,7 @@ async function checkStatus(response) {
 export default function request(url, options) {
   const defaultOptions = {
     // credentials: 'include',
+    method: 'POST'
   };
   const newOptions = { ...defaultOptions, ...options };
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
@@ -72,6 +79,11 @@ export default function request(url, options) {
       if (err.error) {
         Toast.fail(err.error.message, 1, null, false);
       }
+      if (err.status === 401) {
+        window.localStorage.removeItem(cfg.access_token);
+        const { dispatch } = store;
+        dispatch(routerRedux.push('/oauth'));
+      }
       // let s = err.json().then((data)=> {
       //   console.log('data-=---',data);
       //   return data 
@@ -96,27 +108,32 @@ export function requestAuth(url, options) {
   const newOptions = { ...options };
   let selectToken = apiNameObj[newOptions.api_name];
   let localToken = window.localStorage.getItem(cfg.access_token);
-  if(localToken) {
+
+  // if(localToken) {
+  //   console.log('token',localToken);
+  //   newOptions.headers = {
+  //     "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
+  //     ...newOptions.headers
+  //   }
+  //   console.log('token---');
+  // } else {
+  //   // const { dispatch } = store;
+  //   // dispatch(routerRedux.push('/oauth')); 
+  // }
+
+  if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer ${JSON.parse(window.localStorage.getItem(cfg.access_token))[selectToken]}`,
+      // "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,
+      "Authorization": `bearer zGj8hDze2dbm8Bld8904jdrLwigO1SOl`,//云 kong
       ...newOptions.headers
     }
-  } else {
-    // const { dispatch } = store;
-    // dispatch(routerRedux.push('/oauth')); 
+  } else if (newOptions.api_name === 'cbizprivate') {
+    newOptions.headers = {
+      // "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
+      "Authorization": `bearer AmeqXgajW1BT3ZcghG4mflmF7QtxYt3i`,//云 kong
+      ...newOptions.headers
+    }
   }
-
-  // if (newOptions.api_name === 'userprivate') {
-  //   newOptions.headers = {
-  //     "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,
-  //     ...newOptions.headers
-  //   }
-  // } else if (newOptions.api_name === 'cbizprivate') {
-  //   newOptions.headers = {
-  //     "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
-  //     ...newOptions.headers
-  //   }
-  // }
 
   return request(url, newOptions)
 }

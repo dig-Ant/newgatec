@@ -3,48 +3,50 @@ import util from 'utils/util';
 import cfg from 'cfg/cfg';
 import { routerRedux } from 'dva/router';
 import { Toast } from 'antd-mobile';
-console.log('cfg',cfg);
+
 export default {
 
   namespace: 'salary',
 
   state: {
     isShowRegistModel: false,//控制没注册密码提示框显示
-    yarnArray: [],
+    yearArray: [],
     salaryMsg: [],
-    salary_obj:{},
-    btn: 'salaryList'
+    salary_obj: {},
+    btn: 'salaryList',
+    yearSelect: null
   },
   reducers: {
     changeIsShowRegistModel(state, { payload: isShowRegistModel }) {
       return {
-        ...state,
-        isShowRegistModel
+        ...state, isShowRegistModel
       }
     },
-    changeYarnArray(state, { payload: yarnArray }) {
+    changeYearArray(state, { payload: yearArray }) {
       return {
-        ...state,
-        yarnArray
+        ...state, yearArray
       }
     },
     changeSalaryMsg(state, { payload: salaryMsg }) {
       return {
-        ...state,
-        salaryMsg
+        ...state, salaryMsg
       }
     },
-    channgeSalary_obj(state,{payload:salary_obj}){
+    changeSalary_obj(state, { payload: salary_obj }) {
       return {
-        ...state,
-        salary_obj
+        ...state, salary_obj
       }
     },
-    changeBtn(state, {payload: btn}) {
+    changeBtn(state, { payload: btn }) {
       return {
         ...state, btn
       }
-    }
+    },
+    changeYearSelect(state, { payload: yearSelect }) {
+      return {
+        ...state, yearSelect
+      }
+    },
   },
 
   effects: {
@@ -91,25 +93,25 @@ export default {
     },
     // 薪酬登录
     *salaryLogin({ payload: pwd }, { call, put, select }) {  // eslint-disable-line
-      let btn = yield select( state => state.salary.btn );
+      let btn = yield select(state => state.salary.btn);
       // 获取 plant_id 持久化数据
       let data = yield call(userSvc.salaryLogin, pwd);
       // let data = {
       //   body: {plant_id: 2}
       // }
-      console.log('login--', data);
       if (data.body) {
-        console.log('btn---',btn);
+        console.log('btn--', btn);
         window.localStorage.setItem(cfg.plant_id, data.body.plant_id);
-        yield put(routerRedux.replace('/salaryList'));
+        yield put(routerRedux.replace(`/${btn}`));
 
       }
     },
     // 获取有薪资的年份集合
-    *getYearArray({ payload }, { call, put }) {  // eslint-disable-line
+    *getYearArray({ payload }, { call, put, select }) {  // eslint-disable-line
       let obj = {
         plant_id: window.localStorage.getItem(cfg.plant_id)
       }
+      let yearSelect = yield select(state => state.salary.yearSelect);
       let data = yield call(userSvc.getYearArray, obj);
       console.log('data--', data);
       // let data = {
@@ -118,10 +120,10 @@ export default {
       if (data.body) {
         yield put({
           type: 'getPlantSlect',
-          payload: { year: data.body.year[0] } 
+          payload: { year: yearSelect || data.body.year[0] }
         });
         yield put({
-          type: 'changeYarnArray',
+          type: 'changeYearArray',
           payload: data.body.year
         });
       } else if (data.error) {
@@ -157,21 +159,35 @@ export default {
       let data = yield call(userSvc.getPlantRead, newObj);
       console.log('用户已读确认---', data);
       yield put({
-        type:'channgeSalary_obj',
-        payload:rowData
+        type: 'changeSalary_obj',
+        payload: rowData
       })
       if (data.body && data.body.state == 1) {
         yield put(routerRedux.push('/salaryData'));
       }
     },
 
+    // 跳转 页面指向
+    *jumpPage({ payload: btn }, { call, put }) {
+      yield put({
+        type: 'changeBtn',
+        payload: btn
+      });
+      yield put(routerRedux.push('/salaryPwd'));
+    }
+
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
-      console.log('history',history);
       history.listen(({ pathname }) => {
-        if (pathname !== '/salaryList' && pathname !== '/salaryData' && pathname !== '/complaint') {
+        if (
+          pathname !== '/salaryList' &&
+          pathname !== '/salaryData' &&
+          pathname !== '/complaint' &&
+          pathname !== '/welfareList' &&
+          pathname !== '/welfareData'
+        ) {
           window.localStorage.removeItem(cfg.plant_id);
         }
       });

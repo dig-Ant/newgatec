@@ -19,7 +19,6 @@ export default {
 
   effects: {
     *getConfig({ payload }, { call, put, select }) {  // eslint-disable-line 
-      console.log('调用');
       let config = yield call(handleTokenSvc.getWxConfig);
 
       yield put({ type: 'changeWxConfig', payload: config.body });
@@ -31,7 +30,6 @@ export default {
         jsApiList: ["chooseImage","getLocalImgData"],
         url: window.location.href.split('#')[0]
       }
-      console.log('params',params);
       let configOpt = yield call(handleTokenSvc.getWxConfig,params);
       console.log('configOpt',configOpt)
       // console.log('configOpt---',configOpt);
