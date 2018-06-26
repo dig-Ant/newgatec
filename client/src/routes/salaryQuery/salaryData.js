@@ -17,7 +17,8 @@ class SalaryData extends Component {
       dataSource,
       isLoading: true,
       height: document.documentElement.clientHeight * 3 / 4,
-      isFav: ''
+      isFav: '',
+      isEnd:false
     }
 
   }
@@ -54,7 +55,7 @@ class SalaryData extends Component {
     }
   }
   onEndReached = (event) => {
-
+    this.setState({isEnd:true});
     Toast.info('到底了', 1);
   }
 
@@ -67,6 +68,18 @@ class SalaryData extends Component {
     );
   };
 
+  _header(){
+     return(
+       <div className={styles.listHeaderDiv}>
+         <span className={styles.headerTopSpan}>公司信息:</span>
+         <div className={styles.headerDiv}>
+           <img  className={styles.headerImg} src={require('../../assets/loginIcon.png')} />
+           <span className={styles.headerSpan}>上海才赋人力资源科技有限公司</span>
+         </div>
+       </div>
+     ) 
+  }
+
   List_View = () => {
     return (
       <ListView
@@ -77,6 +90,8 @@ class SalaryData extends Component {
           height: '100%',
           overflow: 'auto',
         }}
+        // onScroll={(e)=>{console.log(e)}}
+        // onLayout={({nativeEvent:{ layout:{ width, height }}}) => {console.log(height)}}
         pageSize={20}
         // scrollRenderAheadDistance={1500}
         onEndReached={() => this.onEndReached()}//距离底部10的时候调用的方法
@@ -85,6 +100,23 @@ class SalaryData extends Component {
       />
     )
 
+  }
+  _dDown(){
+    if(this.state.isEnd){
+      return(
+        <div className={styles.dDown}>
+              <Button onClick={() => this._button()}  
+              activeStyle={{backgroundColor:'rgba(255,255,255,.7)'}}
+              className = {styles.button}
+              style={{ width: 100,  color: '#000' }}
+              >我有异议</Button>
+
+        </div>
+      );
+    }else{
+      return null;
+    }
+    
   }
 
   _button() {
@@ -106,25 +138,21 @@ class SalaryData extends Component {
             <div>
               <span className={styles.dtText2}>{note}</span>
             </div>
-
+              
           </div>
+          {this._header()}
           <div className={styles.dCenter}>
+            
             <div className={styles.listDiv}>
-
+             
               {this.List_View()}
             </div>
 
           </div>
-          <div className={styles.dDown}>
-            <Button onClick={() => this._button()}  
-            activeStyle={{backgroundColor:'rgba(255,255,255,.7)'}}
-            className = {styles.button}
-            style={{ width: 100,  color: '#000' }}
-            >我有异议</Button>
-
-          </div>
+          
 
         </div>
+        {this._dDown()}
 
       </div>
     )

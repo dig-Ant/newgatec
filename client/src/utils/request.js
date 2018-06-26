@@ -124,13 +124,13 @@ export function requestAuth(url, options) {
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
       // "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,
-      "Authorization": `bearer zGj8hDze2dbm8Bld8904jdrLwigO1SOl`,//云 kong
+      "Authorization": `bearer ma3RB5WT7V5NRzwskibMRp7Q0UkhA0G8`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'cbizprivate') {
     newOptions.headers = {
       // "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
-      "Authorization": `bearer AmeqXgajW1BT3ZcghG4mflmF7QtxYt3i`,//云 kong
+      "Authorization": `bearer vaybm3SbmDSFS5oWZEHhT4i4xSB7tyyf`,//云 kong
       ...newOptions.headers
     }
   }
