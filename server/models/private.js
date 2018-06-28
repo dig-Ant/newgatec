@@ -1,5 +1,7 @@
 let jsonCheck = require('../../common/smsFn/jsonCheck')
 let enums = require('../../common/core/enum')
+let request = require('request');
+let util = require('../util/util');
 module.exports = function(Private) {
 
 
@@ -13,7 +15,11 @@ module.exports = function(Private) {
   
     
   }
-
+/**
+ * 仅用于用户激活时的验证码发送
+ * @param {Object} obj 
+ * @param {Object} cb 
+ */
   Private.smsCodeSend = async (obj,cb)=>{
     try {
       let input = {
@@ -24,10 +30,26 @@ module.exports = function(Private) {
       content:"{code}",
       codeType:1
       }
-      let jsonKeys = ['phone']
+      let jsonKeys = ['phone','name']
+      let requestRes = util.promisify(request.bind(this));
+      let plant_check = await requestRes({
+        method: "POST",
+        url: enums.severURL.get_is_client,
+        form: {
+          name:obj.name,
+          mobile:obj.phone
+        }
+      });
+      if(JSON.parse(plant_check.body).body.result==0){
+        let err = new Error('您的手机或姓名不匹配')
+        err.statusCode = 412;
+        throw err; 
+      }
+      console.log(JSON.parse(plant_check.body).body.result);
       let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
       let result = await Private.app.models.Sms.smsCode(input);
       return result;
+      // return plant_check.body;
     } catch (error) {
       // enums.error.msg=error.message
       // error.statusCode = 412
