@@ -20,6 +20,7 @@ import SalaryData from './routes/salaryQuery/salaryData';
 import Complaint from './routes/salaryQuery/complaint';
 // 社保公积金查询页面
 import WelfareList from './routes/welfare/welfareList';
+import WelfareData from './routes/welfare/welfareData';
 
 function RouterConfig({ history }) {
   return (
@@ -46,6 +47,7 @@ function RouterConfig({ history }) {
         <Route path= "/complaint" exact component = {Complaint}/>
 
         <Route path= "/welfareList" exact component = {WelfareList}/>
+        <Route path= "/welfareData" exact component = {WelfareData}/>
       </Switch>
     </Router>
   );

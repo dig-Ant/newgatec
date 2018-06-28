@@ -24,17 +24,15 @@ class WelfareList extends Component {
     this.props.dispatch({
       type: 'welfare/getYearArray'
     });
-    console.log(this.props.salaryData);
 
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-  
+
   }
   componentWillReceiveProps(nextProps) {
-    console.log('props--', nextProps);
-    if (nextProps.salaryData.salaryMsg !== this.props.salaryData.salaryMsg) {
+    if (nextProps.welfareData.welfareMsg !== this.props.welfareData.welfareMsg) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.salaryData.salaryMsg.data),
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.welfareData.welfareMsg.data),
       });
     }
   }
@@ -60,14 +58,14 @@ class WelfareList extends Component {
     // });
   }
   renderTitle = () => {
-    let { yearSelect, yearArray } = this.props.salaryData;
+    let { yearSelect, yearArray } = this.props.welfareData;
     let tempArr = [];
     yearArray.map((v, i) => {
       tempArr.push(<Item key={'yearItem' + i} value={v} >{v}年度</Item>);
     });
     return (
       <div className={styles.title}>
-        <span className={styles.titleInfo}>{this.state.selected || yearArray[0]}年度</span>
+        <span className={styles.titleInfo}>{this.state.selected || yearSelect || yearArray[0]}年度</span>
         <Popover
           mask
           overlayClassName="fortest" //覆盖类名
@@ -97,11 +95,11 @@ class WelfareList extends Component {
   }
 
   itemClick = (rowData) => {
-    console.log('rowData---', rowData);
-    // this.props.dispatch({
-    // type: 'salary/getPlantRead',
-    // payload: rowData
-    // });
+    let { plant_get, si_hf_status, ...data } = rowData;
+    this.props.dispatch({
+      type: 'welfare/getPlantRead',
+      payload: data
+    });
   }
   renderList = () => {
     const separator = (sectionID, rowID) => {
@@ -119,17 +117,17 @@ class WelfareList extends Component {
     };
     // let index = data.length - 1;
     const row = (rowData, sectionID, rowID) => {
-
+      let { welfareMsg } = this.props.welfareData;
       let tempArr = [];
       for (let i = 0; i < rowData.length; i++) {
         tempArr.push((
-          <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(rowData[0])}>
+          <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(rowData[i])}>
             <div>
-              <div>{rowData[0].payment_year}年{rowData[0].payment_month}月</div>
-              <div>312.00</div>
+              <div>{rowData[i].ins_year}年{rowData[i].ins_month}月</div>
+              <div>{welfareMsg.total_data[rowID][i]}</div>
             </div>
             <div className={styles.tagGreen}>
-              <span>{rowData[0].si_hf_status == 1 ? '正' : '补'}</span>
+              <span>{rowData[i].si_hf_status == 1 ? '正' : '补'}</span>
             </div>
           </div>
         ));
@@ -139,7 +137,7 @@ class WelfareList extends Component {
           <div className={styles.itemInfo}>
             <div className={styles.itemTop}>
               <div className={styles.topTitle}>
-                <span>{`${rowData[0].ins_year}.${rowData[0].ins_month}`}</span>
+                <span>{`${rowData[0].payment_year}.${rowData[0].payment_month}`}</span>
               </div>
               {
                 rowData[0].plant_get == 0 ?
@@ -206,7 +204,7 @@ WelfareList.propTypes = {
 };
 function mapStateToProps(state) {
   return {
-    salaryData: state.welfare
+    welfareData: state.welfare
   }
 }
 

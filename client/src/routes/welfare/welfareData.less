@@ -1,0 +1,132 @@
+.container {
+  width: 100%;
+  background-color: #447788;
+  padding: 30px 15px;
+  .flexCenter;
+  flex-direction: column;
+  .cardBox {
+    background-color: #ffffff;
+    width: 100%;
+    border-radius: 2px;
+    // overflow: hidden;
+    box-shadow: 0px 0px 4px #ccc;
+    margin: 5px 0px;
+    .cardTop {
+      position: relative;
+      border-bottom: 1px dashed #447788;
+      .cardTitle {
+        height: 100px;
+        padding-top: 50px;
+        .titleBox {
+          letter-spacing: 1px;
+          width: 100%;
+          height: 40px;
+          border-left: 3px solid #589be9;
+          padding: 0 25px; 
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          font-size: 16px;
+          &>div:nth-child(2) {
+            color: #b1b0b5;
+            white-space: normal;
+            .flexCenter;
+            justify-content: space-between;
+            color: #000;
+            font-size: 14px;
+            &>div:nth-child(2) {
+              color: #000;
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      
+      // 半圆
+      .circleLeft {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        transform: translate(-50%,50%);
+        height: 8px;
+        width: 10px;
+        border-radius: 50%;
+        background-color: #447788;
+        z-index: 1000;
+      }
+      .circleRight {
+        .circleLeft;
+        left: auto;
+        right: 0;
+        transform: translate(50%,50%);
+      }
+    }
+
+    .cardDown {
+      // height: 200px;
+      // background-color: #234232;
+      
+    }
+    // 公用list样式
+    .cardList {
+
+      .listTitle {
+        padding: 20px;
+        letter-spacing: 1px;
+        text-align: center;
+        color: #373946;
+        // font-weight: bold;
+        font-size: 16px;
+      }
+
+      .listBody {
+        padding: 0 25px;
+        .listInfo {
+
+          .listItem {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #b1b0b5;
+            padding: 10px 0; 
+            &>div:nth-child(1) {
+              letter-spacing: 1px;
+              color: #b1b0b5;
+              display: flex;
+              justify-content: space-between;
+              &>div:nth-child(1) {
+                margin-right: 20px;
+              }
+            }
+          }
+          .listItem:last-child {
+            border-bottom: 2px solid #97d9d5;
+          }
+        }
+        .listAdd {
+          display: flex;
+          justify-content: space-between;
+          padding: 15px 0; 
+        }
+      }
+    }
+  }
+  .foot {
+    padding: 10px 0px;
+    .flexCenter;
+    .footBtn {
+      color: #fff; 
+      width: 200px;
+      background: #2a323d;
+    }
+  }
+}
+
+
+
+.flexCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+

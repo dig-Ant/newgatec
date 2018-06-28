@@ -7,6 +7,13 @@ import api from './lb-api';
 let kongApi = new api();
 kongApi.url = cfg.kong_base_url;
 
+// 判断用户登录状态
+export async function getUserLogin(data) {
+  return requestAuth(kongApi.getUserLoginRoute(), {
+    body: {},
+    api_name: 'userprivate'
+  });
+}
 // 判断用户是否需要验证身份
 export async function getIsVerifyUser(data) {
   return requestAuth(kongApi.getIsVerifyUserRoute(), {
@@ -113,9 +120,23 @@ export async function getSiYearArray(data) {
     api_name: 'cbizprivate'
   });
 }
-// 获取薪酬年份查询
+// 获取社保公积金年份具体数据查询
 export async function getSiSelect(data) {
   return requestAuth(kongApi.getSiSelectRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 用户已读确认
+export async function getSiPlantGet(data) {
+  return requestAuth(kongApi.getSiPlantGetRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 获取社保公积金年份详细查询
+export async function getSiHf(data) {
+  return requestAuth(kongApi.getSiHfRoute(), {
     body: data,
     api_name: 'cbizprivate'
   });

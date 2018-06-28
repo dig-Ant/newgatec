@@ -26,7 +26,6 @@ class WxCode extends Component {
   render() {
     return (
       <div>
-        wxCode page
           <h2>{
             // this.props.token.token_wx
           }</h2>

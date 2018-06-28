@@ -70,6 +70,10 @@ export default class lbapi {
 
   //------------------ 用户身份验证 ---------------
   // user 判断用户是否需要验证
+  getUserLoginRoute() {
+    return `${this.getUserprivateRoute()}/user_login`
+  }
+  // user 判断用户是否需要验证
   getIsVerifyUserRoute() {
     return `${this.getUserprivateRoute()}/is_verify_user`
   }
@@ -132,5 +136,13 @@ export default class lbapi {
   // 获取社保公积金数据查询
   getSiSelectRoute() {
     return `${this.getCbizprivateRoute()}/si_select`
+  }
+  // 用户已读确认
+  getSiPlantGetRoute() {
+    return `${this.getCbizprivateRoute()}/si_plant_get`
+  }
+  // 获取社保公积金数据查询
+  getSiHfRoute() {
+    return `${this.getCbizprivateRoute()}/si_hf`
   }
 }
