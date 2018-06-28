@@ -117,7 +117,7 @@ export function requestAuth(url, options) {
     }
     console.log('token---');
   }
-  
+
   // if (newOptions.api_name === 'userprivate') {
   //   newOptions.headers = {
   //     // "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,

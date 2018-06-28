@@ -6,11 +6,11 @@
   height: 100%;
   width: 100%;
   flex-direction: column;
-  flex: 1;
+  // flex: 1;
   background-color:#fff;
   .top{
     height: 50px;
-    border-bottom: 1px solid #666666;
+    border-bottom: 1px solid #ddd;
     background-color: #fff;
     padding: 0 10px;
     color: #666666;
@@ -28,7 +28,8 @@
       padding-top: 10px;
       height: 50px;
       width: 100%;
-      background-color: rgba(1,1,1,.1);
+      border-bottom: #ddd solid 1px;
+      
       .flexCenter;
       justify-content: flex-start;
       align-items: flex-start;
@@ -45,29 +46,62 @@
         word-wrap: break-word;
       }
     }
+    .listHeaderDiv{
+      display: flex;
+      flex-direction: column;
+      // border-bottom: #333333  solid 1px;
+      height: 110px;
+
+      .headerTopSpan{
+        flex: 1;
+        margin-bottom: 5px;
+        line-height: 20px;
+                
+      }
+        .headerDiv{
+          flex:3;
+          display: flex;
+          flex-direction: row;
+          .headerImg{
+            width: 80px;
+            height: 80px;
+            }
+            .headerSpan{
+            font-size: 20px;
+            font-weight: 200px;
+            color: #000000;
+            }
+          }
+      }
     .dCenter{
-      flex: 1;
+      flex: 5;
       width: 100%;
       background-color: #fff;
-      padding: 30px;
-      .flexCenter;
+      // padding: 30px;
+      flex-direction: column;
+      display: flex;
+  
       .listDiv{
         height: 100%;
         width: 100%;
-        border: 2px solid #ddd;
-        border-radius: 20px;
-        padding:  5px;
+        // border: 2px solid #ddd;
+        // border-radius: 20px;
+        // padding:  5px;
+      
+        
         .listItem{
           height: 50px;
           width: 100%;
           padding: 0 10px;
-          border-bottom: 1px solid #ddd;
+          // border-bottom: 1px solid #ddd;
           .flexCenter;
           justify-content: space-between;
         }
       }
     }
-    .dDown{
+    
+  }
+  .dDown{
       height: 80px;
       width: 100%;
       // background-color: rgba(1,1,100,.6);
@@ -80,7 +114,6 @@
         font-size: 14px;
       }
     }
-  }
 }
 
 
