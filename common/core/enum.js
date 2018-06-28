@@ -1,3 +1,6 @@
+let severIP = 'http://172.16.126.48';
+// let severIP = 'http://47.98.205.89';
+
 module.exports = {
   rangenum:{
     start:0,
@@ -37,6 +40,9 @@ module.exports = {
     id:null,
     txt:null,
     strArr:null
+  },
+  severURL:{
+    get_is_client:severIP+':8888/api/inner/get_is_client'
   }
 
 }
