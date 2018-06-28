@@ -61,6 +61,13 @@ class SalaryList extends Component {
   }
   renderTitle = () => {
     let { yearSelect, yearArray } = this.props.salaryData;
+    if(yearArray.length == 0) {
+      return (
+        <div className={styles.title}>
+          <span className={styles.titleInfo}>暂无数据请返回上一页</span>
+        </div>
+      )
+    }
     let tempArr = [];
     yearArray.map((v, i) => {
       tempArr.push(<Item key={'yearItem' + i} value={v} >{v}年度</Item>);
