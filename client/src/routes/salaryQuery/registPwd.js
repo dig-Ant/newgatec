@@ -91,7 +91,7 @@ class RegistPwd extends Component {
             error={!!getFieldError('code')}
           >验证码</InputItem>
         </List>
-        <CountDown addClick={this.countDown} style={{ marginTop: 10, marginBottom: 10 }} count={10} />
+        <CountDown addClick={this.countDown} style={{ marginTop: 10, marginBottom: 10 }} count={60} />
         <Button style={{ marginLeft: 10, marginRight: 10 }} onClick={this.onSubmit}>提交</Button>
       </div>
     )

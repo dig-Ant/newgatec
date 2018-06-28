@@ -16,7 +16,6 @@ class OAuth extends React.Component {
 
   componentWillMount() {
     let url = this.buildWxUrl();
-    console.log(url)
     this.checkToken();
   }
   //判断是否是微信浏览器 
@@ -65,7 +64,7 @@ class OAuth extends React.Component {
   render() {
     return (
       <div>
-        <h1>正在验证...</h1>
+        {/* <h1>正在验证...</h1> */}
       </div>
     )
   }

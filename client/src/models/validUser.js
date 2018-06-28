@@ -58,10 +58,16 @@ export default {
   },
 
   effects: {
+    *getUserLogin({ payload }, { call, put }) {
+      let data = yield call(userSvc.getUserLogin);
+      if (data.body && data.body.u_type === 'anonymous') {
+        yield put(routerRedux.replace('/active'));
+      }
+    },
     // 判断用户是否需要验证
     *getIsVerifyUser({ payload }, { call, put }) {  // eslint-disable-line
       let data = yield call(userSvc.getIsVerifyUser);
-      if(!data.error) {
+      if (!data.error) {
         yield put({ type: 'changeData', payload: data.body.state });
       }
     },
