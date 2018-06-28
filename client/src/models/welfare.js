@@ -56,6 +56,10 @@ export default {
       //   body: {year: [2018,2017,2016]}
       // }
       if (data.body) {
+        if(data.body.length == 0) {
+          Toast.fail('暂没有您的社保数据',2);
+          return;
+        }
         yield put({
           type: 'getPlantSlect',
           payload: { year: yearSelect || data.body[0] }

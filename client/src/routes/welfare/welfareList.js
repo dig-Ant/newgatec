@@ -4,8 +4,10 @@ import { connect } from 'dva';
 import { Popover, Icon, ListView } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import styles from './welfareList.less';
+import util from 'utils/util';
 
 const Item = Popover.Item;
+
 
 class WelfareList extends Component {
   constructor() {
@@ -59,6 +61,13 @@ class WelfareList extends Component {
   }
   renderTitle = () => {
     let { yearSelect, yearArray } = this.props.welfareData;
+    if (yearArray.length == 0) {
+      return (
+        <div className={styles.title}>
+          <span className={styles.titleInfo}>暂无数据</span>
+        </div>
+      )
+    }
     let tempArr = [];
     yearArray.map((v, i) => {
       tempArr.push(<Item key={'yearItem' + i} value={v} >{v}年度</Item>);
@@ -124,7 +133,7 @@ class WelfareList extends Component {
           <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(rowData[i])}>
             <div>
               <div>{rowData[i].ins_year}年{rowData[i].ins_month}月</div>
-              <div>{welfareMsg.total_data[rowID][i]}</div>
+              <div>{util.numToString(welfareMsg.total_data[rowID][i])}</div>
             </div>
             <div className={styles.tagGreen}>
               <span>{rowData[i].si_hf_status == 1 ? '正' : '补'}</span>

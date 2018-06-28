@@ -313,6 +313,29 @@ let util = {
       }
       return '';
     },
+    /**
+     * 移除当前的字符串两端的空格
+     * @method numToString
+     * @param {number} num 待处理的数字
+     * @param {number} toFixed 保留几位小数 默认2
+     * @return {string} 
+     **/
+    numToString: function (num, toFixed) {
+      var result = '', counter = 0, dotted = '', nums = '';
+      num = (num || 0).toFixed(toFixed || 2);
+      num = (num || 0).toString();
+      if (num.indexOf('.') != -1) {
+        nums = num.substring(0, num.indexOf('.'));
+        dotted = num.substring(num.indexOf('.'));
+      }
+      for (var i = nums.length - 1; i >= 0; i--) {
+        counter++;
+        result = nums.charAt(i) + result;
+        if (!(counter % 3) && i != 0) { result = ',' + result; }
+      }
+      result = result + dotted;
+      return result;
+    }
   },
 
   /**
