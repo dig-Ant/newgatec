@@ -5,7 +5,7 @@ import { Popover, Icon, ListView, Button } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import styles from './welfareData.less';
 import { join } from 'path';
-
+import util from 'utils/util';
 const Item = Popover.Item;
 
 
@@ -72,13 +72,13 @@ class WelfareData extends Component {
           dataSource={this.state.listMsg}
         /> */}
         {/* <div className={styles.header}></div> */}
-        {/* <div className={styles.foot}>
+        <div className={styles.foot}>
           <Button
             activeStyle={{ background: '#ddd' }}
             className={styles.footBtn}
             onClick={this.onClickSub}
           >我有异议</Button>
-        </div> */}
+        </div>
       </div>
     )
   }
@@ -128,7 +128,7 @@ class CardList extends Component {
               <div>{i + 1}</div>
               <div>{msg[list.listType][i].ins_type}</div>
             </div>
-            <div>{msg[list.listType][i][type]}</div>
+            <div>{util.numToString(msg[list.listType][i][type])}</div>
           </div>
         ));
       }
@@ -139,7 +139,7 @@ class CardList extends Component {
           </div>
           <div className={styles.listAdd}>
             <div>{msg[list.totalType].ins_type}</div>
-            <div>{msg[list.totalType][type]}</div>
+            <div>{util.numToString(msg[list.totalType][type])}</div>
           </div>
         </div>
       )
@@ -167,7 +167,7 @@ class CardList extends Component {
               <div>{this.props.title || ''}</div>
               <div>
                 <div>合计:</div>
-                <div>{this.state.listMsg.total && this.state.listMsg.total[this.props.payType]}</div>
+                <div>{this.state.listMsg.total && util.numToString(this.state.listMsg.total[this.props.payType])}</div>
               </div>
             </div>
           </div>

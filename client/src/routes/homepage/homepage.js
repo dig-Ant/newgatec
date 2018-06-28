@@ -77,7 +77,7 @@ class Homepage extends Component {
               return (
                 <a
                   key={val}
-                  href="#"
+                  href="javascript:void(0)"
                   style={{
                     display: 'block',
                     position: 'relative',

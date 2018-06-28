@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import { Popover, Icon, ListView } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import styles from './salaryList.less';
-
+import util from 'utils/util';
 const Item = Popover.Item;
 
 class SalaryList extends Component {
@@ -61,10 +61,10 @@ class SalaryList extends Component {
   }
   renderTitle = () => {
     let { yearSelect, yearArray } = this.props.salaryData;
-    if(yearArray.length == 0) {
+    if (yearArray.length == 0) {
       return (
         <div className={styles.title}>
-          <span className={styles.titleInfo}>暂无数据请返回上一页</span>
+          <span className={styles.titleInfo}>暂无数据</span>
         </div>
       )
     }
@@ -72,7 +72,7 @@ class SalaryList extends Component {
     yearArray.map((v, i) => {
       tempArr.push(<Item key={'yearItem' + i} value={v} >{v}年度</Item>);
     });
-    return ( 
+    return (
       <div className={styles.title}>
         <span className={styles.titleInfo}>{this.state.selected || yearSelect || yearArray[0]}年度</span>
         <Popover
@@ -87,8 +87,8 @@ class SalaryList extends Component {
           }}
           onVisibleChange={this.handleVisibleChange}
           onSelect={this.onSelect}
-        > 
-          <div  style={{
+        >
+          <div style={{
             height: '100%',
             padding: '0 15px',
             display: 'flex',
@@ -96,7 +96,7 @@ class SalaryList extends Component {
             justifyContent: 'flex-end',
           }}
           >
-            <Icon type="down" style={{color: '#fff'}}/>
+            <Icon type="down" style={{ color: '#fff' }} />
           </div>
         </Popover>
       </div>
@@ -107,7 +107,7 @@ class SalaryList extends Component {
     this.props.dispatch({
       type: 'salary/getPlantRead',
       payload: rowData
-    }); 
+    });
   }
   renderList = () => {
     const separator = (sectionID, rowID) => {
@@ -125,7 +125,7 @@ class SalaryList extends Component {
     };
     const row = (rowData, sectionID, rowID) => {
       return (
-        <div className={styles.item} key={rowID} onClick={() =>this.itemClick(rowData)}>
+        <div className={styles.item} key={rowID} onClick={() => this.itemClick(rowData)}>
           <div className={styles.itemTop}>
             <span>{`${rowData.year}年${rowData.month}`}</span>
             {
@@ -136,7 +136,7 @@ class SalaryList extends Component {
           </div>
           <div className={styles.itemInfo} >
             <div className={styles.itemInfo_left}>{rowData.pay_type}</div>
-            <div><span style={{ fontSize: '20px', color: '#FF6E27',verticalAlign:'-2'  }}>{rowData.unit}</span>&nbsp;<span>{rowData.pay}</span></div>
+            <div><span style={{ fontSize: '20px', color: '#FF6E27', verticalAlign: '-2' }}>{rowData.unit}</span>&nbsp;<span>{util.numToString(rowData.pay)}</span></div>
           </div>
         </div >
       );
