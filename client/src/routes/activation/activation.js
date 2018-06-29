@@ -28,8 +28,8 @@ class Activation extends Component {
   }
   onClickValid() {
 
-    if (this.props.data.tel.trim().length <= 0) {
-      Toast.fail('手机号不能为空',2,null,false);
+    if (this.props.data.tel.trim().length < 11) {
+      Toast.fail('手机号格式不正确',2,null,false);
       return false;//
     }
     this.props.dispatch({
@@ -68,6 +68,7 @@ class Activation extends Component {
             className={styles.body}
             placeholder="150 6777 33371"
             clear
+            maxLength={11}
             moneyKeyboardAlign="left"
           >手机号码:</InputItem>
           <InputItem
