@@ -5,6 +5,7 @@ import { Toast, WhiteSpace, Button, Modal, WingBlank, } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import Password from 'components/Password';
 import styles from './salaryPwd.less';
+import util from 'utils/util';
 
 const alert = Modal.alert;
 
@@ -20,7 +21,14 @@ class SalaryPwd extends Component {
     this.props.dispatch({
       type: 'salary/getPlantStatus'
     });
-
+    let queryString = util._queryString.getQSJson();
+    console.log(queryString);
+    if (queryString.btn) {
+      this.props.dispatch({
+        type: 'salary/changeBtn',
+        payload: queryString.btn === 'salary' ? 'salaryList' : 'welfareList'
+      });
+    }
   }
   componentWillReceiveProps(props) {
     this.renderModel(props);
@@ -40,11 +48,11 @@ class SalaryPwd extends Component {
         { text: '返回', onPress: () => this.goback(), style: 'default' },
         { text: '前往设置', onPress: () => this.gotoSetPwd() },
       ]);
-    } 
+    }
   }
 
   onsubmit = () => {
-    if(this.state.pwd.length < 6) {
+    if (this.state.pwd.length < 6) {
       return Toast.fail('您好,密码为是6位数', 2);
     }
     this.props.dispatch({

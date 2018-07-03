@@ -53,7 +53,7 @@ export default class lbapi {
 
   // 发送短信验证码
   getSmsCodeRoute() {
-    return `${this.getSharepublicRoute()}/smsCodeSend`
+    return `${this.getShareprivateRoute()}/smsCodeSend`
     // return `${this.getSmsRoute()}/smsCodeSend`
   }
 

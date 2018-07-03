@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import cfg from '../config/cfg';
 import * as activeSvc from '../services/activation';
-import { Toast} from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 
 export default {
   namespace: 'activation',
@@ -28,15 +28,14 @@ export default {
   effects: {
     *getCaptcha({ payload: code }, { call, put, select }) {
       //发送请求
-      let tel = yield select(state => state.activation.tel);
+      let { tel, name } = yield select(state => state.activation);
       let obj = {
-        "phone": tel
+        "phone": tel,
+        "name": name
       }
-      let isSend = yield call(activeSvc.getCaptcha,obj);
-      console.log('isSend',isSend);
-      // let isSend = true;
-      if (isSend.result){
-        alert(isSend.result.msg);
+      let isSend = yield call(activeSvc.getCaptcha, obj);
+      if (isSend.body) {
+        // alert(isSend.body.msg);
       }
     },
     *activeUser({ payload: code }, { call, put, select }) {
@@ -48,13 +47,12 @@ export default {
         name: name,
         sms_code: captcha
       }
-      console.log('tel---',obj);
       let isActive = yield call(activeSvc.activeUser, obj);
       // let isActive = true;
-      console.log('isActive---',isActive.aa); 
+      console.log('isActive---', isActive.aa);
       // 判断激活成功 or 失败
       if (!isActive.error) {
-        Toast.success('手机号已激活',2,null,false); 
+        Toast.success('手机号已激活', 2, null, false);
         yield put({ type: 'resetForm' });
         yield put(routerRedux.push('/homepage'));
       }

@@ -12,7 +12,7 @@ kongApi.url = cfg.kong_base_url;
 export async function getCaptcha(data) {
   return requestAuth(kongApi.getSmsCodeRoute(), {
     body: data,
-    api_name: 'userprivate'
+    api_name: 'shareprivate'
   });
 }
 
