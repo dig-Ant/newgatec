@@ -27,13 +27,14 @@ export default {
     *getAccessToken({ payload: code }, { call, put }) {
 
       let token = yield call(handleTokenSvc.getAccessToken, code);
-      console.log('token---',token);
+      console.log('token---', token);
       // token_wx  token_cf
       // 储存token
-      if(token.body) {
-        window.localStorage.setItem(cfg.access_token,JSON.stringify(token.body));
-        yield put({ type: 'changeToken', payload: token.body});
-        yield put(routerRedux.replace('/homepage'));
+      if (token.body) {
+        window.localStorage.setItem(cfg.access_token, JSON.stringify(token.body));
+        yield put({ type: 'changeToken', payload: token.body });
+        window.location.replace('http://html.fortunehr.com.cn/#/homepage');
+        // yield put(routerRedux.replace('/homepage'));
       }
     }
   },

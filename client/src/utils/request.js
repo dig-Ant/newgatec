@@ -121,19 +121,19 @@ export function requestAuth(url, options) {
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
       // "Authorization": `bearer OTgNmqvA3qhS5FgYEPW3TA5Lgh2uAhjN`,
-      "Authorization": `bearer 7rqkeGWlYlx6xTyIvnxA8e43swHnHdtT`,//云 kong
+      "Authorization": `bearer S5MOPNfVywtkQBLxyooKDxA09ybWE50G`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'cbizprivate') {
     newOptions.headers = {
       // "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
-      "Authorization": `bearer URDd7BPwSmdiPcfymaFxw4UY0rYemCaV`,//云 kong
+      "Authorization": `bearer QVQ7Ev4j4SzndCDKbJXdl56znBHo7wRK`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'shareprivate') {
     newOptions.headers = {
       // "Authorization": `bearer PnZ9oroiJwPlGTbkd12Ji0FZjTpjS4mH`,
-      "Authorization": `bearer nye5uyGxd0XyCKF4fS1Q06aGZmGUOrAK`,//云 kong
+      "Authorization": `bearer 3VsveteaxjVKDHE11TKEY6a6P0Rz289p`,//云 kong
       ...newOptions.headers
     }
   }

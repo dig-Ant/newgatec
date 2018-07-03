@@ -118,8 +118,8 @@ export default {
       //   body: {year: [2018,2017,2016]}
       // }
       if (data.body) {
-        if(data.body.year.length == 0) {
-          Toast.fail('暂没有您的薪资数据',2);
+        if (data.body.year.length == 0) {
+          Toast.fail('暂没有您的薪资数据', 2);
           return;
         }
         yield put({
@@ -185,6 +185,7 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
+        window._hmt.push(['_trackPageview', '/#' + pathname]);
         if (
           pathname !== '/salaryList' &&
           pathname !== '/salaryData' &&
