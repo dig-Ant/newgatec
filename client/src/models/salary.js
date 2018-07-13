@@ -101,7 +101,7 @@ export default {
       // }
       if (data.body) {
         console.log('btn--', btn);
-        window.localStorage.setItem(cfg.plant_id, data.body.plant_id);
+        window.sessionStorage.setItem(cfg.plant_id, data.body.plant_id);
         yield put(routerRedux.replace(`/${btn}`));
 
       }
@@ -109,7 +109,7 @@ export default {
     // 获取有薪资的年份集合
     *getYearArray({ payload }, { call, put, select }) {  // eslint-disable-line
       let obj = {
-        plant_id: window.localStorage.getItem(cfg.plant_id)
+        plant_id: window.sessionStorage.getItem(cfg.plant_id)
       }
       let yearSelect = yield select(state => state.salary.yearSelect);
       let data = yield call(userSvc.getYearArray, obj);
@@ -137,7 +137,7 @@ export default {
     // 获取有薪资的年份集合
     *getPlantSlect({ payload: dateObj }, { call, put }) {  // eslint-disable-line
       let yearObj = {
-        plant_id: window.localStorage.getItem(cfg.plant_id),
+        plant_id: window.sessionStorage.getItem(cfg.plant_id),
         year: dateObj.year
         // month: dateObj.month
       }
@@ -156,7 +156,7 @@ export default {
     // 用户已读确认
     *getPlantRead({ payload: rowData }, { call, put }) {  // eslint-disable-line
       let newObj = {
-        plant_id: window.localStorage.getItem(cfg.plant_id),
+        plant_id: window.sessionStorage.getItem(cfg.plant_id),
         payslip_id: rowData.id
       }
       // console.log(rowData)
@@ -193,7 +193,7 @@ export default {
           pathname !== '/welfareList' &&
           pathname !== '/welfareData'
         ) {
-          window.localStorage.removeItem(cfg.plant_id);
+          window.sessionStorage.removeItem(cfg.plant_id);
         }
       });
     }

@@ -47,7 +47,7 @@ export default {
     // 获取有社保公积金的年份集合
     *getYearArray({ payload }, { call, put, select }) {  // eslint-disable-line
       let obj = {
-        plant_id: window.localStorage.getItem(cfg.plant_id)
+        plant_id: window.sessionStorage.getItem(cfg.plant_id)
       }
       let yearSelect = yield select(state => state.welfare.yearSelect);
       let data = yield call(userSvc.getSiYearArray, obj);
@@ -75,7 +75,7 @@ export default {
     // 获取有社保的年份具体数据
     *getPlantSlect({ payload: dateObj }, { call, put }) {  // eslint-disable-line
       let yearObj = {
-        plant_id: window.localStorage.getItem(cfg.plant_id),
+        plant_id: window.sessionStorage.getItem(cfg.plant_id),
         year: dateObj.year
         // month: dateObj.month
       }
@@ -108,7 +108,7 @@ export default {
       let { welfare_obj } = yield select(state => state.welfare);
       // console.log(rowData)
       let data = yield call(userSvc.getSiHf, welfare_obj);
-      console.log('用户社保公积金详情查询---', data);
+      console.log('用户社保公积金详情查询-1--', data);
     
       if (data.body) {
         yield put({

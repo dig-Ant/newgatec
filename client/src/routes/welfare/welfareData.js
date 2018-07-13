@@ -49,8 +49,18 @@ class WelfareData extends Component {
 
 
   render() {
+    let data = this.state.listMsg.list_hf;
     return (
       <div className={styles.container}>
+        {/* 备注 */}
+        {
+          data && data[0].remark ?
+            <div className={styles.note}>
+              <div>备注: </div>
+              <p>{data && data[0].remark}</p>
+            </div> : null
+        }
+
         {/* 单卡片 */}
         {/* {this.renderCard()} */}
         <CardList

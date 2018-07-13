@@ -127,7 +127,7 @@ class SalaryList extends Component {
       return (
         <div className={styles.item} key={rowID} onClick={() => this.itemClick(rowData)}>
           <div className={styles.itemTop}>
-            <span>{`${rowData.year}年${rowData.month}`}</span>
+            <span>{`${rowData.year}年${rowData.month}月`}</span>
             {
               rowData.read_status === 0 ?
                 <div className={styles.circle}></div>

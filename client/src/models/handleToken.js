@@ -33,7 +33,7 @@ export default {
       if (token.body) {
         window.localStorage.setItem(cfg.access_token, JSON.stringify(token.body));
         yield put({ type: 'changeToken', payload: token.body });
-        window.location.replace('http://html.fortunehr.com.cn/#/homepage');
+        window.location.replace(cfg.redirect_home);
         // yield put(routerRedux.replace('/homepage'));
       }
     }

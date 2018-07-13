@@ -22,7 +22,6 @@ class SalaryPwd extends Component {
       type: 'salary/getPlantStatus'
     });
     let queryString = util._queryString.getQSJson();
-    console.log(queryString);
     if (queryString.btn) {
       this.props.dispatch({
         type: 'salary/changeBtn',

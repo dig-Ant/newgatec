@@ -7,7 +7,8 @@ import NoticeBars from 'components/NoticeBars';
 import cfg from '../../config/cfg';
 import styles from './homepage.less';
 import { homepage } from '../../assets';
-
+import { Router, Route, Switch } from 'dva/router';
+import TicketList from '../ticket/ticketList';
 class Homepage extends Component {
   constructor() {
     super();
@@ -18,17 +19,9 @@ class Homepage extends Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch({
-    //   type: 'wxSdk/setConfig'
-    // });
+    // 是否需要身份验证
     this.props.dispatch({
       type: 'validUser/getIsVerifyUser'
-    });
-    // this.props.dispatch({
-    //   type: 'homepage/getInfo',
-    // });
-    this.props.dispatch({
-      type: 'validUser/getUserLogin'
     });
     // setTimeout(() => {
     //   this.setState({
@@ -53,7 +46,9 @@ class Homepage extends Component {
       payload: 'welfareList'
     })
   }
-
+  serverRequest = () => {
+    this.props.dispatch(routerRedux.push('/ticket'));
+  }
   clear = () => {
     window.localStorage.removeItem(cfg.access_token);
   }
@@ -61,7 +56,7 @@ class Homepage extends Component {
   render() {
     return (
       <div className={styles.container}>
-        <NoticeBars type={this.props.noticeData} />
+        <NoticeBars type={ this.props.noticeData} />
         <WingBlank>
           <Carousel className="space-carousel"
             frameOverflow="visible"
@@ -105,12 +100,15 @@ class Homepage extends Component {
         <Button
           onClick={this.onActivation.bind(this)}
         >点击激活账号</Button><WhiteSpace />
-        <Button
+        {/* <Button
           onClick={this.salaryBtn}
         >薪资查询</Button><WhiteSpace /><WhiteSpace />
         <Button
           onClick={this.welfareBtn}
-        >社保公积金</Button><WhiteSpace /><WhiteSpace />
+        >社保公积金</Button><WhiteSpace /><WhiteSpace /> */}
+        <Button
+          onClick={this.serverRequest}
+        >服务请求快捷入口(测试用)</Button><WhiteSpace />
         <Button
           onClick={this.clear}
         >清理本地存储</Button>

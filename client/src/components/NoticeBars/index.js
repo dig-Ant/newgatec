@@ -50,7 +50,7 @@ class NoticeBars extends React.Component {
       }
     ]
     //state:返回状态0:不需要，1：需要未验证，2:正在验证，3:已经验证，
-    if (type != 0) {
+    if (type != 0 && type != 3) {
       mode = types[type].mode;
       action = types[type].action;
       message = types[type].message;
@@ -60,7 +60,7 @@ class NoticeBars extends React.Component {
 
     return (
       <div>
-        <div className={styles.blank}></div>
+        {/* <div className={styles.blank}></div> */}
         <NoticeBar
           mode={mode}
           onClick={this.onClickNotice}

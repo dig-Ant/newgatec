@@ -10,7 +10,7 @@ let ENV = {
   local: "local"
 }
 //当前选用的环境
-let curEnv = ENV.prod;
+let curEnv = ENV.dev;
 //http://47.98.205.89/
 // 172.16.126.48 云
 export default {
@@ -22,9 +22,11 @@ export default {
   kong_route: '/wx_svc',
   kong_Uc: '/cf_api',
   access_token: 'access_token',
+  redirect_home: curEnv === ENV.dev ? 'http://ac6859e4.ngrok.io/#/homepage' : 
+    'http://html.fortunehr.com.cn/#/homepage',
   wxCfg: {
     appid: curEnv === ENV.dev ? 'wx705a4d4af2a47e55' : 'wxb059193f2e95abc2',
-    redirect_uri: curEnv === ENV.dev ? 'http://b53aaec3.ngrok.io/#/wxCode' : 
+    redirect_uri: curEnv === ENV.dev ? 'http://ac6859e4.ngrok.io/#/wxCode' : 
     'http://html.fortunehr.com.cn/#/wxCode',
     scope: 'snsapi_base',
     wxState: '1'
