@@ -322,6 +322,7 @@ let util = {
      **/
     numToString: function (num, toFixed) {
       var result = '', counter = 0, dotted = '', nums = '';
+      num = Number(num);
       num = (num || 0).toFixed(toFixed || 2);
       num = (num || 0).toString();
       if (num.indexOf('.') != -1) {

@@ -67,7 +67,7 @@ export default {
     // 判断用户是否需要验证
     *getIsVerifyUser({ payload }, { call, put }) {  // eslint-disable-line
       let data = yield call(userSvc.getIsVerifyUser);
-      if (!data.error) {
+      if (data && !data.error) {
         yield put({ type: 'changeData', payload: data.body.state });
       }
     },

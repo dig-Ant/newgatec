@@ -1,0 +1,82 @@
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    .title {
+      padding: 15px 15px 10px;
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: bold;
+      margin-bottom: 10px;
+
+    }
+
+    .labelBox {
+      padding: 0 15px;
+      margin-bottom: 15px;
+      color: #666;
+      .labelInfo {
+        padding: 5px;
+        background-color: #f7f7f7;
+        &>p {
+          color: #666;
+        }
+        .labelBtn {
+          margin: 3px 3px;
+          background-color: #fff;
+          color: #666;
+          font-size: 16px;
+          height: 36px;
+          line-height: 36px;
+        }
+      }
+      .labelList {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #ccc;
+        padding: 10px 5px;
+      }
+    }
+    .textBox {
+      padding: 0 15px;
+      color: #666;
+      margin-bottom: 10px;
+      &>div {
+        display: flex;
+        justify-content: space-between;
+        p:nth-child(2) {
+          color: #ec7166;
+          font-size: 12px;
+        }
+      }
+      :global {
+        .am-list-item {
+          background-color: #f7f7f7;
+          border-top: 1px solid #cacaca;
+        }
+      }
+      
+    }
+    .imgBox {
+      padding: 0 15px;
+      color: #666;
+      background-color: #fff;
+      overflow: hidden;
+      p {
+        border-bottom: 1px solid #cacaca;
+      }
+    }
+    .submit {
+      padding: 20px 15px;
+      background-color: #fff;
+      // background-color: darkcyan;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .submitBtn {
+        background-color: #73d7dc;
+        color: #fff;
+        width: 200px;
+      }
+    }
+}

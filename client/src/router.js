@@ -4,6 +4,8 @@ import IndexPage from './routes/IndexPage';
 import OAuth from './components/OAuth';
 import WxCode from './routes/wxCode';
 import TestHomeB from './routes/testHomeB';
+// 主页
+import Home from './routes/homepage/home';
 import Homepage from './routes/homepage/homepage';
 import Activation from './routes/activation/activation';
 import IdentityVerify from './routes/identityVerify/identityVerify';
@@ -21,12 +23,16 @@ import Complaint from './routes/salaryQuery/complaint';
 // 社保公积金查询页面
 import WelfareList from './routes/welfare/welfareList';
 import WelfareData from './routes/welfare/welfareData';
+// ticket 服务请求页面
+import Ticket from './routes/ticket/ticket';
+import TicketReuslt from './routes/ticket/ticketResult';
+import TicketList from './routes/ticket/ticketList';
 
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/" exact component={IndexPage} />
+        <Route path="/home" component={Home} />
         <Route path="/homepage" exact component={Homepage} />
         <Route path="/oauth" exact component={OAuth} />
         <Route path="/wxCode" exact component={WxCode} />
@@ -43,11 +49,15 @@ function RouterConfig({ history }) {
         <Route path="/salaryPwd" exact component={SalaryPwd} />
         <Route path="/registPwd" exact component={RegistPwd} />
         <Route path="/salaryList" exact component={SalaryList} />
-        <Route path= "/salaryData" exact component = {SalaryData}/>
-        <Route path= "/complaint" exact component = {Complaint}/>
+        <Route path="/salaryData" exact component={SalaryData} />
+        <Route path="/complaint" exact component={Complaint} />
 
-        <Route path= "/welfareList" exact component = {WelfareList}/>
-        <Route path= "/welfareData" exact component = {WelfareData}/>
+        <Route path="/welfareList" exact component={WelfareList} />
+        <Route path="/welfareData" exact component={WelfareData} />
+        {/* ticket 服务请求页面 */}
+        <Route path="/ticket" exact component={Ticket} />
+        <Route path="/ticketRes" exact component={TicketReuslt} />
+        <Route path="/ticketList" exact component={TicketList} />
       </Switch>
     </Router>
   );
