@@ -1,10 +1,13 @@
 export const i18n = {
   rmb:{
-    en:'RMB',
-    ch:'人民币'
+    en:'CNY',
+    ch:'人民币',
+    currency_symbol:'￥'
+
   },
   un:{
-    en:'Dollar',
-    ch:'美元'
+    en:'USD',
+    ch:'美元',
+    currency_symbol:'$'
   }
 }
