@@ -321,21 +321,29 @@ let util = {
      * @return {string} 
      **/
     numToString: function (num, toFixed) {
-      var result = '', counter = 0, dotted = '', nums = '';
-      num = Number(num);
-      num = (num || 0).toFixed(toFixed || 2);
-      num = (num || 0).toString();
-      if (num.indexOf('.') != -1) {
-        nums = num.substring(0, num.indexOf('.'));
-        dotted = num.substring(num.indexOf('.'));
+      var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+      var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/;//负浮点数
+      if(regPos.test(num) || regNeg.test(num)){
+        // console.log(num);
+        var result = '', counter = 0, dotted = '', nums = '';
+        num = Number(num);
+        num = (num || 0).toFixed(toFixed || 2);
+        num = (num || 0).toString();
+        if (num.indexOf('.') != -1) {
+          nums = num.substring(0, num.indexOf('.'));
+          dotted = num.substring(num.indexOf('.'));
+        }
+        for (var i = nums.length - 1; i >= 0; i--) {
+          counter++;
+          result = nums.charAt(i) + result;
+          if (!(counter % 3) && i != 0) { result = ',' + result; }
+        }
+        result = result + dotted;
+        return result;
+      }else{
+        return num;
       }
-      for (var i = nums.length - 1; i >= 0; i--) {
-        counter++;
-        result = nums.charAt(i) + result;
-        if (!(counter % 3) && i != 0) { result = ',' + result; }
-      }
-      result = result + dotted;
-      return result;
+      
     }
   },
 

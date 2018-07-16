@@ -3,7 +3,8 @@ import styles from './salaryData.less';
 import { connect } from 'dva';
 import { ListView, Button, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import {i18n} from '../../utils/i18n'
+import {i18n} from '../../utils/i18n';
+import util from '../../utils/util'
 let data_list;
 let list_date;
 let note;
@@ -65,7 +66,7 @@ class SalaryData extends Component {
     return (
       <div key={rowID} className={styles.listItem}>
         <span>{rowData}</span>
-        <span>{data_list[rowData]}</span>
+        <span>{util.numToString(data_list[rowData])}</span>
       </div>
     );
   };
@@ -135,7 +136,8 @@ class SalaryData extends Component {
 
   render() {
     // console.log(this.props.salaryData.salary_obj.unit)
-    console.log(this.props.salaryData.salary_obj)
+    // console.log(this.props.salaryData.salary_obj)
+    console.log(util.numToString('412822199102222458'));
     let _unit = this.props.salaryData.salary_obj.unit;
     let currency = _unit!=null&&_unit!=''?i18n[_unit]['ch']:i18n['rmb']['ch'];
     let salary_obj= this.props.salaryData.salary_obj
