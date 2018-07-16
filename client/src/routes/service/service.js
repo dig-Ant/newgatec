@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Button, WhiteSpace } from 'antd-mobile';
-import styles from './company.less';
+import {  Button, WhiteSpace } from 'antd-mobile';
+import styles from './service.less';
 import { Route, Switch } from 'dva/router';
-import companyImg from '../../assets/company';
-class Home extends Component {
+import TicketList from '../ticket/ticketList';
+
+class Service extends Component {
   constructor() {
     super();
     this.state = {
@@ -29,28 +30,20 @@ class Home extends Component {
       payload: 'welfareList'
     })
   }
-  
   render() {
     return (
       <div className={styles.container}>
         {/* header */}
-        <div className={styles.welfareBtn} onClick={this.welfareBtn}>
-          <img src={companyImg.welfare} alt="" />
-          <p>社保公积金</p>
-        </div>
-        <div className={styles.salaryBtn} onClick={this.salaryBtn}>
-          <img src={companyImg.salary} alt="" />
-          <p>工资条</p>
-        </div>
+        <TicketList />
       </div>
     )
   }
 }
-Home.defaultProps = {
+Service.defaultProps = {
 
 };
 
-Home.propTypes = {
+Service.propTypes = {
 
 };
 function mapStateToProps(state) {
@@ -60,4 +53,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Service);

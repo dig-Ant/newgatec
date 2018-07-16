@@ -22,8 +22,8 @@ export default {
   kong_route: '/wx_svc',
   kong_Uc: '/cf_api',
   access_token: 'access_token',
-  redirect_home: curEnv === ENV.dev ? 'http://ac6859e4.ngrok.io/#/homepage' : 
-    'http://html.fortunehr.com.cn/#/homepage',
+  redirect_home: curEnv === ENV.dev ? 'http://ac6859e4.ngrok.io/#/home' : 
+    'http://html.fortunehr.com.cn/#/home',
   wxCfg: {
     appid: curEnv === ENV.dev ? 'wx705a4d4af2a47e55' : 'wxb059193f2e95abc2',
     redirect_uri: curEnv === ENV.dev ? 'http://ac6859e4.ngrok.io/#/wxCode' : 
