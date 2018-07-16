@@ -3,9 +3,12 @@ import styles from './salaryData.less';
 import { connect } from 'dva';
 import { ListView, Button, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
+import {i18n} from '../../utils/i18n';
+import util from '../../utils/util'
 let data_list;
 let list_date;
 let note;
+
 class SalaryData extends Component {
 
   constructor() {
@@ -63,7 +66,7 @@ class SalaryData extends Component {
     return (
       <div key={rowID} className={styles.listItem}>
         <span>{rowData}</span>
-        <span>{data_list[rowData]}</span>
+        <span>{util.numToString(data_list[rowData])}</span>
       </div>
     );
   };
@@ -71,7 +74,7 @@ class SalaryData extends Component {
   _header(){
      return(
        <div className={styles.listHeaderDiv}>
-         <span className={styles.headerTopSpan}>公司信息:</span>
+         
          <div className={styles.headerDiv}>
            <img  className={styles.headerImg} src={require('../../assets/loginIcon.png')} />
            <span className={styles.headerSpan}>上海才赋人力资源科技有限公司</span>
@@ -79,7 +82,14 @@ class SalaryData extends Component {
        </div>
      ) 
   }
-
+  _footer(){
+    return(
+      <div style={{color:'#000'}}>
+        <span>备注:</span>
+        <span>{note}</span>
+      </div>
+    );
+  }
   List_View = () => {
     return (
       <ListView
@@ -97,6 +107,7 @@ class SalaryData extends Component {
         onEndReached={() => this.onEndReached()}//距离底部10的时候调用的方法
         onEndReachedThreshold={10}
         initialListSize={20}
+        renderFooter={this._footer}
       />
     )
 
@@ -124,8 +135,12 @@ class SalaryData extends Component {
   }
 
   render() {
-    console.log(this.props.salaryData.salary_obj)
-      let salary_obj= this.props.salaryData.salary_obj
+    // console.log(this.props.salaryData.salary_obj.unit)
+    // console.log(this.props.salaryData.salary_obj)
+    console.log(util.numToString('412822199102222458'));
+    let _unit = this.props.salaryData.salary_obj.unit;
+    let currency = _unit!=null&&_unit!=''?i18n[_unit]['ch']:i18n['rmb']['ch'];
+    let salary_obj= this.props.salaryData.salary_obj
     return (
       <div className={styles.container}>
         <div className={styles.top}>
@@ -134,9 +149,9 @@ class SalaryData extends Component {
         </div>
         <div className={styles.down}>
           <div className={styles.dTop}>
-            <span className={styles.dtText1}>备注:</span>
+            <span className={styles.dtText1}>货币类型:</span>
             <div>
-              <span className={styles.dtText2}>{note}</span>
+              <span className={styles.dtText2}>{currency}</span>
             </div>
               
           </div>
