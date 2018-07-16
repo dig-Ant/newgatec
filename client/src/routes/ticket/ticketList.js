@@ -245,7 +245,7 @@ class TicketList extends Component {
   renderTabBar(props) {
     return (
       <Sticky>
-        {({ style }) => <div style={{ ...style, zIndex: 1 }}><Tabs.DefaultTabBar {...props} /></div>}
+        {({ style }) => <div style={{ ...style, top: 53, zIndex: 1 }}><Tabs.DefaultTabBar {...props} /></div>}
       </Sticky>
     );
   }

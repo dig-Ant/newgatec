@@ -3,14 +3,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { TabBar } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import NoticeBars from 'components/NoticeBars';
-import cfg from '../../config/cfg';
 import styles from './home.less';
-import { homepage } from '../../assets';
-import { Router, Route, Switch } from 'dva/router';
+import { Route, Switch } from 'dva/router';
 import Homepage from './homepage';
 import Company from '../company/company';
-import TicketList from '../ticket/ticketList';
+import Service from '../service/service';
 import home from '../../assets/home';
 
 class Home extends Component {
@@ -40,7 +37,7 @@ class Home extends Component {
           img: 'xing_u',
           img_y: 'xing_y',
           title: '服务',
-          path: '/home/server' // 无
+          path: '/home/service' // 无
         },
         {
           img: 'my_u',
@@ -104,7 +101,7 @@ class Home extends Component {
         <div className={styles.body}>
           <Switch>
             <Route path='/home' exact component={Homepage} />
-            <Route path='/home/ticketList' exact component={TicketList} />
+            <Route path='/home/service' exact component={Service} />
             <Route path='/home/company' exact component={Company} />
           </Switch>
         </div>
