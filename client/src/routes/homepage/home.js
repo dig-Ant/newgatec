@@ -7,7 +7,7 @@ import styles from './home.less';
 import { Route, Switch } from 'dva/router';
 import Homepage from './homepage';
 import Company from '../company/company';
-import Service from '../service/service';
+import Service from '../servicePage/service';
 import home from '../../assets/home';
 
 class Home extends Component {
@@ -58,9 +58,9 @@ class Home extends Component {
 
   componentDidMount() {
     // 判断用户身份 未激活用户跳转 激活页面
-    // this.props.dispatch({
-    //   type: 'validUser/getUserLogin'
-    // });
+    this.props.dispatch({
+      type: 'validUser/getUserLogin'
+    });
   }
 
   tabChange = (i, v) => {

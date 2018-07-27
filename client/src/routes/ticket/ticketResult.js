@@ -13,7 +13,9 @@ class TicketResult extends Component {
       serverType: 'salary' || 'general',// salary welfare
     }
   }
-  
+  resultBtn = () => {
+    this.props.dispatch(routerRedux.replace('/home/service'));
+  }
   render() {
 
     return (
@@ -31,14 +33,15 @@ class TicketResult extends Component {
         </div>
         <div className={styles.btn}>
           <Button
+            onClick={this.resultBtn}
             className={styles.resultBtn}
             activeStyle={{ backgroundColor: '#ddd' }}
           >好的, 我知道了</Button>
         </div>
         {/* 请求编号 */}
         <div className={styles.foot}>
-        <p>本次服务请求的编号:</p>
-        <p>1234567890--009</p>
+          <p>本次服务请求的编号:</p>
+          <p>{this.props.ticketData.requestNum}</p>
         </div>
 
       </div>
@@ -48,7 +51,9 @@ class TicketResult extends Component {
 }
 
 function mapStateToProps(state) {
-
+  return {
+    ticketData: state.ticket
+  }
 }
 
-export default connect()(TicketResult);
+export default connect(mapStateToProps)(TicketResult);

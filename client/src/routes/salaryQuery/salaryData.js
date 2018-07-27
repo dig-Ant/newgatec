@@ -3,7 +3,7 @@ import styles from './salaryData.less';
 import { connect } from 'dva';
 import { ListView, Button, Toast } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
-import {i18n} from '../../utils/i18n';
+import { i18n } from '../../utils/i18n';
 import util from '../../utils/util'
 let data_list;
 let list_date;
@@ -21,17 +21,23 @@ class SalaryData extends Component {
       isLoading: true,
       height: document.documentElement.clientHeight * 3 / 4,
       isFav: '',
-      isEnd:false
+      isEnd: false
     }
 
   }
 
   componentDidMount() {
 
+    if (this.props.match.params.id) {
+      this.props.dispatch({
+        type: 'salary/getSalaryInfo',
+        payload: this.props.match.params.id
+      });
+    }
     if (JSON.stringify(this.props.salaryData.salary_obj) != "{}") {
       data_list = JSON.parse(this.props.salaryData.salary_obj.data);
-      list_date = this.props.salaryData.salary_obj.year+'年'+this.props.salaryData.salary_obj.month+'月';
-      note= this.props.salaryData.salary_obj.note;
+      list_date = this.props.salaryData.salary_obj.year + '年' + this.props.salaryData.salary_obj.month + '月';
+      note = this.props.salaryData.salary_obj.note;
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(Object.keys(data_list)),
         isLoading: false,
@@ -43,14 +49,14 @@ class SalaryData extends Component {
 
 
   }
- 
+
   componentDidUpdate() {
     if (JSON.stringify(this.props.salaryData.salary_obj) == "{}") {
-      this.props.dispatch(routerRedux.replace('/salaryList'))
+      // this.props.dispatch(routerRedux.replace('/salaryList'))
     }
   }
   componentWillReceiveProps(nextProps) {
-
+    data_list = JSON.parse(nextProps.salaryData.salary_obj.data);
     if (nextProps.salaryData.salary_obj !== this.props.salaryData.salary_obj) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(Object.keys(data_list)),
@@ -58,7 +64,7 @@ class SalaryData extends Component {
     }
   }
   onEndReached = (event) => {
-    this.setState({isEnd:true});
+    this.setState({ isEnd: true });
     Toast.info('到底了', 1);
   }
 
@@ -71,20 +77,20 @@ class SalaryData extends Component {
     );
   };
 
-  _header(){
-     return(
-       <div className={styles.listHeaderDiv}>
-         
-         <div className={styles.headerDiv}>
-           <img  className={styles.headerImg} src={require('../../assets/loginIcon.png')} />
-           <span className={styles.headerSpan}>上海才赋人力资源科技有限公司</span>
-         </div>
-       </div>
-     ) 
+  _header() {
+    return (
+      <div className={styles.listHeaderDiv}>
+
+        <div className={styles.headerDiv}>
+          <img className={styles.headerImg} src={require('../../assets/loginIcon.png')} />
+          <span className={styles.headerSpan}>上海才赋人力资源科技有限公司</span>
+        </div>
+      </div>
+    )
   }
-  _footer(){
-    return(
-      <div style={{color:'#000'}}>
+  _footer() {
+    return (
+      <div style={{ color: '#000' }}>
         <span>备注:</span>
         <span>{note}</span>
       </div>
@@ -112,40 +118,42 @@ class SalaryData extends Component {
     )
 
   }
-  _dDown(){
-    if(this.state.isEnd){
-      return(
+  _dDown() {
+    if (this.state.isEnd) {
+      return (
         <div className={styles.dDown}>
-              <Button onClick={() => this._button()}  
-              activeStyle={{backgroundColor:'rgba(255,255,255,.7)'}}
-              className = {styles.button}
-              style={{ width: 100,  color: '#000' }}
-              >我有异议</Button>
+          <Button onClick={() => this._button()}
+            activeStyle={{ backgroundColor: 'rgba(255,255,255,.7)' }}
+            className={styles.button}
+            style={{ width: 100, color: '#000' }}
+          >我有异议</Button>
 
         </div>
       );
-    }else{
+    } else {
       return null;
     }
-    
   }
 
   _button() {
-    this.props.dispatch(routerRedux.replace('/complaint'))
+    // this.props.dispatch(routerRedux.replace('/complaint'))
+    this.props.dispatch(routerRedux.push({
+      pathname: '/ticket'
+    }))
   }
 
   render() {
     // console.log(this.props.salaryData.salary_obj.unit)
     // console.log(this.props.salaryData.salary_obj)
-    console.log(util.numToString('412822199102222458'));
+    // console.log(util.numToString('412822199102222458'));
     let _unit = this.props.salaryData.salary_obj.unit;
-    let currency = _unit!=null&&_unit!=''?i18n[_unit]['ch']:i18n['rmb']['ch'];
-    let salary_obj= this.props.salaryData.salary_obj
+    let currency = _unit != null && _unit != '' ? i18n[_unit]['ch'] : i18n['rmb']['ch'];
+    let salary_obj = this.props.salaryData.salary_obj
     return (
       <div className={styles.container}>
         <div className={styles.top}>
-          <span className={styles.topText}>{list_date?list_date:''}</span>
-          <span >{data_list?data_list['收入类型']:''}</span>
+          <span className={styles.topText}>{list_date ? list_date : ''}</span>
+          <span >{data_list ? data_list['收入类型'] : ''}</span>
         </div>
         <div className={styles.down}>
           <div className={styles.dTop}>
@@ -153,18 +161,18 @@ class SalaryData extends Component {
             <div>
               <span className={styles.dtText2}>{currency}</span>
             </div>
-              
+
           </div>
           {this._header()}
           <div className={styles.dCenter}>
-            
+
             <div className={styles.listDiv}>
-             
+
               {this.List_View()}
             </div>
 
           </div>
-          
+
 
         </div>
         {this._dDown()}

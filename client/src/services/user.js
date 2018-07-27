@@ -111,7 +111,13 @@ export async function getPlantRead(data) {
     api_name: 'cbizprivate'
   });
 }
-
+// 获取用户详情
+export async function getPay_detail(data) {
+  return requestAuth(kongApi.getPay_detailRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
 // --------------- 社保公积金 -------------------
 // 获取社保年份查询
 export async function getSiYearArray(data) {
@@ -137,6 +143,57 @@ export async function getSiPlantGet(data) {
 // 获取社保公积金年份详细查询
 export async function getSiHf(data) {
   return requestAuth(kongApi.getSiHfRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+
+//  ------------------- 异议提交 ----------------------
+// 异议提交
+export async function getTkt_create(data) {
+  return requestAuth(kongApi.getTkt_createRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 服务请求列表
+export async function getTkt_list(data) {
+  return requestAuth(kongApi.getTkt_listRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 服务请求历史列表 
+export async function getTkt_over_list(data) {
+  return requestAuth(kongApi.getTkt_over_listRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 列表置顶
+export async function getTkt_sticky_state(data) {
+  return requestAuth(kongApi.getTkt_sticky_stateRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 撤销一条服务
+export async function getTkt_cancel(data) {
+  return requestAuth(kongApi.getTkt_cancelRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 获取服务详情
+export async function getTkt_detail(data) {
+  return requestAuth(kongApi.getTkt_detailRoute(), {
+    body: data,
+    api_name: 'cbizprivate'
+  });
+}
+// 用户已读接口
+export async function getTkt_close_reply(data) {
+  return requestAuth(kongApi.getTkt_close_replyRoute(), {
     body: data,
     api_name: 'cbizprivate'
   });

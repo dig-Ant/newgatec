@@ -79,12 +79,13 @@ export default function request(url, options) {
       if (err.error && (err.error.status < 500 || err.error.statusCode < 500)) {
         Toast.fail(err.error.message, 1, null, false);
       }
+      const { dispatch } = store;
       if (err.status === 401) {
-        console.log(401);
         window.localStorage.removeItem(cfg.access_token);
-        const { dispatch } = store;
-        dispatch(routerRedux.push('/oauth'));
+        dispatch(routerRedux.replace('/oauth'));
         return;
+      } else if (err.status === 412 ) {
+        dispatch(routerRedux.replace('/home'));
       }
       // let s = err.json().then((data)=> {
       //   console.log('data-=---',data);
@@ -119,22 +120,22 @@ export function requestAuth(url, options) {
   //   }
   //   console.log('token---');
   // }
-
+ 
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer TxWzMZOtbIAdYhG2EcZEZtqTneK5OOKs`,
+      "Authorization": `bearer BTA25qOagbfuG80NUq42SOjw8L1YaKOx`,
       // "Authorization": `bearer S5MOPNfVywtkQBLxyooKDxA09ybWE50G`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'cbizprivate') {
     newOptions.headers = {
-      "Authorization": `bearer wb5LppbIG5K9AERIyqxzcdTs4Uzh4uBf`,
+      "Authorization": `bearer 5mVjoXkyTVYiIVtpe9LBA12Dk5H2MlKW`,
       // "Authorization": `bearer QVQ7Ev4j4SzndCDKbJXdl56znBHo7wRK`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'shareprivate') {
     newOptions.headers = {
-      "Authorization": `bearer L8bkziypPwgOokIKbn3YOpMqRmqTmogo`,
+      "Authorization": `bearer JWS5pXY70XLQ8b2eV3zGS13Xa9ABk90J`,
       // "Authorization": `bearer 3VsveteaxjVKDHE11TKEY6a6P0Rz289p`,//云 kong
       ...newOptions.headers
     }

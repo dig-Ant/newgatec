@@ -159,16 +159,39 @@ export default {
         plant_id: window.sessionStorage.getItem(cfg.plant_id),
         payslip_id: rowData.id
       }
+      console.log('用户已读确认', rowData);
       // console.log(rowData)
       let data = yield call(userSvc.getPlantRead, newObj);
-      console.log('用户已读确认---', data);
+
+      if (data.body && data.body.state == 1) {
+        yield put(routerRedux.push(`/salaryData/${rowData.id}`));
+      }
+    },
+    // 获取用户详情
+    *getSalaryInfo({ payload: id }, { call, put }) {  // eslint-disable-line
+      let newObj = {
+        plant_id: window.sessionStorage.getItem(cfg.plant_id),
+        id: id
+      }
+      let data = yield call(userSvc.getPay_detail, newObj);
+      console.log('获取用户详情', data);
       yield put({
         type: 'changeSalary_obj',
-        payload: rowData
+        payload: data.body
       })
-      if (data.body && data.body.state == 1) {
-        yield put(routerRedux.push('/salaryData'));
-      }
+      // 存跳转到ticket 异议的信息
+      let ticketInfo = JSON.stringify({
+        id: data.body.id,
+        clt_key: 0,
+        info: {
+          year: data.body.year,
+          month: data.body.month,
+          pay_type: data.body.pay_type,
+        },
+        serverType: 'salary'
+      });
+      util._storage.set_s(cfg.ticket_info, ticketInfo);
+      // window.sessionStorage.setItem(cfg.ticket_info, ticketInfo);
     },
 
     // 跳转 页面指向
@@ -185,20 +208,21 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
+        let pathName = pathname.split('/').slice(0, 2).join('/');
         window._hmt.push(['_trackPageview', '/#' + pathname]);
         if (
-          pathname !== '/salaryList' &&
-          pathname !== '/salaryData' &&
-          pathname !== '/complaint' &&
-          pathname !== '/welfareList' &&
-          pathname !== '/welfareData'
+          pathName !== '/salaryList' &&
+          pathName !== '/salaryData' &&
+          pathName !== '/complaint' &&
+          pathName !== '/welfareList' &&
+          pathName !== '/welfareData' &&
+          pathName !== '/ticket' &&
+          pathName !== '/ticketRes'
         ) {
           window.sessionStorage.removeItem(cfg.plant_id);
         }
       });
     }
   },
-
-
 
 };

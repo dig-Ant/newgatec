@@ -23,9 +23,13 @@ class WelfareData extends Component {
     }
   }
   componentDidMount() {
-    this.props.dispatch({
-      type: 'welfare/getSiHf'
-    });
+    if(this.props.match.params) {
+      this.props.dispatch({
+        type: 'welfare/getSiHf',
+        payload: this.props.match.params.id
+      });
+    }
+    
     // you can scroll to the specified position
     // setTimeout(() => this.lv.scrollTo(0, 120), 800);
     this.setState({
@@ -43,7 +47,7 @@ class WelfareData extends Component {
 
 
   onClickSub = () => {
-    this.props.dispatch(routerRedux.push('/complaint'))
+    this.props.dispatch(routerRedux.push('/ticket'))
   }
 
 

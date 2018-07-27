@@ -57,7 +57,7 @@ class OAuth extends React.Component {
         this.props.dispatch(routerRedux.push('/testHomeB'));
       }
     } else {
-      this.props.dispatch(routerRedux.replace('/homepage'));
+      this.props.dispatch(routerRedux.replace('/home'));
     }
   }
 

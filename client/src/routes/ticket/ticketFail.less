@@ -1,0 +1,58 @@
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .top {
+    flex: 1;
+    padding: 10px 25px;
+    p {
+      padding: 20px 0;
+      margin-bottom: 10px;
+      font-size: 22px;
+      line-height: 30px;
+      letter-spacing: 1px;
+      height: 100px;
+    }
+  }
+  .btnBox {
+    flex: 1;
+    margin-top: 10%;
+    .flexCenter;
+    flex-direction: column;
+    justify-content: flex-start; 
+    .btn {
+      width: 200px;
+      background-color: #447788;
+    }
+    a {
+      color: #fff;
+      width: 200px;
+      height: 50px; 
+      border-radius: 25px;
+      background-color: #447788;
+      .flexCenter;
+    }
+    a:active {
+      background-color: #ddd;
+    }
+    .goBack {
+      margin-top: 10px;
+      color: #fff;
+      width: 200px;
+      height: 50px;
+      border-radius: 25px;
+      background-color: #447788;
+      .flexCenter;
+    }
+    .goBack:active {
+      background-color: #ddd;
+    }
+  }
+
+}
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

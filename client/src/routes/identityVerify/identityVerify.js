@@ -22,7 +22,7 @@ class IdentityVerify extends Component {
   }
 
   onClickGoback() {
-    this.props.dispatch(routerRedux.push('/homepage'))
+    this.props.dispatch(routerRedux.push('/home'))
   }
 
   onClickVerify() {
