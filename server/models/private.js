@@ -41,6 +41,7 @@ module.exports = function(Private) {
         }
       });
       if(JSON.parse(plant_check.body).body.result==0){
+        console.log(plant_check.body);
         let err = new Error('您的手机或姓名不匹配')
         err.statusCode = 412;
         throw err; 
@@ -48,7 +49,9 @@ module.exports = function(Private) {
       console.log(JSON.parse(plant_check.body).body.result);
       let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
       let result = await Private.app.models.Sms.smsCode(input);
+      console.log(result);
       return result;
+      
       // return plant_check.body;
     } catch (error) {
       // enums.error.msg=error.message
@@ -68,6 +71,7 @@ module.exports = function(Private) {
         let jsonKeys = ['phone','code']
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
         let result = await Private.app.models.Sms.checkCode(input);
+        console.log(result);
         return result;
     } catch (error) {
       // enums.error.msg=error.message

@@ -16,6 +16,7 @@ module.exports = function(Inner) {
 
   Inner.smsCodeSend = async (obj,cb)=>{
     try {
+      console.log(obj);
       let input = {
       phone:obj.phone,
       type:1,
@@ -60,24 +61,28 @@ module.exports = function(Inner) {
    
   }
   Inner.smsCodeCheck = async (obj,cb)=>{
+    
     try {
+      console.log(obj);
       let input = {
         phone:obj.phone,
         smsCode:obj.code,
         codeType:1,
-        status:0,
+        status:0, 
         expirationTime:{gt: new Date()}
         }
         
         let jsonKeys = ['phone','code']
         let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
-        let result = await Inner.app.models.SmsCode.findOne({where:input})
+        let result = await Inner.app.models.SmsCode.findOne({where:input});
+        console.log(result);
         if(result==null){
           let err = new Error('验证码错误');
           err.statusCode = 412
           cb(err)
         }else{
-          let smsUpdateStatus = await Inner.app.models.SmsCode.updateAll({where:input}, { status: 1 })
+          let smsUpdateStatus = await result.updateAttributes({status: 1 });
+          console.log(enums.success);
           return enums.success;
         }
         

@@ -220,45 +220,47 @@ let msg = {
 
 
       // console.log(obj)
-      let jsonKeys = ['phone', 'code', 'codeType']
+      
       try {
-        let objCheck = await jsonCkeck.keysCheck(jsonKeys, obj)
+        let jsonKeys = ['phone', 'code', 'codeType'];
+        let objCheck = await jsonCkeck.keysCheck(jsonKeys, obj);
         var promise = await smsFn.phoneNumCheck(obj.phone)
-        enums.smsCodeCheck.phone = obj.phone;
-        enums.smsCodeCheck.smsCode = obj.code;
-        enums.smsCodeCheck.codeType = obj.codeType;
-        enums.smsCodeCheck.expirationTime = {lte:new Date()}
-        let smsCodeObj = await Sms.app.models.SmsCode.findOne(enums.smsCodeCheck);
-        // console.log(smsCodeObj[smsCodeObj.length-1].expirationTime )
-        if (smsCodeObj.length > 0) {
-          if (parseInt(new Date().getTime()) < parseInt(smsCodeObj[smsCodeObj.length - 1].expirationTime)) {
-            let smsUpdateStatus = await Sms.app.models.SmsCode.updateAll(enums.smsCodeCheck, { status: 1 })
-            let success = {
-              code:1
-            };
-            success.msg = '验证码正确'
-            console.log(success)
-            resolve(success)
-          } else {
-            let err = new Error('验证码已过期');
-            err.statusCode = 412
-            reject(err)
-            
-          }
+        let input = {
+          phone:obj.phone,
+          smsCode:obj.code,
+          codeType:obj.codeType,
+          expirationTime:{gt:new Date()},
+          status:0
+        };
 
-
-
-          let smsCodeModel = await Sms.app.models.SmsCode.smsStatus(smsCodeObj[smsCodeObj.length - 1].id)
-
-          console.log(smsCodeModel)
-        } else {
+        let smsCodeObj = await Sms.app.models.SmsCode.findOne({ where: input });
+        console.log('smsCodeObj', smsCodeObj);
+        
+        if(smsCodeObj==null){
           let err = new Error('验证码错误');
-            err.statusCode = 412
-            reject(err)
+          err.statusCode = 412
+          cb(err)
+        }else{
+          let smsUpdateStatus = await smsCodeObj.updateAttributes({status: 1 });
+          let success = {
+          code: 1
+          };
+          success.msg = '验证码正确'
+          console.log(success)
+          resolve(success)
         }
+
+      //   let smsUpdateStatus = await Sms.app.models.SmsCode.updateAll(enums.smsCodeCheck, { status: 1 })
+        
+        
+
+
+
+
+       
       } catch (error) {
 
-
+        console.log(error);
         reject(error)
       }
     })

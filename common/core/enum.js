@@ -1,4 +1,5 @@
-let severIP = 'http://172.16.126.48';
+// let severIP = 'http://172.16.126.48';
+let severIP = 'http://172.16.1.139';
 // let severIP = 'http://47.98.205.89';
 
 module.exports = {
