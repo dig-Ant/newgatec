@@ -51,10 +51,10 @@ export default {
       // let isActive = true;
       console.log('isActive---', isActive.aa);
       // 判断激活成功 or 失败
-      if (!isActive.error) {
+      if (isActive.body) {
         Toast.success('手机号已激活', 2, null, false);
-        yield put({ type: 'resetForm' });
-        yield put(routerRedux.push('/homepage'));
+        // yield put({ type: 'resetForm' });
+        yield put(routerRedux.push('/home'));
       }
     }
   },

@@ -34,7 +34,7 @@ class SalaryPwd extends Component {
   }
 
   goback = () => {
-    this.props.dispatch(routerRedux.push('/homepage'));
+    this.props.dispatch(routerRedux.push('/home'));
   }
 
   gotoSetPwd = () => {

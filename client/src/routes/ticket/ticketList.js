@@ -15,123 +15,38 @@ class TicketList extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     });
+    const overDataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
     this.state = {
       serverType: 'salary' || 'general',// salary welfare
       dataSource,
+      overDataSource,
       isLoading: true,
-      msgList: [
-        {
-          "tkt_key": "6d2b7771-9510-416d-a99d-22dae814da5a",
-          "cst_key": "1",
-          "clt_key": "0",
-          "tkt_type": 2,
-          "tkt_state_code": 100,
-          "subject": "薪酬异议最多只能十二个字",
-          "des": "我的六月份薪酬账单有问题!",
-          "remark": null,
-          "renew": 1,
-          "sticky": 1,
-          "sticky_time": "2018-07-10T02:18:27.024Z",
-          "auto_close_time": null,
-          "create_date": "2018-07-10T02:06:26.223Z",
-          "write_date": "2018-07-10T02:06:26.223Z",
-          "attch_id": null,
-          "write_date": "2018-07-10T02:06:26.223Z"
-        },
-        {
-          "tkt_key": "e6c28bfe-e392-45c3-99fa-e9fbe067f82d",
-          "cst_key": "1",
-          "clt_key": "0",
-          "tkt_type": 3,
-          "tkt_state_code": 100,
-          "subject": "薪酬异议",
-          "des": "我的六月份薪酬账单有问题!",
-          "remark": null,
-          "renew": 1,
-          "sticky": 0,
-          "sticky_time": null,
-          "auto_close_time": null,
-          "create_date": "2018-07-10T02:06:26.408Z",
-          "write_date": "2018-07-10T02:06:26.407Z",
-          "attch_id": null,
-          "write_date": "2018-07-10T02:06:26.223Z"
-        },
-        {
-          "tkt_key": "bc777878-2b29-412c-911a-4cd0ca44406d",
-          "cst_key": "1",
-          "clt_key": "0",
-          "tkt_type": 1,
-          "tkt_state_code": 100,
-          "subject": "薪酬异议",
-          "des": "我的六月份薪酬账单有问题!",
-          "remark": null,
-          "renew": 1,
-          "sticky": 0,
-          "sticky_time": null,
-          "auto_close_time": null,
-          "create_date": "2018-07-10T02:06:26.021Z",
-          "write_date": "2018-07-10T02:06:26.021Z",
-          "attch_id": null,
-          "write_date": "2018-07-10T02:06:26.223Z"
-        },
-        {
-          "tkt_key": "7d404b3d-b370-4bdb-95e1-d1a13ceb5bd8",
-          "cst_key": "1",
-          "clt_key": "0",
-          "tkt_type": 5,
-          "tkt_state_code": 100,
-          "subject": "薪酬异议",
-          "des": "我的六月份薪酬账单有问题!",
-          "remark": null,
-          "renew": 1,
-          "sticky": 0,
-          "sticky_time": null,
-          "auto_close_time": null,
-          "create_date": "2018-07-10T02:06:25.825Z",
-          "write_date": "2018-07-10T02:06:25.825Z",
-          "attch_id": null,
-          "write_date": "2018-07-10T02:06:26.223Z"
-        },
-        {
-          "tkt_key": "f8a2076e-60a3-4b1a-bb7c-58436422c6dc",
-          "cst_key": "1",
-          "clt_key": "0",
-          "tkt_type": 1,
-          "tkt_state_code": 100,
-          "subject": "薪酬异议",
-          "des": "我的六月份薪酬账单有问题!",
-          "remark": null,
-          "renew": 1,
-          "sticky": 0,
-          "sticky_time": null,
-          "auto_close_time": null,
-          "create_date": "2018-07-10T02:06:25.604Z",
-          "write_date": "2018-07-10T02:06:25.604Z",
-          "attch_id": null,
-          "write_date": "2018-07-10T02:06:26.223Z"
-        },
-      ]
+      msgList: []
     }
   }
 
   componentDidMount() {
 
-    setTimeout(() => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.state.msgList),
-        isLoading: false,
-      });
-    }, 600);
   }
   componentWillReceiveProps(nextProps) {
-    // if (nextProps.dataSource !== this.props.dataSource) {
-    //   this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource),
-    //   });
-    // }
+    if (nextProps.data !== this.props.data) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.data)
+      });
+    }
+    if (nextProps.overData !== this.props.overData) {
+      this.setState({
+        overDataSource: this.state.dataSource.cloneWithRows(nextProps.overData),
+      });
+    }
   }
   onTop = (a) => {
     console.log(a);
+    if (this.props.onTop) {
+      return this.props.onTop(a);
+    }
   }
 
   onEndReached = (event) => {
@@ -150,7 +65,12 @@ class TicketList extends Component {
     //   });
     // }, 1000);
   }
-
+  // 撤销一条消息
+  onCancel = (data) => {
+    if (this.props.onCancel) {
+      return this.props.onCancel(data);
+    }
+  }
   renderList = () => {
     const separator = (sectionID, rowID) => (
       <div
@@ -162,7 +82,46 @@ class TicketList extends Component {
       />
     );
     const row = (v, sectionID, rowID) => {
-
+      if (v.tkt_state_code >= 600) {
+        return (
+          <div className={styles.cardBox}>
+            <Card >
+              <Card.Header
+                title={v.subject}
+                thumb={
+                  <div className={styles.cardHeader}>
+                    <img src={ticket['type' + v.tkt_type]} alt="" />
+                  </div>}
+              // extra={<span>this is extra</span>}
+              />
+              <Card.Body>
+                <div className={styles.cardBody}>
+                  <div className={styles.cardBodyLeft}>
+                    <span>状态: </span>
+                    <div className={styles.circle}></div>
+                    <span>{v.work_order}</span>
+                  </div>
+                  <div className={styles.timer}>
+                    {util.getDateToStr(v.write_date)}
+                  </div>
+                </div>
+              </Card.Body>
+              <Card.Footer
+                content={
+                  <div
+                    onClick={() => this.onTop(v)}
+                    className={styles.cardFooter}>
+                    <img src={v.sticky == 1 ? ticket.xing4 : ticket.xing2} alt="" />
+                    <span>{v.sticky == 1 ? '取消置顶' : '置顶'}</span>
+                  </div>
+                }
+                extra={<div
+                  onClick={() => this.onTicketInfo(v)}
+                >详情</div>} />
+            </Card>
+          </div>
+        );
+      }
       return (
         <div className={styles.cardBox}>
           <SwipeAction
@@ -178,12 +137,12 @@ class TicketList extends Component {
               },
               {
                 text: <div style={{ padding: '0px 5px' }}>撤销</div>,
-                onPress: () => console.log('delete'),
+                onPress: () => this.onCancel(v),
                 style: { backgroundColor: '#F4333C', color: 'white' },
               },
             ]}
-            onOpen={() => console.log('global open')}
-            onClose={() => console.log('global close')}
+          // onOpen={() => console.log('global open')}
+          // onClose={() => console.log('global close')}
           >
             <Card >
               <Card.Header
@@ -199,7 +158,7 @@ class TicketList extends Component {
                   <div className={styles.cardBodyLeft}>
                     <span>状态: </span>
                     <div className={styles.circle}></div>
-                    <span>已提交</span>
+                    <span>{v.work_order}</span>
                   </div>
                   <div className={styles.timer}>
                     {util.getDateToStr(v.write_date)}
@@ -212,10 +171,12 @@ class TicketList extends Component {
                     onClick={() => this.onTop(v)}
                     className={styles.cardFooter}>
                     <img src={v.sticky == 1 ? ticket.xing4 : ticket.xing2} alt="" />
-                    <span>{v.sticky == 1 ? '置顶' : '取消置顶'}</span>
+                    <span>{v.sticky == 1 ? '取消置顶' : '置顶'}</span>
                   </div>
                 }
-                extra={<div>详情</div>} />
+                extra={<div
+                  onClick={() => this.onTicketInfo(v)}
+                >详情</div>} />
             </Card>
           </SwipeAction>
         </div>
@@ -225,6 +186,81 @@ class TicketList extends Component {
       <ListView
         ref={el => this.lv = el}
         dataSource={this.state.dataSource}
+        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+          {this.state.isLoading ? 'Loading...' : 'Loaded'}
+        </div>)}
+        renderRow={row}
+        renderSeparator={separator}
+        className="am-list"
+        pageSize={10}
+        useBodyScroll
+        // onScroll={() => { console.log('scroll'); }}
+        scrollRenderAheadDistance={500}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={10}
+        initialListSize={10}
+      />
+    );
+  }
+  // 详情按钮
+  onTicketInfo = (v) => {
+    if (this.props.onTicketInfo) {
+      return this.props.onTicketInfo(v);
+    }
+  }
+  // 历史记录列表
+  renderOverList = () => {
+    const separator = (sectionID, rowID) => (
+      <div
+        key={`${sectionID}-${rowID}`}
+        style={{
+          backgroundColor: '#fff',
+          height: 8,
+        }}
+      />
+    );
+    const row = (v, sectionID, rowID) => {
+
+      return (
+        <div className={styles.cardBox}>
+          <Card >
+            <Card.Header
+              title={v.subject}
+              thumb={
+                <div className={styles.cardHeader}>
+                  <img src={ticket['type' + v.tkt_type]} alt="" />
+                </div>}
+            // extra={<span>this is extra</span>}
+            />
+            <Card.Body>
+              <div className={styles.cardBody}>
+                <div className={styles.cardBodyLeft}>
+                  <span>状态: </span>
+                  <div className={styles.circle}></div>
+                  <span>{v.work_order}</span>
+                </div>
+                <div className={styles.timer}>
+                  {util.getDateToStr(v.write_date)}
+                </div>
+              </div>
+            </Card.Body>
+            <Card.Footer
+              content={
+                <div
+                  className={styles.cardFooter}>
+                </div>
+              }
+              extra={<div
+                onClick={() => this.onTicketInfo(v)}
+              >详情</div>} />
+          </Card>
+        </div>
+      );
+    };
+    return (
+      <ListView
+        ref={el => this.lv = el}
+        dataSource={this.state.overDataSource}
         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
           {this.state.isLoading ? 'Loading...' : 'Loaded'}
         </div>)}
@@ -252,10 +288,17 @@ class TicketList extends Component {
 
   tabs = () => {
     return [
-      { title: <Badge text={'3'}>进行中的服务请求</Badge> },
-      { title: <Badge text={'20'}>查看历史</Badge> },
+      { title: <Badge text={''}>进行中的服务请求</Badge> },
+      { title: <Badge text={''}>查看历史</Badge> },
     ]
   };
+  // tab 改变的时候触发 
+  tabOnChange = (tab, index) => {
+    console.log('tab', index, tab);
+    if (this.props.tabOnChange) {
+      return this.props.tabOnChange(tab, index);
+    }
+  }
 
   render() {
     return (
@@ -266,8 +309,8 @@ class TicketList extends Component {
             swipeable={false}
             tabs={this.tabs()}
             initialPage={0}
-            onChange={(tab, index) => { console.log('onChange', index, tab); }}
-            onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+            onChange={this.tabOnChange}
+          // onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
           >
 
             <div className={styles.tabFirst}>
@@ -277,7 +320,10 @@ class TicketList extends Component {
               </WingBlank>
             </div>
             <div className={styles.tabSecd}>
-              <div className={styles.wu}>暂无历史记录</div>
+              {/* <div className={styles.wu}>暂无历史记录</div> */}
+              <WingBlank size="lg">
+                {this.renderOverList()}
+              </WingBlank>
             </div>
           </Tabs>
         </StickyContainer>

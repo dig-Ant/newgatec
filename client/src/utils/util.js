@@ -252,7 +252,7 @@ let util = {
      * @return {Date} ticks
      **/
     getStrToDate: function (timeStr) {
-      if(!timeStr) {
+      if (!timeStr) {
         return moment().toDate();
       }
       return moment(timeStr).toDate();
@@ -263,10 +263,10 @@ let util = {
      * @return {number} ticks
      **/
     getDateToStr: function (date) {
-      if(!date) {
-        return moment().format().slice(0, 19).replace('T',' ');
+      if (!date) {
+        return moment().format().slice(0, 19).replace('T', ' ');
       }
-      return moment(date).format().slice(0, 19).replace('T',' ');
+      return moment(date).format().slice(0, 19).replace('T', ' ');
     },
     /**
      * 获取当前时间的ticks
@@ -323,7 +323,7 @@ let util = {
     numToString: function (num, toFixed) {
       var regPos = /^\d+(\.\d+)?$/; //非负浮点数
       var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/;//负浮点数
-      if(regPos.test(num) || regNeg.test(num)){
+      if (regPos.test(num) || regNeg.test(num)) {
         // console.log(num);
         var result = '', counter = 0, dotted = '', nums = '';
         num = Number(num);
@@ -340,10 +340,10 @@ let util = {
         }
         result = result + dotted;
         return result;
-      }else{
+      } else {
         return num;
       }
-      
+
     }
   },
 
@@ -623,13 +623,68 @@ let util = {
         return false;
       }
     }
+  },
+  _storage: {
+    get: function (key) {
+      var value = window.localStorage.getItem(key);
+      if (value) {
+        try {
+          var value_json = JSON.parse(value);
+          if (typeof value_json === 'object') {
+            return value_json;
+          } else if (typeof value_json === 'number') {
+            return value_json;
+          }
+        } catch (e) {
+          return value;
+        }
+      } else {
+        return false;
+      }
+    },
+    set: function (key, value) {
+      window.localStorage.setItem(key, value);
+    },
+    remove: function (key) {
+      localStorage.removeItem(key);
+    },
+    clear: function () {
+      localStorage.clear();
+    },
+    get_s: function (key) {
+      var value = window.sessionStorage.getItem(key);
+      if (value) {
+        try {
+          var value_json = JSON.parse(value);
+          if (typeof value_json === 'object') {
+            return value_json;
+          } else if (typeof value_json === 'number') {
+            return value_json;
+          }
+        } catch (e) {
+          return value;
+        }
+      } else {
+        return false;
+      }
+    },
+    set_s: function (key, value) {
+      window.sessionStorage.setItem(key, value);
+    },
+    remove_s: function (key) {
+      
+      window.sessionStorage.removeItem(key);
+    },
+    clear_s: function () {
+      window.sessionStorage.clear();
+    },
   }
 
 
 }
 
 //比较对象的属性，合并时是否有冲突
-util._common.compareObjs(util, util._array, util._common, util._date, util._detection, util._file, util._string, util._isWx)
+util._common.compareObjs(util, util._array, util._common, util._date, util._detection, util._file, util._string, util._isWx, util._storage)
 
 export default {
   ...util,
@@ -639,5 +694,6 @@ export default {
   ...util._detection,
   ...util._file,
   ...util._string,
-  ...util._isWx
+  ...util._isWx,
+  ...util._storage
 }

@@ -23,7 +23,7 @@ class ResSuccess extends Component {
 
   // 点击返回首页
   onClickSuccess = () => {
-    this.props.dispatch(routerRedux.replace('/homepage'));
+    this.props.dispatch(routerRedux.replace('/home'));
   }
 
   renderMessage = () => {

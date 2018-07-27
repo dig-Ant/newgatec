@@ -2,6 +2,7 @@ import * as userSvc from '../services/user';
 import util from '../utils/util';
 import { routerRedux } from 'dva/router';
 import { Toast } from 'antd-mobile';
+import cfg from 'cfg/cfg';
 export default {
 
   namespace: 'validUser',
@@ -60,6 +61,7 @@ export default {
   effects: {
     *getUserLogin({ payload }, { call, put }) {
       let data = yield call(userSvc.getUserLogin);
+      console.log('是否登录', data);
       if (data.body && data.body.u_type === 'anonymous') {
         yield put(routerRedux.replace('/active'));
       }
@@ -67,6 +69,7 @@ export default {
     // 判断用户是否需要验证
     *getIsVerifyUser({ payload }, { call, put }) {  // eslint-disable-line
       let data = yield call(userSvc.getIsVerifyUser);
+      console.log('是否需要验证', data);
       if (data && !data.error) {
         yield put({ type: 'changeData', payload: data.body.state });
       }
@@ -75,6 +78,7 @@ export default {
     *getIdentityDraft({ payload }, { call, put }) {
 
       let data = yield call(userSvc.getIdentityDraft);
+      console.log('草稿...', data);
       if (data.body && data.body.id_type) {
         yield put({ type: 'changeFormData', payload: data.body });
       }
@@ -89,9 +93,26 @@ export default {
         yield put(routerRedux.push('/resSuccess'));
         return;
       } else if (data.body.state == 2) {
+        let ticketInfo = {
+          clt_key: 0,
+          tkt_type: 3,
+          serverType: 'validIdentity',
+          name: formData.name,
+          id_type: formData.id_type == 'id_card' ? '身份证' : '',
+          id_number: formData.id_number,
+          cause: data.body.message,
+          info: {
+            name: formData.name,
+            id_type: formData.id_type == 'id_card' ? '身份证' : '',
+            id_number: formData.id_number,
+            cause: data.body.message
+          },
+        }
+        util.set_s(cfg.ticket_info, JSON.stringify(ticketInfo));
+
         yield put(routerRedux.push('/resFail'));
         return;
-      }
+      } 
       yield put({
         type: 'changeFormData',
         payload: {
@@ -115,9 +136,10 @@ export default {
     *saveIdentityDraft({ payload: data }, { call, put }) {
       console.log('data--', data);
       let res = yield call(userSvc.saveIdentityDraft, data);
+      console.log('保存草稿', res);
       if (res.status == 200) {
         Toast.success('保存草稿成功', 1);
-        yield put(routerRedux.replace('/homepage'))
+        yield put(routerRedux.replace('/home'))
       }
       console.log('保存草稿--', res);
     },
@@ -144,14 +166,17 @@ export default {
 
     },
     // 验证失败转人工
-    *getApplyManualReview({ payload: data }, { call, put }) {
+    *goToTicketSer({ payload: data }, { call, put }) {
 
-      let res = yield call(userSvc.getApplyManualReview);
+      yield put(routerRedux.push('/ticket'));
 
-      if (!res.error) {
-        Toast.success('success !', 1);
-        yield put(routerRedux.push('/resAwait'));
-      };
+      // 直接发送请求给星星 变成人工状态 (已改变此方式)
+      // let res = yield call(userSvc.getApplyManualReview);
+
+      // if (!res.error) {
+      //   Toast.success('success !', 1);
+      //   yield put(routerRedux.push('/resAwait'));
+      // };
     }
 
   },

@@ -103,11 +103,11 @@ class WelfareList extends Component {
     )
   }
 
-  itemClick = (rowData) => {
-    let { plant_get, si_hf_status, ...data } = rowData;
+  itemClick = (id) => {
+    // let { plant_get, si_hf_status, ...data } = rowData;
     this.props.dispatch({
       type: 'welfare/getPlantRead',
-      payload: data
+      payload: id
     });
   }
   renderList = () => {
@@ -130,10 +130,10 @@ class WelfareList extends Component {
       let tempArr = [];
       for (let i = 0; i < rowData.length; i++) {
         tempArr.push((
-          <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(rowData[i])}>
+          <div key={'down' + i} className={styles.downItem} onClick={() => this.itemClick(welfareMsg.total_data[rowID][i].id)}>
             <div>
               <div>{rowData[i].ins_year}年{rowData[i].ins_month}月</div>
-              <div>{util.numToString(welfareMsg.total_data[rowID][i])}</div>
+              <div>{util.numToString(welfareMsg.total_data[rowID][i].total)}</div>
             </div>
             <div className={styles.tagGreen}>
               <span>{rowData[i].si_hf_status == 1 ? '正' : '补'}</span>

@@ -5,6 +5,8 @@ import { Popover, Icon, ListView } from 'antd-mobile';
 import { routerRedux } from 'dva/router';
 import styles from './salaryList.less';
 import util from 'utils/util';
+import { i18n } from 'utils/i18n';
+
 const Item = Popover.Item;
 
 class SalaryList extends Component {
@@ -124,6 +126,7 @@ class SalaryList extends Component {
       )
     };
     const row = (rowData, sectionID, rowID) => {
+      let unit = i18n[rowData.unit] && i18n[rowData.unit]['currency_symbol'];
       return (
         <div className={styles.item} key={rowID} onClick={() => this.itemClick(rowData)}>
           <div className={styles.itemTop}>
@@ -136,7 +139,7 @@ class SalaryList extends Component {
           </div>
           <div className={styles.itemInfo} >
             <div className={styles.itemInfo_left}>{rowData.pay_type}</div>
-            <div><span style={{ fontSize: '20px', color: '#FF6E27', verticalAlign: '-2' }}>{rowData.unit}</span>&nbsp;<span>{util.numToString(rowData.pay)}</span></div>
+            <div><span style={{ fontSize: '20px', color: '#FF6E27', verticalAlign: '-2' }}>{unit}</span>&nbsp;<span>{util.numToString(rowData.pay)}</span></div>
           </div>
         </div >
       );

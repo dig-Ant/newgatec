@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import styles from './ticket.less';
-import { ImagePicker, TextareaItem, Button } from 'antd-mobile';
+import { ImagePicker, TextareaItem, Button, Toast } from 'antd-mobile';
+import cfg from 'cfg/cfg';
+import util from '../../utils/util';
 
 const data = [{
   url: 'https://zos.alipayobjects.com/rmsportal/PZUUCKTRIHWiZSY.jpeg',
@@ -17,13 +19,15 @@ class Ticket extends Component {
   constructor() {
     super()
     this.state = {
-      serverType: 'salary' || 'general',// salary welfare
+      serverType: 'general' || 'salary',// salary welfare validIdentity
       labelList: ['薪酬社保', '员工福利', '礼卡兑换', '保障与理赔', '积分有关', '体检预约', 'BUG与建议', '以上都不是'],
       labelValue: ['salary', 'salary1', 'salary2', 'salary3', 'salary4', 'salary5', 'salary6', 'salary7'],
       selectLabel: 'salary',// 当前选择的标签
       textareValue: '',
       textError: false,
-      files: data
+      files: data,
+      ticket_info: {}, //跳转过来后 携带的除去serverType 的消息
+      info: {} // 薪酬和社保公积金的列表信息
     }
   }
 
@@ -31,7 +35,21 @@ class Ticket extends Component {
     this.props.dispatch({
       type: 'wxSdk/setConfig'
     });
+    this.prepare();
   }
+  prepare = () => {
+    let ticket_info = util._storage.get_s(cfg.ticket_info);
+    if (ticket_info) {
+      let { serverType, info, ...data } = ticket_info;
+      console.log('prepare,', data);
+      this.setState({
+        serverType: serverType,
+        info: info,
+        ticket_info: data
+      });
+    }
+  }
+  // 渲染头部
   renderTitle = () => {
     let { serverType } = this.state;
     if (serverType == 'general') {
@@ -40,19 +58,35 @@ class Ticket extends Component {
           <p className={styles.title1}>在这里提交您的服务请求</p>
         </div>
       );
-    } else if (serverType == 'salary' || serverType == 'welfare') {
+    } else if (serverType == 'salary') {
       return (
         <div className={styles.title}>
           <p>即将为您提交一条有关</p>
           <p>工资条疑义处理的服务请求</p>
         </div>
       )
+    } else if (serverType == 'welfare') {
+      return (
+        <div className={styles.title}>
+          <p>即将为您提交一条有关</p>
+          <p>社保公积金答疑的服务请求</p>
+        </div>
+      )
+    } else if (serverType == 'validIdentity') {
+      return (
+        <div className={styles.title}>
+          <p>即将为您提交一条有关</p>
+          <p>身份验证的服务请求</p>
+        </div>
+      )
     }
   }
-
+  // 渲染改变部分
   onLabelClick = (i) => {
+    let { labelList, labelValue } = this.state;
     this.setState({
-      selectLabel: i
+      selectLabel: labelValue[i],
+      subject: labelList[i]
     });
   }
 
@@ -65,7 +99,7 @@ class Ticket extends Component {
         labelArr.push((
           <Button
             key={'label' + i}
-            onClick={() => this.onLabelClick(labelValue[i])}
+            onClick={() => this.onLabelClick(i)}
             className={styles.labelBtn}
             style={{
               backgroundColor: this.state.selectLabel == labelValue[i] ? '#73d7dc' : '#fff',
@@ -85,12 +119,26 @@ class Ticket extends Component {
           </div>
         </div>
       )
-    } else if (serverType == 'salary' || serverType == 'welfare') {
-      let data = [
-        { title: '薪酬期间', value: '2018年8月' },
-        { title: '收入类型', value: '工资薪金' },
-        { title: '实发工资', value: '¥ 88888.88' }
-      ]
+    } else if (serverType == 'salary' || serverType == 'welfare' || serverType == 'validIdentity') {
+      let info = this.state.info;
+      let datas = {
+        salary: [
+          { title: '薪酬期间', value: `${info.year}年${info.month}月` },
+          { title: '收入类型', value: info.pay_type },
+        ],
+        welfare: [
+          { title: '账单年月', value: `${info.payment_year}年${info.payment_month}月` },
+          { title: '缴费年月', value: `${info.ins_year}年${info.ins_month}月` },
+          { title: '缴纳类型', value: info.si_hf_status == 0 ? '补缴' : '正常缴纳' },
+        ],
+        validIdentity: [
+          { title: '证件姓名', value: `${info.name}` },
+          { title: '证件类型', value: `${info.id_type}` },
+          { title: '证件号码', value: `${info.id_number}` },
+          { title: '提交原因', value: info.cause },
+        ]
+      }
+      let data = datas[serverType];
       let tempArr = [];
       data.forEach((v, i) => {
         tempArr.push((
@@ -109,14 +157,14 @@ class Ticket extends Component {
     }
   }
   textareChange = (i) => {
-    console.log(i);
     this.setState({
       textareValue: i
     });
 
   }
+  // 富文本字数限制
   onTextBlur = () => {
-    if (this.state.textareValue.trim().length <= 10) {
+    if (this.state.textareValue.trim().length < 10) {
       this.setState({
         textError: true
       })
@@ -127,12 +175,14 @@ class Ticket extends Component {
     }
 
   }
+
   onChange = (files, type, index) => {
     console.log(files, type, index);
     this.setState({
       files,
     });
   };
+  // 添加图片
   onAddImageClick = (e) => {
 
     e.preventDefault();
@@ -154,21 +204,51 @@ class Ticket extends Component {
         // {localData: data:image/jgp;base64/,/9j/.....} ios
         // {localData: /9j/} android
         var localData = res.localData;
-        if(window.__wxjs_is_wkwebview) {
+        if (window.__wxjs_is_wkwebview) {
           localData = localData.replace('jpg', 'jpeg');
         } else {
           localData = 'data:image/jpeg;base64,' + localData;
         }
-        alert(localData);
+        // alert(localData);
       }
     });
   };
+  // 提交
   onSubmit = (i) => {
-    console.log(i);
-    this.props.dispatch(routerRedux.push('/ticketRes'));
+    if (this.state.textareValue.trim().length < 10) {
+      return Toast.fail('至少输入10个字的详情哦!', 2);
+    }
+    // this.props.dispatch(routerRedux.push('/ticketRes'));
+    let { serverType } = this.state;
+    let requestObj = {};
+    if (serverType == 'salary') {
+      requestObj = {
+        des: this.state.textareValue,
+        ...this.state.ticket_info
+      }
+    } else if (serverType == 'welfare') {
+      requestObj = {
+        des: this.state.textareValue,
+        ...this.state.ticket_info
+      }
+    } else if (serverType == 'general') {
+      requestObj = {
+        des: this.state.textareValue,
+        subject: this.state.subject,
+        ...this.state.ticket_info
+      }
+    } else if (serverType == 'validIdentity') {
+      requestObj = {
+        des: this.state.textareValue,
+        ...this.state.ticket_info
+      }
+    }
+    this.props.dispatch({
+      type: 'ticket/ticketSubmit',
+      payload: requestObj
+    });
   }
   render() {
-
     return (
       <div className={styles.container}>
         {/* title */}
@@ -208,7 +288,7 @@ class Ticket extends Component {
             className={styles.submitBtn}
             onClick={this.onSubmit}
             activeStyle={{ backgroundColor: '#ddd' }}
-          >填写完毕, 我要提交</Button>
+          >填写完毕, 我要提交.</Button>
         </div>
       </div>
     )
@@ -216,7 +296,9 @@ class Ticket extends Component {
 
 }
 function mapStateToProps(state) {
-
+  return {
+    ticketData: state.ticket
+  }
 }
 
-export default connect()(Ticket);
+export default connect(mapStateToProps)(Ticket);

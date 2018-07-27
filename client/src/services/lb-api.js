@@ -128,6 +128,10 @@ export default class lbapi {
   getPlantReadRoute() {
     return `${this.getCbizprivateRoute()}/plant_read`
   }
+  // 用户已读route
+  getPay_detailRoute() {
+    return `${this.getCbizprivateRoute()}/pay_detail`
+  }
   // ----------------- 社保公积金 -------------------
   // 获取社保公积金年份查询
   getSiYearArrayRoute() {
@@ -144,5 +148,34 @@ export default class lbapi {
   // 获取社保公积金数据查询
   getSiHfRoute() {
     return `${this.getCbizprivateRoute()}/si_hf`
+  }
+  // ----------------------- 异议提交 -------------------
+  // 
+  getTkt_createRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_create`
+  }
+  // 获取服务列表
+  getTkt_listRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_list`
+  }
+  // 获取历史服务列表
+  getTkt_over_listRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_over_list`
+  }
+  // 获取列表某项置顶
+  getTkt_sticky_stateRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_sticky_state`
+  }
+  // 获取撤销一条服务
+  getTkt_cancelRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_cancel`
+  }
+  // 获取服务详情
+  getTkt_detailRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_detail`
+  }
+  // 用户已读接口
+  getTkt_close_replyRoute() {
+    return `${this.getCbizprivateRoute()}/tkt_close_reply`
   }
 }

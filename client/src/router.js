@@ -27,6 +27,8 @@ import WelfareData from './routes/welfare/welfareData';
 import Ticket from './routes/ticket/ticket';
 import TicketReuslt from './routes/ticket/ticketResult';
 import TicketList from './routes/ticket/ticketList';
+import TicketInfo from './routes/ticket/ticketInfo';
+import TicketFail from './routes/ticket/ticketFail';
 
 function RouterConfig({ history }) {
   return (
@@ -49,15 +51,17 @@ function RouterConfig({ history }) {
         <Route path="/salaryPwd" exact component={SalaryPwd} />
         <Route path="/registPwd" exact component={RegistPwd} />
         <Route path="/salaryList" exact component={SalaryList} />
-        <Route path="/salaryData" exact component={SalaryData} />
+        <Route path="/salaryData/:id?" exact component={SalaryData} />
         <Route path="/complaint" exact component={Complaint} />
 
         <Route path="/welfareList" exact component={WelfareList} />
-        <Route path="/welfareData" exact component={WelfareData} />
+        <Route path="/welfareData/:id?" exact component={WelfareData} />
         {/* ticket 服务请求页面 */}
         <Route path="/ticket" exact component={Ticket} />
         <Route path="/ticketRes" exact component={TicketReuslt} />
         <Route path="/ticketList" exact component={TicketList} />
+        <Route path="/ticketInfo/:tkt_key" exact component={TicketInfo} />
+        <Route path="/ticketFail/:tkt_key?"  component={TicketFail} />
       </Switch>
     </Router>
   );
