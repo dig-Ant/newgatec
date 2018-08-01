@@ -122,7 +122,6 @@ class Ticket extends Component {
         <div className={styles.info}>
           {
             detailsList.map((v, i) => {
-              console.log(v);
               return (
                 <div key={'infoItem' + i} className={styles.infoItem}>
                   <span>{v.key}</span>
@@ -214,13 +213,14 @@ class Ticket extends Component {
   renderCancelType = () => {
     let { currentStatus } = this.state;
     let cancel = this.props.ticketInfo.cancel;
+    let tkt = this.props.ticketInfo.tkt;
     let v = true;
     if (currentStatus.cancelType) {
       return (
         <div className={styles.cancelType}>
           <div className={styles.top}>
             <span>取消类型</span>
-            <span>{cancel.type}</span>
+            <span>{tkt.remark}</span>
           </div>
           {cancel.remark ?
             <p className={styles.cancelInfo}>

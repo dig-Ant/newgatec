@@ -71,34 +71,33 @@ export default {
             obj = {
               tkt_type: 1,
               subject: '工资条疑义处理',
-              plant_id: window.sessionStorage.getItem(cfg.plant_id),
+              plant_id: util.get_s(cfg.plant_id),
               ...msg
             }
           } else if (ticket_info.serverType == 'welfare') {
             obj = {
               tkt_type: 2,
               subject: '社保公积金答疑',
-              // plant_id: window.sessionStorage.getItem(cfg.plant_id),
+              plant_id: util.get_s(cfg.plant_id),
               ...msg
             }
           } else if (ticket_info.serverType == 'general') {
             obj = {
               tkt_type: 0,
               subject: '有关[?]的服务请求',
-              // plant_id: window.sessionStorage.getItem(cfg.plant_id),
+              // plant_id: util.get_s(cfg.plant_id),
               ...msg
             }
           } else if (ticket_info.serverType == 'validIdentity') {
             obj = {
               tkt_type: 3,
               subject: '有关身份验证的服务请求',
-              // plant_id: window.sessionStorage.getItem(cfg.plant_id),
+              plant_id: util.get_s(cfg.plant_id),
               ...msg
             }
           }
         }
         let data = yield call(userSvc.getTkt_create, obj);
-        console.log('服务提交', data);
         if (data.body && ticket_info.serverType == 'validIdentity') {
           yield put({
             type: 'changeRequestNum',
