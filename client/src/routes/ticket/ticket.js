@@ -41,7 +41,6 @@ class Ticket extends Component {
     let ticket_info = util._storage.get_s(cfg.ticket_info);
     if (ticket_info) {
       let { serverType, info, ...data } = ticket_info;
-      console.log('prepare,', data);
       this.setState({
         serverType: serverType,
         info: info,
@@ -84,9 +83,16 @@ class Ticket extends Component {
   // 渲染改变部分
   onLabelClick = (i) => {
     let { labelList, labelValue } = this.state;
+    if (i == labelList.length - 1) {
+      this.setState({
+        selectLabel: labelValue[i],
+        subject: `用户服务请求`
+      });
+      return;
+    }
     this.setState({
       selectLabel: labelValue[i],
-      subject: labelList[i]
+      subject: `有关『${labelList[i]}』的服务请求`
     });
   }
 
@@ -215,7 +221,9 @@ class Ticket extends Component {
   };
   // 提交
   onSubmit = (i) => {
-    if (this.state.textareValue.trim().length < 10) {
+    let textValue = this.state.textareValue.trim();
+
+    if (textValue.trim().length < 10) {
       return Toast.fail('至少输入10个字的详情哦!', 2);
     }
     // this.props.dispatch(routerRedux.push('/ticketRes'));
@@ -223,23 +231,23 @@ class Ticket extends Component {
     let requestObj = {};
     if (serverType == 'salary') {
       requestObj = {
-        des: this.state.textareValue,
+        des: textValue,
         ...this.state.ticket_info
       }
     } else if (serverType == 'welfare') {
       requestObj = {
-        des: this.state.textareValue,
+        des: textValue,
         ...this.state.ticket_info
       }
     } else if (serverType == 'general') {
       requestObj = {
-        des: this.state.textareValue,
+        des: textValue,
         subject: this.state.subject,
         ...this.state.ticket_info
       }
     } else if (serverType == 'validIdentity') {
       requestObj = {
-        des: this.state.textareValue,
+        des: textValue,
         ...this.state.ticket_info
       }
     }

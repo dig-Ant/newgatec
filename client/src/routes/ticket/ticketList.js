@@ -187,7 +187,7 @@ class TicketList extends Component {
         ref={el => this.lv = el}
         dataSource={this.state.dataSource}
         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-          {this.state.isLoading ? 'Loading...' : 'Loaded'}
+          {this.state.isLoading ? '暂时没有其他数据哦...' : 'Loaded'}
         </div>)}
         renderRow={row}
         renderSeparator={separator}
@@ -262,7 +262,7 @@ class TicketList extends Component {
         ref={el => this.lv = el}
         dataSource={this.state.overDataSource}
         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-          {this.state.isLoading ? 'Loading...' : 'Loaded'}
+          {this.state.isLoading ? '暂时没有其他数据哦...' : 'Loaded'}
         </div>)}
         renderRow={row}
         renderSeparator={separator}
