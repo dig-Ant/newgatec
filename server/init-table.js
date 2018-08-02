@@ -18,7 +18,7 @@ creatTables = async (promiseArr)=>{
   })
 }
 
-let pArr = ['SmsCode','SmsLog']
+let pArr = ['WeChat_Log']
 let promseArr = []
   for (let index = 0; index < pArr.length; index++) {
     promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))

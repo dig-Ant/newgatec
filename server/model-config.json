@@ -70,5 +70,9 @@
   "Inner": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "WeChat_Log": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }
