@@ -1,5 +1,8 @@
-let jsonCheck = require('../../common/smsFn/jsonCheck')
-let enums = require('../../common/core/enum')
+let jsonCheck = require('../../common/smsFn/jsonCheck');
+let enums = require('../../common/core/enum');
+let moment = require('moment');
+moment.locale('zh-cn');
+
 module.exports = function(Inner) {
 
 
@@ -159,6 +162,96 @@ module.exports = function(Inner) {
     }
   }
 
+  Inner.pay_wechat_send= async(obj,cb) =>{
+    try {
+      let input = {
+        openid:obj.openid,
+        templateId:'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        url:obj.url,
+        data:{
+          "first": {
+            "value":"工资发放通知",
+            "color":"#173177"
+          },
+          "keyword1":{
+            "value":obj.clt_name,
+            "color":"#173177"
+          },
+          "keyword2": {
+            "value":obj.pay_time,
+            "color":"#173177"
+          },
+          "keyword3": {
+            "value":moment().format('LL'),
+            "color":"#173177"
+          },
+          "remark":{
+            "value":"感谢您的使用！",
+            "color":"#173177"
+          }
+        }
+
+      };
+      let _send = Inner.app.models.WeChat_Log.wechat_send(input);
+      return _send;
+    } catch (error) {
+      cb(error);
+    }
+  };
+
+  Inner.pay_wechat_send_arry= async(obj,cb) =>{
+    try {
+      let input = {
+        openid:null,
+        templateId:'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        url:obj.url,
+        data:{
+          "first": {
+            "value":"工资发放通知",
+            "color":"#173177"
+          },
+          "keyword1":{
+            "value":obj.clt_name,
+            "color":"#173177"
+          },
+          "keyword2": {
+            "value":obj.pay_time,
+            "color":"#173177"
+          },
+          "keyword3": {
+            "value":moment().format('LL'),
+            "color":"#173177"
+          },
+          "remark":{
+            "value":"感谢您的使用！",
+            "color":"#173177"
+          }
+        }
+
+      };
+      let opArr = obj.openids.split(',')
+      let errArr = [];
+      let sucArr = [];
+      for (let i = 0; i < opArr.length; i++) {
+
+        input.openid = opArr[i]
+        try {
+          let _send =  await Inner.app.models.WeChat_Log.wechat_send(input);
+          sucArr.push(_send.msgid);
+        } catch (error) {
+          errArr.push(opArr[i])
+        }
+           
+      }
+      
+      return {
+        success:sucArr,
+        error:errArr,
+      };
+    } catch (error) {
+      cb(error);
+    }
+  };
   
   Inner.remoteMethod('registerCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
@@ -181,6 +274,17 @@ module.exports = function(Inner) {
     returns: {arg: 'body', type: 'object'}
   });
   Inner.remoteMethod('pay_smsCodeCheck', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+  Inner.remoteMethod('pay_wechat_send', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+
+  Inner.remoteMethod('pay_wechat_send_arry', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
