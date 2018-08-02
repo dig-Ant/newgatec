@@ -1,0 +1,43 @@
+{
+  "name": "WeChat_Log",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "openid":{
+      "type": "string",
+      "required": true
+    },
+    "templateId":{
+      "type": "string",
+      "required": true
+    },
+    "data":{
+      "type": "string",
+      "required": true
+    },
+    "uri":{
+      "type": "string",
+      "required": false
+    },
+    "msgid":{
+      "type": "string",
+      "required": true
+    },
+    "send_time":{
+      "type": "date",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    
+  },
+  "acls": [],
+  "methods": {}
+}
