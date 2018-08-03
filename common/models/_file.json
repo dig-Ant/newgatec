@@ -1,0 +1,60 @@
+{
+  "name": "_File",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "user_id":{
+      "type": "string",
+      "required": true
+    },
+    "bucket":{
+      "type": "string",
+      "required": true
+    },
+    "ext":{
+      "type": "string",
+      "required": true
+    },
+    "size":{
+      "type": "number",
+      "required": true
+    },
+    "access_type":{
+      "type": "number",
+      "required": true
+    },
+    "status":{
+      "type": "number",
+      "required": true
+    },
+    "file_name":{
+      "type": "string",
+      "required": true
+    },
+    "file_path":{
+      "type": "string",
+      "required": true
+    },
+    "store_type":{
+      "type": "number",
+      "required": true,
+      "default":1
+    },
+    "create_time":{
+      "type": "date",
+      "required": true,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    
+  },
+  "acls": [],
+  "methods": {}
+}

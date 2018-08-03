@@ -1,6 +1,9 @@
 let jsonCheck = require('../../common/smsFn/jsonCheck');
 let enums = require('../../common/core/enum');
 let moment = require('moment');
+let getFile = require('../../common/core/untilFn');
+let test_c = require('../../common/util/oss/oss_buckets/newgate-c-tast-private');
+let fs = require('fs');
 moment.locale('zh-cn');
 
 module.exports = function(Inner) {
@@ -237,7 +240,7 @@ module.exports = function(Inner) {
         input.openid = opArr[i]
         try {
           let _send =  await Inner.app.models.WeChat_Log.wechat_send(input);
-          sucArr.push(_send.msgid);
+          sucArr.push({openid:opArr[i],msgid:_send.msgid});
         } catch (error) {
           errArr.push(opArr[i])
         }
@@ -252,6 +255,60 @@ module.exports = function(Inner) {
       cb(error);
     }
   };
+
+  Inner.file_up_test= async(req,cb)=>{
+    try {
+      console.log(req.body.id);
+      let _file = await getFile('fileData',req);
+      let up_oss = await test_c.put('object-1112',_file.path);
+      console.log(up_oss);
+      // console.log(_file);
+      return _file;
+    } catch (error) {
+      console.log(error);
+    }
+    
+    
+    // return 'ok';
+  }
+  Inner.file_download_test= async(req,cb)=>{
+    try {
+      console.log(req.body.id);
+      let _file = await getFile('fileData',req);
+      let up_oss = await test_c.put('object-1112',_file.path);
+      console.log(up_oss);
+      // console.log(_file);
+      return _file;
+    } catch (error) {
+      console.log(error);
+      cb(error)
+    }
+    
+    
+    // return 'ok';
+  }
+  Inner.file_download_test= (req,res,cb)=>{
+    // try {
+      // console.log(req);
+      // let _file = await getFile('fileData',req);
+      let oss_stream =  test_c.getStream('object-1112',).then((result)=>{
+        console.log(result);
+        let writeStream = fs.createReadStream('test.png');
+        console.log(writeStream);   
+        cb(null,writeStream, 'application/octet-stream' ,'attachment; filename=1.png')
+      }).catch((e)=>{
+        cb(e)
+      });
+      // console.log(oss_stream);
+      
+    // } catch (error) {
+    //   console.log(error);
+    //   cb(error);
+    // }
+    
+    
+    // return 'ok';
+  }
   
   Inner.remoteMethod('registerCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
@@ -290,4 +347,26 @@ module.exports = function(Inner) {
     returns: {arg: 'body', type: 'object'}
   });
 
+  Inner.remoteMethod('file_up_test', {
+    http: {
+      verb: 'post',
+    },
+    accepts: [ // get the id of the frog to save image to
+    { arg: 'req', type: 'object', http: { source: 'req' } }],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+
+  Inner.remoteMethod('file_download_test', {
+    accepts: [
+      {arg: 'req', type: 'object', 'http': {source: 'req'}},
+      {arg: 'res', type: 'object', 'http': {source: 'res'}}
+    ],
+    returns: [
+      {arg: 'body', type: 'file', root: true},
+      {arg: 'Content-Type', type: 'string', http: { target: 'header' }},
+      {arg: 'Content-Disposition', type: 'string', http: { target: 'header' }}
+    ],
+    http: { verb: 'get'}
+  });
 }
