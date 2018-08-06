@@ -32,7 +32,11 @@
   },
   "validations": [],
   "relations": {
-    
+    "File_Model": {
+      "type": "hasMany",
+      "model": "Change_History",
+      "foreignKey": "file_id"
+    }
   },
   "acls": [],
   "methods": {}
