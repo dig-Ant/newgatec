@@ -1,8 +1,8 @@
 let jsonCheck = require('../../common/smsFn/jsonCheck');
 let enums = require('../../common/core/enum');
 let moment = require('moment');
-let getFile = require('../../common/core/untilFn');
-let test_c = require('../../common/util/oss/oss_buckets/newgate-c-tast-private');
+let getFile = require('../../common/core/utilFn');
+let buckets = require('../../common/util/oss/buckets');
 let fs = require('fs');
 moment.locale('zh-cn');
 
@@ -258,9 +258,9 @@ module.exports = function(Inner) {
 
   Inner.file_up_test= async(req,cb)=>{
     try {
-      console.log(req.body.id);
+      // console.log(req.body.id);
       let _file = await getFile('fileData',req);
-      let up_oss = await test_c.put('object-1112',_file.path);
+      let up_oss = await buckets.private_c.put('object-1112',_file.path);
       console.log(up_oss);
       // console.log(_file);
       return _file;
@@ -271,27 +271,12 @@ module.exports = function(Inner) {
     
     // return 'ok';
   }
-  Inner.file_download_test= async(req,cb)=>{
-    try {
-      console.log(req.body.id);
-      let _file = await getFile('fileData',req);
-      let up_oss = await test_c.put('object-1112',_file.path);
-      console.log(up_oss);
-      // console.log(_file);
-      return _file;
-    } catch (error) {
-      console.log(error);
-      cb(error)
-    }
-    
-    
-    // return 'ok';
-  }
+  
   Inner.file_download_test= (req,res,cb)=>{
     // try {
       // console.log(req);
       // let _file = await getFile('fileData',req);
-      let oss_stream =  test_c.getStream('object-1112',).then((result)=>{
+      let oss_stream =  buckets.private_c.getStream('object-1112',).then((result)=>{
         console.log(result);
         let writeStream = fs.createReadStream('test.png');
         console.log(writeStream);   

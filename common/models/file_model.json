@@ -1,5 +1,5 @@
 {
-  "name": "_File",
+  "name": "File_Model",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -8,6 +8,10 @@
   "mixins": {
   },
   "properties": {
+    "id":{
+      "type": "string",
+      "id":true
+    },
     "user_id":{
       "type": "string",
       "required": true
@@ -34,9 +38,9 @@
     },
     "file_name":{
       "type": "string",
-      "required": true
+      "required": false
     },
-    "file_path":{
+    "requestUrls":{
       "type": "string",
       "required": true
     },

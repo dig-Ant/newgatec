@@ -77,7 +77,7 @@ module.exports ={
   },
   uuid:(str)=>{
     let d = new Date().getTime();
-    let uuid = str||'xxxxxxxxx'.replace(/[xy]/g, (c)=> {
+    let uuid = str||'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, (c)=> {
       let r = (d + Math.random()*16)%10 | 0;
       d = Math.floor(d/16);
       return (c=='x' ? r : (r&0x3|0x8)).toString(16);
