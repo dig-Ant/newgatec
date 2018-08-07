@@ -131,6 +131,7 @@ module.exports = function(Private) {
       }
       let object_key = util_lv.uuid();
       let up_oss = await buckets.private_c.put(object_key,_file.path);
+      // console.log(_file.originalFilename.replace(/[\\\\/:*?\"<> |]/g, '_'));//文件名过滤
       let input = {
         id:object_key,
         user_id:0,
@@ -185,7 +186,7 @@ module.exports = function(Private) {
       console.log('sql_save',sql_save);
       console.log(up_oss);
       // console.log(_file);
-      return {id:object_key,url:up_oss.url};
+      return {file_id:object_key,url:up_oss.url};
     } catch (error) {
       console.log(error);
       cb(error);
@@ -201,9 +202,13 @@ module.exports = function(Private) {
     let user_id = 0;
     let file_name = null;
     let writeStream = null;
-    let get_file = Private.app.models.File_Model.findOne({id:file_id,status:1,user_id:user_id}).then((result)=>{
-      // console.log(result);
+    let get_file = Private.app.models.File_Model.findOne({where:{id:file_id,status:1,user_id:user_id}}).then((result)=>{
+      console.log('sql',result);
+      if(result==null){
+        throw new Error('文件不存在');
+      }
       file_name = result.file_name;
+     
       return buckets.private_c.get(file_id, 'download/'+result.file_name);
     }).then((result)=>{
       // console.log('oss',result);
@@ -213,16 +218,24 @@ module.exports = function(Private) {
       return fs_pro('download/'+file_name);
       
     }).then((result)=>{
-      cb(null,writeStream, 'application/octet-stream' ,'attachment; filename=1.png');
+      console.log('file_name',file_name);
+      let file_name_arr = file_name.split(".");
+      let _name = file_id +'.'+ file_name_arr[file_name_arr.length-1]
+      let disposition = 'attachment; filename='+_name;
+      cb(null,writeStream, 'application/octet-stream' ,disposition);
     }).catch((error)=>{
       console.log(error);
       cb(error)
     })
   }
 
-  Private.private_file_base64_up = async(obj,cb)=>{
+  Private.private_file_base64_up = async(req,obj,cb)=>{
     try {
-      let base64_data = obj.data.split(",")[1];
+      let base_arr = obj.data.split(",");
+      let _header_base = base_arr[0].split(":");
+      let _ext = _header_base[1].split(";")[0];
+      console.log('ext',_ext);
+      let base64_data = base_arr[1];
       var imageBuffer = new Buffer(base64_data,'base64');
       let _path = 'upload/'+obj.file_name;
       let write_file = await writeFile.promise(_path,imageBuffer);
@@ -239,7 +252,7 @@ module.exports = function(Private) {
         id:object_key,
         user_id:0,
         bucket:'newgate-c-private',
-        ext:obj.file_name,//文件扩展名
+        ext:_ext,//文件扩展名
         size:_file.size,//文件大小
         access_type:1,//文件是否需要授权
         status:1,//文件的状态
@@ -258,9 +271,13 @@ module.exports = function(Private) {
     }
   }
 
-  Private.public_file_base64_up = async(obj,cb)=>{
+  Private.public_file_base64_up = async(req,obj,cb)=>{
     try {
-      let base64_data = obj.data.split(",")[1];
+      let base_arr = obj.data.split(",");
+      let _header_base = base_arr[0].split(":");
+      let _ext = _header_base[1].split(";")[0];
+      console.log('ext',_ext);
+      let base64_data = base_arr[1];
       var imageBuffer = new Buffer(base64_data,'base64');
       let _path = 'upload/'+obj.file_name;
       let write_file = await writeFile.promise(_path,imageBuffer);
@@ -270,14 +287,14 @@ module.exports = function(Private) {
         throw new Error('文件过大');
       }
       let object_key = util_lv.uuid();
-      let up_oss = await buckets.private_c.put(object_key,_path);
+      let up_oss = await buckets.public_c.put(object_key,_path);
       
       console.log(_file);
       let input = {
         id:object_key,
         user_id:0,
         bucket:'newgate-c-public',
-        ext:obj.file_name,//文件扩展名
+        ext:_ext,//文件扩展名
         size:_file.size,//文件大小
         access_type:0,//文件是否需要授权
         status:1,//文件的状态
@@ -289,21 +306,37 @@ module.exports = function(Private) {
       let sql_save = await Private.app.models.File_Model.upsert(input);
       let fs_unlink = util.promisify(fs.unlink.bind(this));
       let file_del = await fs_unlink(_path);
-      return {id:object_key,url:up_oss.url};
+      return {file_id:object_key,url:up_oss.url};
     } catch (error) {
       console.log(error);
       cb(error);
     }
   }
 
-  Private.file_delete = async(obj,cb) =>{
+  Private.file_delete = async(req,obj,cb) =>{
     try {
-      let get_file = await Private.app.models.File_Model.findOne({
+      console.log('id',obj.file_id)
+      let user_id = 0
+      let get_file = await Private.app.models.File_Model.findOne({where:{
         id:obj.file_id,
         status:1,
-        user_id:obj.user_id
-      });
+        user_id:user_id
+      }});
+      if(get_file==null){
+        throw new Error('文件不存在');
+      }
+      console.log('sql1',get_file);
       let del_file = await get_file.updateAttributes({status:0});
+      let input = {
+        file_id:obj.file_id,
+        operation_type:0,
+        model_name:get_file.file_name,
+        user_id:user_id,
+        file_id:get_file.id
+
+      };
+      let sql_save = await Private.app.models.Change_History.upsert(input);
+      console.log('sql',sql_save);
       return {state:1}
     } catch (error) {
       cb(error);
@@ -359,17 +392,26 @@ module.exports = function(Private) {
   });
 
   Private.remoteMethod('private_file_base64_up', {
-    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+    accepts: [
+      {arg: 'req', type: 'object', 'http': {source: 'req'}},
+      {arg: 'obj', type: 'object',http:{source:'body'}}
+    ],
 
     returns: {arg: 'body', type: 'object'}
   });
   Private.remoteMethod('public_file_base64_up', {
-    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+    accepts: [
+      {arg: 'req', type: 'object', 'http': {source: 'req'}},
+      {arg: 'obj', type: 'object',http:{source:'body'}}
+    ],
 
     returns: {arg: 'body', type: 'object'}
   });
   Private.remoteMethod('file_delete', {
-    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+    accepts: [
+      {arg: 'req', type: 'object', 'http': {source: 'req'}},
+      {arg: 'obj', type: 'object',http:{source:'body'}}
+    ],
 
     returns: {arg: 'body', type: 'object'}
   });
