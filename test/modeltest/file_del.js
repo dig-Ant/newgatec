@@ -13,19 +13,19 @@ describe('file_base64_up', ()=> {
       json: true // Automatically stringifies the body to JSON
     };
    
-      rp(options)
+    rp(options)
       .then( (body)=> {
-          console.log(JSON.parse(body));
-          let result = JSON.parse(body);
-          console.log(result.body.file_id);
-          assert.notEqual(result.body.state,1,'不能为空');
+        console.log(JSON.parse(body));
+        let result = JSON.parse(body);
+        console.log(result.body.file_id);
+        assert.notEqual(result.body.state,1,'不能为空');
       })
       .catch((err)=> {
           // POST failed...
-          console.log(err);
+        console.log(err);
       });
       
-      done();
+    done();
     
   });
 
@@ -37,4 +37,4 @@ describe('file_base64_up', ()=> {
 
 
 
-})
+});

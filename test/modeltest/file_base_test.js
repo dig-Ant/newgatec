@@ -14,19 +14,19 @@ describe('file_base64_up', ()=> {
       json: true // Automatically stringifies the body to JSON
     };
    
-      rp(options)
+    rp(options)
       .then( (body)=> {
-          console.log(JSON.parse(body));
-          let result = JSON.parse(body);
-          console.log(result.body.file_id);
-          assert.notEqual(result.body.file_id,null,'不能为空');
+        console.log(JSON.parse(body));
+        let result = JSON.parse(body);
+        console.log(result.body.file_id);
+        assert.notEqual(result.body.file_id,null,'不能为空');
       })
       .catch((err)=> {
           // POST failed...
-          console.log(err);
+        console.log(err);
       });
       
-      done();
+    done();
     
   });
 
@@ -38,26 +38,26 @@ describe('file_base64_up', ()=> {
       uri: serverUrl+'private/public_file_base64_up',
       formData: {
           
-          fileData: fs.createReadStream(__dirname + '/_file/test.png')
+        fileData: fs.createReadStream(__dirname + '/_file/test.png')
       },
       headers: {
-           'content-type': 'multipart/form-data' // Is set automatically
+        'content-type': 'multipart/form-data' // Is set automatically
       }
     };
    
-      rp(options)
+    rp(options)
       .then( (body)=> {
-          console.log(JSON.parse(body));
-          let result = JSON.parse(body);
-          console.log(result.body.file_id);
-          assert.notEqual(result.body.url,null,'url不能为空');
+        console.log(JSON.parse(body));
+        let result = JSON.parse(body);
+        console.log(result.body.file_id);
+        assert.notEqual(result.body.url,null,'url不能为空');
       })
       .catch((err)=> {
           // POST failed...
-          console.log(err);
+        console.log(err);
       });
       
-      done();
+    done();
     
   });
 
@@ -67,4 +67,4 @@ describe('file_base64_up', ()=> {
 
 
 
-})
+});

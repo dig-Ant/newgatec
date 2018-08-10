@@ -46,4 +46,4 @@ module.exports = {
     get_is_client:severIP+':8888/api/inner/get_is_client'
   }
 
-}
+};
