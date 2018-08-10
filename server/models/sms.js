@@ -64,19 +64,21 @@ let msg = {
  */
   Sms.smsCode = async (obj,cb) => {
     return new Promise(async (resolve, reject) => {
-    let jsonKeys = ['phone','type','sign','modelId','content','codeType']
-    try {
-       let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
-       var promise = await smsFn.phoneNumCheck(obj.phone)
+    
    
       if (obj.type == 1) {
-        // let modelsObj = await Sms.app.models.SmsModel.find_id(obj.modelId)
-        // console.log(modelsObj)
-        let testNum = smsFn.rangenum(enums.rangenum.start, enums.rangenum.end);//获取随机数
-
-        let codeMsg = smsFn.returnMsgCode(obj.content, testNum); //插入验证码；
-        // let smsMsg = smsFn.returnMsg(codeMsg,obj.strArr);//插入必填字段生成提示语；
         try {
+          let jsonKeys = ['phone','type','sign','modelId','content','codeType']
+    
+          let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
+          var promise = await smsFn.phoneNumCheck(obj.phone)
+          // let modelsObj = await Sms.app.models.SmsModel.find_id(obj.modelId)
+          // console.log(modelsObj)
+          let testNum = smsFn.rangenum(enums.rangenum.start, enums.rangenum.end);//获取随机数
+
+          let codeMsg = smsFn.returnMsgCode(obj.content, testNum); //插入验证码；
+          // let smsMsg = smsFn.returnMsg(codeMsg,obj.strArr);//插入必填字段生成提示语；
+        
           let smsSend = await smsFn.smsSend(obj.sign, obj.modelId, obj.phone, codeMsg)
           let modelCode = await Sms.app.models.SmsCode.createCode(obj.phone, testNum, obj.codeType||1);//写入smscode数据库
           console.log('=====>',modelCode)
@@ -106,20 +108,42 @@ let msg = {
         }
 
       } else if (obj.type == 2) {
-        let err = new Error('暂不支持此类型');
+        // let err = new Error('暂不支持此类型');
+        //   err.statusCode = 412
+        //   reject(err)
+        try {
+          let jsonKeys = ['phone','type','sign','modelId','content']
+          let objCheck = await jsonCkeck.keysCheck(jsonKeys,obj)
+          var promise = await smsFn.phoneNumCheck(obj.phone)
+          let smsSend = await smsFn.smsSend(obj.sign, obj.modelId, obj.phone, obj.content);
+          enums.smsLogObj.phone = obj.phone;
+          enums.smsLogObj.smsMsg = obj.content;
+          enums.smsLogObj.smsSign = obj.sign;
+
+          let modelLog = await Sms.app.models.SmsLog.createLog(enums.smsLogObj)//写入日志
+          let success = { code:1};
+          success.msg = '验证码已发送';
+          let successSend = JSON.parse(smsSend)
+          success.data = {
+            smUuid:successSend.smUuid
+          }
+          
+          resolve(success)
+        } catch (error) {
+          console.log(error);
+          let err = new Error('验证码发送失败');
           err.statusCode = 412
           reject(err)
+        }
+        
+
       } else {
         
         let err = new Error('暂不支持此类型');
           err.statusCode = 412
           reject(err)
       }
-    } catch (error) {
-      
-      reject(error)
-      
-    }
+   
   })
    
   }

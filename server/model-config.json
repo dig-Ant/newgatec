@@ -82,5 +82,9 @@
   "Change_History": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "InterFaces": {
+    "dataSource": "db",
+    "public":  true
   }
 }

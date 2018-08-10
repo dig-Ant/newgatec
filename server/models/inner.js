@@ -169,11 +169,11 @@ module.exports = function(Inner) {
     try {
       let input = {
         openid:obj.openid,
-        templateId:'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        templateId:obj.templateId||'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
         url:obj.url,
         data:{
           "first": {
-            "value":"工资发放通知",
+            "value":obj.header||"工资发放通知",
             "color":"#173177"
           },
           "keyword1":{
@@ -189,7 +189,7 @@ module.exports = function(Inner) {
             "color":"#173177"
           },
           "remark":{
-            "value":"感谢您的使用！",
+            "value":obj.footer||"感谢您的使用！",
             "color":"#173177"
           }
         }
@@ -206,11 +206,11 @@ module.exports = function(Inner) {
     try {
       let input = {
         openid:null,
-        templateId:'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        templateId:obj.templateId||'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
         url:obj.url,
         data:{
           "first": {
-            "value":"工资发放通知",
+            "value":obj.header||"工资发放通知",
             "color":"#173177"
           },
           "keyword1":{
@@ -226,7 +226,7 @@ module.exports = function(Inner) {
             "color":"#173177"
           },
           "remark":{
-            "value":"感谢您的使用！",
+            "value":obj.footer||"感谢您的使用！",
             "color":"#173177"
           }
         }
@@ -294,6 +294,34 @@ module.exports = function(Inner) {
     
     // return 'ok';
   }
+
+  Inner.smsSend = async (obj,cb)=>{
+    try {
+      console.log(obj);
+      let input = {
+      phone:obj.phone,
+      type:2,
+      sign:obj.sign||"675",//签名
+      modelId:obj.modelId||"3611",//模版
+      content:obj.content||"吕翱##200"
+      }
+      let jsonKeys = ['phone']
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
+      let result = await Inner.app.models.Sms.smsCode(input);
+      return result;
+      console.log('result===================>',result)
+    } catch (error) {
+      // enums.error.msg=error.message
+      error.statusCode = 412
+      cb(error)
+    }
+   
+  }
+  Inner.remoteMethod('smsSend', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
   
   Inner.remoteMethod('registerCodeCheck', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
