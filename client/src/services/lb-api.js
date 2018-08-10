@@ -10,7 +10,7 @@ export default class lbapi {
   getBaseRoute() {
     return `${this.url}`;
   }
-  
+
   getWxSvcRoute() {
     return `${this.getBaseRoute()}/WxSvcs`
   }
@@ -177,5 +177,19 @@ export default class lbapi {
   // 用户已读接口
   getTkt_close_replyRoute() {
     return `${this.getCbizprivateRoute()}/tkt_close_reply`
+  }
+
+  // --------------- 企业页面相关路由 -----------------
+  // 获取企业列表接口
+  getCompanyListRoute() {
+    return `${this.getUserprivateRoute()}/?`
+  }
+  // 根据企业获取 功能列表接口
+  getCompanyBtnListRoute() {
+    return `${this.getUserprivateRoute()}/?`
+  }
+  // 根据列表 请求 列表的权限接口
+  getFormListRoute() {
+    return `${this.getUserprivateRoute()}/?`
   }
 }

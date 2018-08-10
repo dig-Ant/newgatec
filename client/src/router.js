@@ -29,6 +29,8 @@ import TicketReuslt from './routes/ticket/ticketResult';
 import TicketList from './routes/ticket/ticketList';
 import TicketInfo from './routes/ticket/ticketInfo';
 import TicketFail from './routes/ticket/ticketFail';
+// 企业 注册页面
+import RegisterForm from './routes/company/registerForm';
 
 function RouterConfig({ history }) {
   return (
@@ -62,6 +64,7 @@ function RouterConfig({ history }) {
         <Route path="/ticketList" exact component={TicketList} />
         <Route path="/ticketInfo/:tkt_key" exact component={TicketInfo} />
         <Route path="/ticketFail/:tkt_key?"  component={TicketFail} />
+        <Route path="/registerForm/:tkt_key?"  component={RegisterForm} />
       </Switch>
     </Router>
   );

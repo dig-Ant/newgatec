@@ -18,6 +18,7 @@ app.model(require('./models/validUser').default);
 app.model(require('./models/salary').default);
 app.model(require('./models/welfare').default);
 app.model(require('./models/ticket').default);
+app.model(require('./models/company').default);
 
 // 4. Router
 app.router(require('./router').default);

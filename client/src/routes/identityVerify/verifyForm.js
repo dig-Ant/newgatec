@@ -288,7 +288,7 @@ class VerifyForm extends Component {
               { required: true, message: 'Must select a date' },
             ],
           })}
-          minDate={util.getStrToDate('1984-4-6')}
+          minDate={util.getStrToDate('1984-04-06')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">
@@ -332,7 +332,7 @@ class VerifyForm extends Component {
               { required: true, message: 'Must select a date' },
             ],
           })}
-          minDate={util.getStrToDate('1984-4-6')}
+          minDate={util.getStrToDate('1984-04-06')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">
@@ -345,7 +345,7 @@ class VerifyForm extends Component {
               { required: true, message: 'Must select a date' },
             ],
           })}
-          minDate={util.getStrToDate('1984-4-6')}
+          minDate={util.getStrToDate('1984-04-06')}
           mode="date"
           title="选择您的出生日期"
           extra="Optional">

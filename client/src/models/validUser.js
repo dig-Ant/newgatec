@@ -62,7 +62,7 @@ export default {
     *getUserLogin({ payload }, { call, put }) {
       let data = yield call(userSvc.getUserLogin);
       console.log('是否登录', data);
-      if (data.body && data.body.u_type === 'anonymous') {
+      if (data && data.body && data.body.u_type === 'anonymous') {
         yield put(routerRedux.replace('/active'));
       }
     },
