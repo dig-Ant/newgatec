@@ -120,22 +120,22 @@ export function requestAuth(url, options) {
   //   }
   //   console.log('token---');
   // }
- 
+
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer BTA25qOagbfuG80NUq42SOjw8L1YaKOx`,
+      "Authorization": `bearer wmeagoq7hpDk4TSl43b0ystUrOBDCAtj`,
       // "Authorization": `bearer S5MOPNfVywtkQBLxyooKDxA09ybWE50G`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'cbizprivate') {
     newOptions.headers = {
-      "Authorization": `bearer 5mVjoXkyTVYiIVtpe9LBA12Dk5H2MlKW`,
+      "Authorization": `bearer qPWaavcE6w6xHuDwg1gaeAwEIHildkkX`,
       // "Authorization": `bearer QVQ7Ev4j4SzndCDKbJXdl56znBHo7wRK`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'shareprivate') {
     newOptions.headers = {
-      "Authorization": `bearer JWS5pXY70XLQ8b2eV3zGS13Xa9ABk90J`,
+      "Authorization": `bearer FC9hHUeKWH44TPRNxAAzPrYcEfRXS32Z`,
       // "Authorization": `bearer 3VsveteaxjVKDHE11TKEY6a6P0Rz289p`,//云 kong
       ...newOptions.headers
     }

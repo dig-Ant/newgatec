@@ -1,0 +1,31 @@
+.container {
+
+  .title {
+    .flexCenter;
+    height: 50px;
+    span {
+      font-size: 26px;
+    }
+  }
+
+  .submit {
+    &>div {
+      .flexCenter;
+    }
+  }
+}
+
+.pre(@style,@value){
+  -webkit-@{style}: @value;
+  -o-@{style}:@args;
+  -moz-@{style}: @value;
+  -ms-@{style}: @value;
+  @{style}: @value;
+}
+
+.flexCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

@@ -198,3 +198,28 @@ export async function getTkt_close_reply(data) {
     api_name: 'cbizprivate'
   });
 }
+
+
+// -------------------- 企业页面相关请求 -------------------
+
+// 获取企业列表
+export async function getCompanyList(data) {
+  return requestAuth(kongApi.getCompanyListRoute(), {
+    method: 'GET',
+    api_name: 'userprivate'
+  });
+}
+// 根据企业获取 功能列表
+export async function getCompanyBtnList(data) {
+  return requestAuth(kongApi.getCompanyBtnListRoute(), {
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 根据列表 请求 列表的权限
+export async function getFormList(data) {
+  return requestAuth(kongApi.getFormListRoute(), {
+    body: data,
+    api_name: 'userprivate'
+  });
+}
