@@ -18,7 +18,7 @@ creatTables = async (promiseArr)=>{
   })
 }
 
-let pArr = ['WeChat_Log']
+let pArr = ['File_Model','Change_History']
 let promseArr = []
   for (let index = 0; index < pArr.length; index++) {
     promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))

@@ -1,0 +1,38 @@
+{
+  "name": "Change_History",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "file_id":{
+      "type": "string",
+      "required": true
+    },
+    "operation_type":{
+      "type": "string",
+      "required": true
+    },
+    "model_name":{
+      "type": "string",
+      "required": true
+    },
+    "user_id":{
+      "type": "string",
+      "required": true
+    },
+    "change_time":{
+      "type": "date",
+      "required": true,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

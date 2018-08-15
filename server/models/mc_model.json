@@ -1,0 +1,20 @@
+{
+  "name": "MC_Model",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "http": {"path": "/private"}
+  },
+  "mixins": {
+  },
+  "properties": {
+  
+  },
+  "validations": [],
+  "relations": {
+   
+  },
+  "acls": [],
+  "methods": {}
+}

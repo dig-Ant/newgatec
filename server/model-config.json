@@ -74,5 +74,21 @@
   "WeChat_Log": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "File_Model": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Change_History": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "InterFaces": {
+    "dataSource": "db",
+    "public":  true
+  },
+  "MC": {
+    "dataSource": "db",
+    "public":  true
   }
 }
