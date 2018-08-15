@@ -1,9 +1,22 @@
 const path = require('path');
-
+const pxtorem = require('postcss-pxtorem');
 
 export default {
   entry: 'src/index.js',
   // devtool: "source-map",
+  extraPostCSSPlugins: [ //引入postcss-pxtorem 吧xp自动转化成rem,获取当前手机屏幕宽度设置
+    pxtorem({
+      rootValue: 37.5, //对根元素大小进行设置
+      // 忽略border和font-size相关属性
+      propList: ['*', '!border*', '!font-size*', '!letter-spacing'],
+      // propWhiteList: [],
+      unitPrecision: 5, //转换成rem后保留的小数点位数
+      // selectorBlackList: [],
+      // replace: true,
+      // mediaQuery: false,
+      // minPixelValue: 12//所有小于12px的样式都不被转换
+    })
+  ],
   extraBabelPlugins: [
     // 'transform-decorators-legacy',
     ["import",{ "libraryName": "antd-mobile", "style": true },"antd-mobile-import"],

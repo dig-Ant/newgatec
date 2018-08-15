@@ -25,10 +25,10 @@ class Company extends Component {
     });
   }
   componentWillReceiveProps(nextProps) {
-    if(this.props.companyData.selectCarousel !== nextProps.companyData.selectCarousel) {
-     
+    if (this.props.companyData.selectCarousel !== nextProps.companyData.selectCarousel) {
+
     }
-   
+
   }
 
   salaryBtn = () => {
@@ -52,12 +52,11 @@ class Company extends Component {
   featureClick = (v, i) => {
     // 需要路由
     // 跳转到对应的界面
-    console.log(v,i);
+    console.log(v, i);
     console.log(this.props);
-    return ;
     this.props.dispatch(routerRedux.push({
       pathname: '/registerForm',
-      
+
     }));
   }
 
@@ -150,25 +149,26 @@ class Company extends Component {
 
     return (
       <div className={styles.container}>
-
-        <div className={styles.carouselBox}>
-          {this.renderCarousel()}
-        </div>
-        <div className={styles.featureBox}>
-          {this.renderFeatureList()}
-        </div>
-        {/* header */}
-        <div className={styles.welfareBtnBox}>
-          <div className={styles.welfareBtn} onClick={this.welfareBtn}>
-            <img src={companyImg.welfare} alt="" />
-            <p>社保公积金</p>
+        <div className={styles.box}>
+          <div className={styles.carouselBox}>
+            {this.renderCarousel()}
           </div>
-        </div>
+          <div className={styles.featureBox}>
+            {this.renderFeatureList()}
+          </div>
+          {/* header */}
+          <div className={styles.welfareBtnBox}>
+            <div className={styles.welfareBtn} onClick={this.welfareBtn}>
+              <img src={companyImg.welfare} alt="" />
+              <p>社保公积金</p>
+            </div>
+          </div>
 
-        <div className={styles.welfareBtnBox}>
-          <div className={styles.salaryBtn} onClick={this.salaryBtn}>
-            <img src={companyImg.salary} alt="" />
-            <p>工资条</p>
+          <div className={styles.welfareBtnBox}>
+            <div className={styles.salaryBtn} onClick={this.salaryBtn}>
+              <img src={companyImg.salary} alt="" />
+              <p>工资条</p>
+            </div>
           </div>
         </div>
 
@@ -179,7 +179,7 @@ class Company extends Component {
 
 Company.defaultProps = {
 
-}; 
+};
 
 Company.propTypes = {
 

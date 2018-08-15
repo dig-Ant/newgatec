@@ -12,7 +12,68 @@ import util from '../../utils/util';
 
 const Item = List.Item;
 
-
+let obj = [
+  {
+    "分类名": "基本信息",
+    isShow: true, // 是否显示
+    "表单主体": [
+      { // 单个表单填写项目要素
+        field: 'name', //字段名 对应上传给后台的字段名
+        text: '姓名', //表单名
+        isShow: true,  // 是否显示
+        required: true, // 是否必填项
+        type: 'int', //表单类型 必须 填写文本 填写数字  下拉框 时间 图片等
+        placeholder: '请填写姓名', // 用户未填写表单时的提示信息
+        value: '柴大宝', // 填写的值 草稿时可能有数据
+        errorMessage: '错误提示'
+      },
+      { // 单个表单填写项目要素
+        field: 'tel', //字段名 对应上传给后台的字段名
+        text: '手机号', //表单名
+        isShow: true,  // 是否显示
+        required: true, // 是否必填项
+        type: 'char', //表单类型 必须 填写文本 填写数字  下拉框 时间 图片等
+        placeholder: '请填写手机', // 用户未填写表单时的提示信息
+        value: 15067773371, // 填写的值 草稿时可能有数据
+        errorMessage: '错误提示'
+      },
+      { // 单个表单填写项目要素 时间类型
+        field: 'birthDate', //字段名 对应上传给后台的字段名
+        text: '出生日期', //表单名
+        isShow: true,  // 是否显示
+        required: true, // 是否必填项
+        type: 'date', //表单类型 必须 填写文本 填写数字  下拉框 时间 图片等
+        placeholder: '请填写生日', // 用户未填写表单时的提示信息
+        value: '2017-10-20 00:00:00', // 填写的值 草稿时可能有数据
+        errorMessage: '请输入日期',
+      },
+      { // 单个表单填写项目要素 时间类型
+        field: 'idType', //字段名 对应上传给后台的字段名
+        text: '证件类型', //表单名
+        isShow: true,  // 是否显示
+        required: true, // 是否必填项
+        type: 'select', //表单类型 必须 填写文本 填写数字  下拉框 时间 图片等
+        placeholder: '请填写生日', // 用户未填写表单时的提示信息
+        value: ['女'], // 填写的值 草稿时可能有数据
+        errorMessage: '请选择证件',
+        options: [[ // 选项的值  这是大美的要求 动态的可选值
+          {
+            label: '男', // 选项名 
+            value: '男', // 选项对应值
+          },
+          {
+            label: '女',
+            value: '女',
+          }
+        ]]
+      },
+      {
+        field: 'huji', // 图片需要传到哪里 哪个接口
+        text: '上传证件照'
+      }
+    ]
+  }
+]
 class RegisterForm extends Component {
   constructor() {
     super();
@@ -117,15 +178,15 @@ class RegisterForm extends Component {
         'required': true,
         'type': 'select',
         'placeholder': '灰色给用户提示语',
-        'value': '我是select',
+        'value': ['女'], // 对应选项的value
         'options': [[ // 选项的值  这是大美的要求 动态的可选值
           {
             label: '男',
-            value: '男',
+            value: '男1',
           },
           {
             label: '女',
-            value: '女',
+            value: '女1',
           }
         ]]
       },
@@ -200,10 +261,14 @@ class RegisterForm extends Component {
     form.resetFields();
   }
   onSaveIdentityDraft = () => {
-    this.props.form.setFieldsValue({ name: 'yang', date: util.getStrToDate("1984-04-06"),date_of_birth: new Date() });
+    this.props.form.setFieldsValue({
+      name: 'yang',
+      date: util.getStrToDate("1984-04-06"),
+      idType: ['女1']
+    });
   }
   render() {
-    console.log('data1,', new Date('1994-4-6')); 
+    console.log('data1,', new Date('1994-4-6'));
     console.log('data1,', util.getStrToDate('1994-4-6'));
     const { getFieldProps, getFieldError } = this.props.form;
     const form = this.props.form;
