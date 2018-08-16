@@ -268,8 +268,6 @@ class RegisterForm extends Component {
     });
   }
   render() {
-    console.log('data1,', new Date('1994-4-6'));
-    console.log('data1,', util.getStrToDate('1994-4-6'));
     const { getFieldProps, getFieldError } = this.props.form;
     const form = this.props.form;
     return (
