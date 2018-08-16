@@ -36,7 +36,7 @@ function RouterConfig({ history }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path="/home" component={Home} />
+        <Route path="/home/:route?" component={Home} />
         <Route path="/homepage" exact component={Homepage} />
         <Route path="/oauth" exact component={OAuth} />
         <Route path="/wxCode" exact component={WxCode} />
