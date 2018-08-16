@@ -163,13 +163,6 @@ export default class Home extends Component {
         {this.renderTabBarItem()}
        
 
-        <div className={styles.body}>
-          <Switch>
-            <Route path='/home' exact component={Homepage} />
-            <Route path='/home/service' exact component={Service} />
-            <Route path='/home/company' exact component={Company} />
-          </Switch>
-        </div>
       </div>
     )
   }
