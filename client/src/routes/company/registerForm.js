@@ -9,6 +9,7 @@ import { createForm } from 'rc-form';
 import { routerRedux } from 'dva/router';
 import verifyForm from '../identityVerify/verifyForm';
 import util from '../../utils/util';
+import classNames from 'classnames';
 
 const Item = List.Item;
 
@@ -78,7 +79,8 @@ class RegisterForm extends Component {
   constructor() {
     super();
     this.state = {
-      selectCarousel: 0
+      selectCarousel: 0,
+      headerSelect: 0
     }
   }
 
@@ -267,14 +269,58 @@ class RegisterForm extends Component {
       idType: ['女1']
     });
   }
+  headerClick = (i) => {
+    console.log(i);
+    this.setState({
+      headerSelect: i
+    });
+  }
+
+  // 渲染头部
+  renderHeader = () => {
+    let data = ['身份证件', '填写信息', '补充材料', '确认信息'];
+    return (
+      <div
+        className={styles.header}
+        ref={ref => this.div = ref}
+      >
+        {
+          data.map((v, i) => {
+            return (
+              <div
+                key={'regiseterForm' + i}
+                onClick={() => this.headerClick(i)}
+                className={classNames(styles.headerItem, this.state.headerSelect == i ? styles.selectItem : '')}
+              >
+                <span>{v}</span>
+              </div>
+            )
+          })
+        }
+        {/* <div className={classNames(styles.headerItem, this.a == 2 ? styles.selectItem : '')}>
+          <span>实名验证</span>
+        </div>
+        <div className={classNames(styles.headerItem, this.a == 2 ? styles.selectItem : '')}>
+          <span>基本信息</span>
+        </div>
+        <div className={classNames(styles.headerItem, this.a == 1 ? styles.selectItem : '')}>
+          <span>附加材料</span>
+        </div>
+        <div className={classNames(styles.headerItem, this.a == 1 ? styles.selectItem : '')}>
+          <span>认证成功</span>
+        </div> */}
+      </div>
+    )
+  }
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
-    const form = this.props.form;
+
     return (
       <div className={styles.container}>
         {/* 头部 */}
-        <div className={styles.title}>
-          <span>员工入职信息表1</span>
+        <div className={styles.headerBox}>
+          {this.renderHeader()}
+
         </div>
         {this.renderForm()}
         {/* 底部按钮 */}

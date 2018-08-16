@@ -9,6 +9,7 @@
   "dependencies": {
     "amfe-flexible": "^2.2.1",
     "antd-mobile": "^2.1.8",
+    "classnames": "^2.2.6",
     "dva": "^2.1.0",
     "moment": "^2.22.1",
     "rc-form": "^2.2.0",

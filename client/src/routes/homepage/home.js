@@ -160,7 +160,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className={styles.container}>
-        {this.renderTabBarItem()}
+        {this.renderTabBarItem()} 
        
 
       </div>
