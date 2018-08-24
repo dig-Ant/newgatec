@@ -1,0 +1,35 @@
+{
+  "name": "Queue",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "url":{
+      "type": "string",
+      "required": true
+    },
+    "data":{
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Channel": {
+      "type": "hasOne",
+      "model": "Queue",
+      "foreignKey": "channel_id"
+    },
+    "Message_Center": {
+      "type": "hasOne",
+      "model": "Queue",
+      "foreignKey": "mc_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
