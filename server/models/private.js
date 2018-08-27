@@ -1,5 +1,5 @@
-let jsonCheck = require('../../common/smsFn/jsonCheck')
-let enums = require('../../common/core/enum')
+let jsonCheck = require('../../common/smsFn/jsonCheck');
+let enums = require('../../common/core/enum');
 let request = require('request');
 let util = require('../util/util');
 let getFile = require('../../common/core/utilFn');
@@ -11,15 +11,15 @@ module.exports = function(Private) {
 
 
   Private.testAnon = async function (obj, cb) {
-    let result = 0
+    let result = 0;
     if(obj.test == '1'){
-      result = 1
+      result = 1;
     }
-      return result;
+    return result;
     
   
     
-  }
+  };
 /**
  * 仅用于用户激活时的验证码发送
  * @param {Object} obj 
@@ -28,17 +28,17 @@ module.exports = function(Private) {
   Private.smsCodeSend = async (obj,cb)=>{
     try {
       let input = {
-      phone:obj.phone,
-      type:1,
-      sign:"675",
-      modelId:"3839",
-      content:"{code}",
-      codeType:1
-      }
-      let jsonKeys = ['phone','name']
+        phone:obj.phone,
+        type:1,
+        sign:'675',
+        modelId:'3839',
+        content:'{code}',
+        codeType:1
+      };
+      let jsonKeys = ['phone','name'];
       let requestRes = util.promisify(request.bind(this));
       let plant_check = await requestRes({
-        method: "POST",
+        method: 'POST',
         url: enums.severURL.get_is_client,
         form: {
           name:obj.name,
@@ -47,12 +47,12 @@ module.exports = function(Private) {
       });
       if(JSON.parse(plant_check.body).body.result==0){
         console.log(plant_check.body);
-        let err = new Error('您的手机或姓名不匹配')
+        let err = new Error('您的手机或姓名不匹配');
         err.statusCode = 412;
         throw err; 
       }
       console.log(JSON.parse(plant_check.body).body.result);
-      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj)
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
       let result = await Private.app.models.Sms.smsCode(input);
       console.log(result);
       return result;
@@ -61,10 +61,10 @@ module.exports = function(Private) {
     } catch (error) {
       // enums.error.msg=error.message
       // error.statusCode = 412
-      cb(error)
+      cb(error);
     }
    
-  }
+  };
   Private.smsCodeCheck = async (obj,cb)=>{
     try {
       let input = {
@@ -72,18 +72,18 @@ module.exports = function(Private) {
         code:obj.code,
         codeType:1
         
-        }
-        let jsonKeys = ['phone','code']
-        let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
-        let result = await Private.app.models.Sms.checkCode(input);
-        console.log(result);
-        return result;
+      };
+      let jsonKeys = ['phone','code'];
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
+      let result = await Private.app.models.Sms.checkCode(input);
+      console.log(result);
+      return result;
     } catch (error) {
       // enums.error.msg=error.message
-      error.statusCode = 412
-      cb(error)
+      error.statusCode = 412;
+      cb(error);
     }
-  }
+  };
   
   Private.groupSms = async () =>{
     try {
@@ -91,35 +91,35 @@ module.exports = function(Private) {
     } catch (error) {
       
     }
-  }
+  };
 
   Private.smsCodeGroup = async (obj,cb)=>{
 
-       let sendTime = 10*1000*60
-        let dateNow = new Date().getTime();
-        let timeJson = new Date(dateNow+28800000+sendTime)
-        let timeStr = timeJson.toJSON().slice(0, 19).replace('T', ' ')
+    let sendTime = 10*1000*60;
+    let dateNow = new Date().getTime();
+    let timeJson = new Date(dateNow+28800000+sendTime);
+    let timeStr = timeJson.toJSON().slice(0, 19).replace('T', ' ');
     try {
       let input = {
         phones:obj.phones,
-        sign:obj.sing||"675",
-        modelId:obj.sing||"767",
+        sign:obj.sing||'675',
+        modelId:obj.sing||'767',
         content:obj.content||'',
         time:obj.time||timeStr
         
-        }
+      };
      
         
-        let jsonKeys = ['phones']
-        let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
-        let result = await Private.app.models.Sms.groupSms(input);
-        return result; 
+      let jsonKeys = ['phones'];
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
+      let result = await Private.app.models.Sms.groupSms(input);
+      return result; 
     } catch (error) {
       // enums.error.msg=error.message
-      error.statusCode = 412
-      cb(error)
+      error.statusCode = 412;
+      cb(error);
     }
-  }
+  };
 
   Private.private_file_up = async(req,cb)=>{
     try {
@@ -157,7 +157,7 @@ module.exports = function(Private) {
     
     
     // return 'ok';
-  }
+  };
 
   Private.public_file_up= async(req,cb)=>{
     try {
@@ -194,7 +194,7 @@ module.exports = function(Private) {
     
     
     // return 'ok';
-  }
+  };
   Private.get_file= (req,id,cb)=>{
     // console.log('req',req);
     console.log('id',id);
@@ -219,21 +219,21 @@ module.exports = function(Private) {
       
     }).then((result)=>{
       console.log('file_name',file_name);
-      let file_name_arr = file_name.split(".");
-      let _name = file_id +'.'+ file_name_arr[file_name_arr.length-1]
+      let file_name_arr = file_name.split('.');
+      let _name = file_id +'.'+ file_name_arr[file_name_arr.length-1];
       let disposition = 'attachment; filename='+_name;
       cb(null,writeStream, 'application/octet-stream' ,disposition);
     }).catch((error)=>{
       console.log(error);
-      cb(error)
-    })
-  }
+      cb(error);
+    });
+  };
 
   Private.private_file_base64_up = async(req,obj,cb)=>{
     try {
-      let base_arr = obj.data.split(",");
-      let _header_base = base_arr[0].split(":");
-      let _ext = _header_base[1].split(";")[0];
+      let base_arr = obj.data.split(',');
+      let _header_base = base_arr[0].split(':');
+      let _ext = _header_base[1].split(';')[0];
       console.log('ext',_ext);
       let base64_data = base_arr[1];
       var imageBuffer = new Buffer(base64_data,'base64');
@@ -269,13 +269,13 @@ module.exports = function(Private) {
       console.log(error);
       cb(error);
     }
-  }
+  };
 
   Private.public_file_base64_up = async(req,obj,cb)=>{
     try {
-      let base_arr = obj.data.split(",");
-      let _header_base = base_arr[0].split(":");
-      let _ext = _header_base[1].split(";")[0];
+      let base_arr = obj.data.split(',');
+      let _header_base = base_arr[0].split(':');
+      let _ext = _header_base[1].split(';')[0];
       console.log('ext',_ext);
       let base64_data = base_arr[1];
       var imageBuffer = new Buffer(base64_data,'base64');
@@ -311,12 +311,12 @@ module.exports = function(Private) {
       console.log(error);
       cb(error);
     }
-  }
+  };
 
   Private.file_delete = async(req,obj,cb) =>{
     try {
-      console.log('id',obj.file_id)
-      let user_id = 0
+      console.log('id',obj.file_id);
+      let user_id = 0;
       let get_file = await Private.app.models.File_Model.findOne({where:{
         id:obj.file_id,
         status:1,
@@ -337,11 +337,11 @@ module.exports = function(Private) {
       };
       let sql_save = await Private.app.models.Change_History.upsert(input);
       console.log('sql',sql_save);
-      return {state:1}
+      return {state:1};
     } catch (error) {
       cb(error);
     }
-  }
+  };
 
   Private.remoteMethod('smsCodeSend', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
@@ -415,4 +415,4 @@ module.exports = function(Private) {
 
     returns: {arg: 'body', type: 'object'}
   });
-}
+};

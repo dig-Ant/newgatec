@@ -27,4 +27,14 @@ module.exports = function(MC_Model) {
 
     });
   };
+
+  MC_Model.mc_json_check= ()=>{
+    return new Promise(async (resolve,reject)=>{
+      try {
+        
+      } catch (error) {
+        
+      }
+    });
+  };
 };
