@@ -10,11 +10,11 @@
   "properties": {
     "clt_id":{
       "type": "string",
-      "required": true
+      "required": false
     },
     "cst_id":{
       "type": "string",
-      "required": false
+      "required": true
     },
     "create_time":{
       "type": "date",

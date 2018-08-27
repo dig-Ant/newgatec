@@ -21,8 +21,8 @@ creatTables = async (promiseArr)=>{
 let pArr = ['Additional','Business','Channel','Clt_Blacklist','Cst_Blacklist','Message_Center','Queue'];
 let promseArr = [];
 for (let index = 0; index < pArr.length; index++) {
-  promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]));
-    
+  // promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]));
+  promseArr.push(app.dataSources.pgDs.autoupdate(pArr[index]));//升级表
 }
 creatTables(promseArr);
 

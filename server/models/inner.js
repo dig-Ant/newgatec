@@ -320,8 +320,9 @@ module.exports = function(Inner) {
   Inner.mc_test = async (obj,cb)=>{
     try {
       console.log(obj);
-      let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
-      return result;
+      // let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
+      let jsonCkeck = await Inner.app.models.MC_Model.mc_json_check(obj);
+      return jsonCkeck;
     } catch (error) {
       console.log(error);
       cb(error);
