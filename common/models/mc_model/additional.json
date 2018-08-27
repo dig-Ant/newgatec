@@ -1,0 +1,35 @@
+{
+  "name": "Additional",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "url":{
+      "type": "string",
+      "required": true
+    },
+    "data":{
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Channel": {
+      "type": "hasOne",
+      "model": "Additional",
+      "foreignKey": "channel_id"
+    },
+    "Business": {
+      "type": "hasOne",
+      "model": "Additional",
+      "foreignKey": "business_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

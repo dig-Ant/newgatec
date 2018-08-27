@@ -4,7 +4,8 @@
       "loopback/common/models",
       "loopback/server/models",
       "../common/models",
-      "./models"
+      "./models",
+      "../common/models/mc_model"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -89,6 +90,38 @@
   },
   "MC": {
     "dataSource": "db",
+    "public":  true
+  },
+  "MC_Model": {
+    "dataSource": "db",
+    "public":  true
+  },
+  "Additional": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Business": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Channel": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Clt_Blacklist": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Cst_Blacklist": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Message_Center": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "Queue": {
+    "dataSource": "pgDs",
     "public":  true
   }
 }

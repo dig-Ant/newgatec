@@ -165,7 +165,7 @@ module.exports = function(Inner) {
     }
   };
 
-  Inner.pay_wechat_send= async(obj,cb) =>{
+  Inner.wechat_send= async(obj,cb) =>{
     try {
       let input = {
         openid:obj.openid,
@@ -177,7 +177,7 @@ module.exports = function(Inner) {
             'color':'#173177'
           },
           'keyword1':{
-            'value':obj.clt_name,
+            'value':obj.cst_name,
             'color':'#173177'
           },
           'keyword2': {
@@ -202,7 +202,7 @@ module.exports = function(Inner) {
     }
   };
 
-  Inner.pay_wechat_send_arry= async(obj,cb) =>{
+  Inner.wechat_send_arry= async(obj,cb) =>{
     try {
       let input = {
         openid:null,
@@ -317,6 +317,16 @@ module.exports = function(Inner) {
     }
    
   };
+  Inner.mc_test = async (obj,cb)=>{
+    try {
+      console.log(obj);
+      let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
+      return result;
+    } catch (error) {
+      console.log(error);
+      cb(error);
+    }
+  };
   Inner.remoteMethod('smsSend', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
@@ -348,13 +358,13 @@ module.exports = function(Inner) {
 
     returns: {arg: 'body', type: 'object'}
   });
-  Inner.remoteMethod('pay_wechat_send', {
+  Inner.remoteMethod('wechat_send', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
   });
 
-  Inner.remoteMethod('pay_wechat_send_arry', {
+  Inner.remoteMethod('wechat_send_arry', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
@@ -381,5 +391,10 @@ module.exports = function(Inner) {
       {arg: 'Content-Disposition', type: 'string', http: { target: 'header' }}
     ],
     http: { verb: 'get'}
+  });
+  Inner.remoteMethod('mc_test', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
   });
 };
