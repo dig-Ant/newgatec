@@ -16,47 +16,53 @@ module.exports = function(Message_Center) {
           
           let result = await Message_Center.app.models.MC_Model.back_list(1,obj);//黑白名单过滤
           mc_list.sms = result;
-          let new_obj = await Message_Center.app.models.MC_Model.mc_additional(1,obj);//添加该渠道的附加属性
+          
+          let characteristical_obj = await Message_Center.app.models.MC_Model.mc_additional(1,obj);//添加该渠道的附加属性
+          let new_obj = await Message_Center.app.models.MC.sms_creat_mc(characteristical_obj);//短信独有的数据操作组装
           let promArr = [];
           let usersArr = obj.users.split(',');
           let phoneArr = obj.phones.split(',');
           for (let i = 0; i < result.length; i++) {
-            obj.phone = phoneArr[result[i]];
             
-            promArr.push(Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],1,new_obj));//生成消息主题
+            new_obj.phone = phoneArr[result[i]];
+            console.log('phone',obj.phone);
+            let create_mc = await Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],1,new_obj);//生成消息主题,是否直接发送或者进队列
+            // console.log(create_mc);
           }
-          let mc_objs = await Promise.all(promArr);
-          console.log(mc_objs);
+          
+          
         }
         if (obj.mc_method.wechat == true) {
           let result = await Message_Center.app.models.MC_Model.back_list(2,obj);
           mc_list.wechat = result;
-          let new_obj = await Message_Center.app.models.MC_Model.mc_additional(2,obj);
+          let characteristical_obj = await Message_Center.app.models.MC_Model.mc_additional(2,obj);//添加该渠道的附加属性
+          let new_obj = await Message_Center.app.models.MC.sms_creat_mc(characteristical_obj);//短信独有的数据操作组装
           let promArr = [];
           let usersArr = obj.users.split(',');
           let openidArr = obj.openids.split(',');
           for (let i = 0; i < result.length; i++) {
-            obj.openid = openidArr[result[i]];
+            new_obj.openid = openidArr[result[i]];
             
-            promArr.push(Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],2,new_obj));//生成消息主题
+            let create_mc = await Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],2,new_obj);//生成消息主题
+            console.log(create_mc);
           }
-          let mc_objs = await Promise.all(promArr);
-          console.log(mc_objs);
+         
         }
         if (obj.mc_method.email == true) {
           let result = await Message_Center.app.models.MC_Model.back_list(3,obj);
           mc_list.email = result;
-          let new_obj = await Message_Center.app.models.MC_Model.mc_additional(2,obj);
+          let characteristical_obj = await Message_Center.app.models.MC_Model.mc_additional(2,obj);//添加该渠道的附加属性
+          let new_obj = await Message_Center.app.models.MC.sms_creat_mc(characteristical_obj);//短信独有的数据操作组装
           let promArr = [];
           let usersArr = obj.users.split(',');
           let emailArr = obj.emails.split(',');
           for (let i = 0; i < result.length; i++) {
-            obj.email = emailArr[result[i]];
+            new_obj.email = emailArr[result[i]];
             
-            promArr.push(Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],3,new_obj));//生成消息主题
+            let create_mc = await Message_Center.app.models.MC_Model.create_mc(usersArr[result[i]],3,new_obj);//生成消息主题
+            console.log(create_mc);
           }
-          let mc_objs = await Promise.all(promArr);
-          console.log(mc_objs);
+          
         }
         //黑白名单过滤
         // console.log(mc_list);
