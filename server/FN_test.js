@@ -1,4 +1,6 @@
 var app = require('./server.js');
+let moment = require('moment');
+moment.locale('zh-cn');
 
 mc_check= async ()=>{
   try {
@@ -17,10 +19,11 @@ let obj = {
     wechat:true
   },
   pay_time:'2018年7月',
+  Payroll_time:moment().format('LL'),
   business:1,
-  users:'11',
-  phones:'18651833910',
-  openids:'olFvj0zMTn2buSfANmU8LAp9f5eA',
+  users:'11,12',
+  phones:'18651833910,17512543910',
+  openids:'olFvj0zMTn2buSfANmU8LAp9f5eA,olFvj0zMTn2buSfANmU8LAp9f5eA',
   cst_id:1,
   header:'工资发放通知',
   cst_name:'上海才赋人力资源科技有限公司',

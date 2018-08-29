@@ -301,9 +301,9 @@ module.exports = function(Inner) {
       let input = {
         phone:obj.phone,
         type:2,
-        sign:obj.sign||'675',//签名
-        modelId:obj.modelId||'3611',//模版
-        content:obj.content||'吕翱##200'
+        sign:obj.sign,//签名
+        modelId:obj.modelId,//模版
+        content:obj.content
       };
       let jsonKeys = ['phone'];
       let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
