@@ -102,5 +102,23 @@ module.exports = function(MC) {
       }
     });
   };
+  MC.mc_send = (obj) =>{
+    return new Promise(async (resolve,reject)=>{
+      try {
+        
+        var options = {
+          method: 'POST',
+          uri: obj.url,
+          body: obj,
+          json: true // Automatically stringifies the body to JSON
+        };
+        let result = rp(options);
+        resolve(result);
+      } catch (error) {
+        // reject(error);
+        console.log(error);
+      }
+    });
+  };
   
 };

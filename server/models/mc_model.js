@@ -1,4 +1,5 @@
 let utilCheck = require('../../common/core/utilCheck');
+let enums = require('../../common/core/enum');
 module.exports = function(MC_Model) {
 
   MC_Model.method_creat_mc = (obj)=>{
@@ -72,7 +73,7 @@ module.exports = function(MC_Model) {
         
           }});
           console.log('channel_cst_back_list_all',channel_cst_back_list_all);
-          if(channel_cst_back_list_all!=null){
+          if(channel_cst_back_list_all!=null){//企业是否屏蔽此种渠道
             resolve([]);
           }
           let usersArr = obj.users.split(',');
@@ -131,7 +132,7 @@ module.exports = function(MC_Model) {
               channel_cst_back_list==null&&channel_clt_back_list==null&&
               business_cst_back_list==null&&business_clt_back_list==null
             ){
-              list_Arr.push(usersArr[i]);
+              list_Arr.push(i);
             }
             
           
@@ -162,7 +163,7 @@ module.exports = function(MC_Model) {
            
             
             if (business_list==null&&channel_list==null&&back_list==null){
-              list_Arr.push(usersArr[i]);
+              list_Arr.push(i);
             }
             
 
@@ -190,6 +191,7 @@ module.exports = function(MC_Model) {
           
       
         }});
+        
 
         if(business_cst_back_list_all!=null){
           console.log(business_cst_back_list_all);
@@ -205,6 +207,70 @@ module.exports = function(MC_Model) {
       }
     });
   };
+  /**
+   * 
+   * @param {Array} clt_id_Arr 用户id的集合
+   * @param {Number} channel 渠道id
+   * @param {Object} obj 数据包
+   */
+  MC_Model.create_mc=(clt_id,channel,obj)=>{
+    return new Promise(async (resolve,reject)=>{
+      try {
+        // console.log({
+          
+        //   cst_id:obj.cst_id,
+        //   platform_id:obj.platform_id,//平台id
+        //   immediate:obj.immediate||0,
+        //   data:JSON.stringify(obj),
+        //   mc_type:obj.mc_type, //0.群发单体消息/1.群发模版消息
+        //   channel_id:channel,
+        //   business_id:obj.business});
+        
+        
+         
+        let _mc = await MC_Model.app.models.Message_Center.upsert({
+          clt_id:clt_id,
+          cst_id:obj.cst_id,
+          platform:obj.platform,//平台id
+          immediate:obj.immediate||1,//是否立即发送
+          data:JSON.stringify(obj),
+          mc_type:obj.mc_type, //0.群发单体消息/1.群发模版消息
+          channel_id:channel,
+          business_id:obj.business
+        }); 
+        if(obj.immediate==0){
+
+        }else{
+          let result = await MC_Model.app.models.MC.mc_send(obj);
+          console.log(channel,result);
+          let handle_mc = await _mc.updateAttributes({handle:1,handle_time:new Date()}); 
+        }  
+        
+        resolve(_mc);
+      } catch (error) {
+        // reject(error);
+        console.log(error);
+      }
+    });
+  };
+
+  MC_Model.mc_additional=(channel,obj)=>{
+    return new Promise(async (resolve,reject)=>{
+      try {
+        let new_obj = await MC_Model.app.models.Additional.findOne({
+          where:{
+            channel_id:channel,
+            business_id:obj.business
+          }});
+        obj.url = enums.inner_severIP + new_obj.url;
+        obj = Object.assign(obj,JSON.parse(new_obj.data));//拼接两个对象,添加附加的属性
+        resolve(obj);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
 };
 testFN = ()=>{
   return 'ok';

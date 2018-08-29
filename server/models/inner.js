@@ -169,7 +169,7 @@ module.exports = function(Inner) {
     try {
       let input = {
         openid:obj.openid,
-        templateId:obj.templateId||'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        templateId:obj.templateId,
         url:obj.url,
         data:{
           'first': {
@@ -222,7 +222,7 @@ module.exports = function(Inner) {
             'color':'#173177'
           },
           'keyword3': {
-            'value':moment().format('LL'),
+            'value':obj.notification_time||moment().format('LL'),
             'color':'#173177'
           },
           'remark':{

@@ -44,6 +44,8 @@ module.exports = {
   },
   severURL:{
     get_is_client:severIP+':8888/api/inner/get_is_client'
-  }
+  },
+  inner_severIP:'http://localhost',
+  // inner_severIP:'http://172.16.126.48'
 
 };

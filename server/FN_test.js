@@ -11,13 +11,23 @@ mc_check= async ()=>{
   }
   
 };
-let obj = {mc_method:{
-  sms:true,
-  wechat:true
-},
+let obj = {
+  mc_method:{
+    sms:true,
+    wechat:true
+  },
+  pay_time:'2018年7月',
   business:1,
-  users:'1,2,3,4,5,6,7,8',
-  cst_id:1
+  users:'11',
+  phones:'18651833910',
+  openids:'olFvj0zMTn2buSfANmU8LAp9f5eA',
+  cst_id:1,
+  header:'工资发放通知',
+  cst_name:'上海才赋人力资源科技有限公司',
+  footer:'感谢您的使用！',
+  platform:'c',
+  mc_type:1,
+  immediate:1
 };
 mc_check(obj);
 
