@@ -169,7 +169,7 @@ module.exports = function(Inner) {
     try {
       let input = {
         openid:obj.openid,
-        templateId:obj.templateId||'-hJINiqp9NbgsTb1vb8QPJDvKtAErroM7SZRJ80ydRM',
+        templateId:obj.templateId,
         url:obj.url,
         data:{
           'first': {
@@ -222,7 +222,7 @@ module.exports = function(Inner) {
             'color':'#173177'
           },
           'keyword3': {
-            'value':moment().format('LL'),
+            'value':obj.notification_time||moment().format('LL'),
             'color':'#173177'
           },
           'remark':{
@@ -320,8 +320,9 @@ module.exports = function(Inner) {
   Inner.mc_test = async (obj,cb)=>{
     try {
       console.log(obj);
-      let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
-      return result;
+      // let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
+      let jsonCkeck = await Inner.app.models.MC_Model.mc_json_check(obj);
+      return jsonCkeck;
     } catch (error) {
       console.log(error);
       cb(error);

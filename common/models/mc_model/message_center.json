@@ -16,8 +16,8 @@
       "type": "string",
       "required": false
     },
-    "platform_id":{
-      "type": "number",
+    "platform":{
+      "type": "string",
       "required": false
     },
     "immediate":{
@@ -34,12 +34,17 @@
       "required": false
     },
     "mc_type":{
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "handle":{
       "type": "string",
-      "required": true
+      "required": false,
+      "default":0
+    },
+    "handle_time":{
+      "type": "date",
+      "required": false
     },
     "create_time":{
       "type": "date",
