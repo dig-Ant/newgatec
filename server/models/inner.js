@@ -3,6 +3,7 @@ let enums = require('../../common/core/enum');
 let moment = require('moment');
 let getFile = require('../../common/core/utilFn');
 let buckets = require('../../common/util/oss/buckets');
+let utilCheck = require('../../common/core/utilCheck');
 let fs = require('fs');
 moment.locale('zh-cn');
 
@@ -317,12 +318,15 @@ module.exports = function(Inner) {
     }
    
   };
-  Inner.mc_test = async (obj,cb)=>{
+
+  Inner.message_center = async (obj,cb)=>{
     try {
       console.log(obj);
-      // let result = await Inner.app.models.MC_Model.method_creat_mc(obj);
-      let jsonCkeck = await Inner.app.models.MC_Model.mc_json_check(obj);
-      return jsonCkeck;
+      let jsonKeys = ['mc_method','business','platform'];
+      let json_check = utilCheck.keysCheck(jsonKeys,obj);
+      
+      let mc_create = await Inner.app.models.Message_Center.create_mc(obj);
+      return mc_create;
     } catch (error) {
       console.log(error);
       cb(error);
@@ -393,7 +397,7 @@ module.exports = function(Inner) {
     ],
     http: { verb: 'get'}
   });
-  Inner.remoteMethod('mc_test', {
+  Inner.remoteMethod('message_center', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}

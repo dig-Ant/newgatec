@@ -91,10 +91,11 @@ module.exports = function(MC) {
         resolve(result);
         // resolve(obj);
       } catch (error) {
-        // reject(error);
+        reject(error);
         console.log(error);
       }
     });
   };
   
+
 };

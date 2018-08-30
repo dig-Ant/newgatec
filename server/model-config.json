@@ -123,5 +123,13 @@
   "Queue": {
     "dataSource": "pgDs",
     "public":  true
+  },
+  "Batch_Record": {
+    "dataSource": "pgDs",
+    "public":  true
+  },
+  "MC_Batch": {
+    "dataSource": "pgDs",
+    "public":  true
   }
 }
