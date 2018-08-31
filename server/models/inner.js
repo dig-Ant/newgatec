@@ -5,6 +5,7 @@ let getFile = require('../../common/core/utilFn');
 let buckets = require('../../common/util/oss/buckets');
 let utilCheck = require('../../common/core/utilCheck');
 let fs = require('fs');
+let assert = require('assert');
 moment.locale('zh-cn');
 
 module.exports = function(Inner) {
@@ -332,6 +333,54 @@ module.exports = function(Inner) {
       cb(error);
     }
   };
+  Inner.cst_backlist = async (obj,cb)=>{
+    try {
+      console.log(obj);
+      let jsonKeys = ['cst_id'];
+      let json_check = utilCheck.keysCheck(jsonKeys,obj);
+      console.log(obj.channel==null&&obj.business==null); 
+      if(obj.channel==null&&obj.business==null){
+        let err = new Error('channel和business不能同时为空');
+        err.statusCode = 412;
+        throw err;
+      }
+      let cst_list = await Inner.app.models.Cst_Blacklist.upsert({
+        cst_id:obj.cst_id,
+        clt_id:obj.clt_id,
+        business_id:obj.business,
+        channel_id:obj.channel
+      });
+      
+      return cst_list;
+    } catch (error) {
+      console.log(error);
+      cb(error);
+    }
+  };
+  Inner.clt_backlist = async (obj,cb)=>{
+    try {
+      console.log(obj);
+      let jsonKeys = ['clt_id'];
+      let json_check = utilCheck.keysCheck(jsonKeys,obj);
+      
+      console.log(obj.channel==null&&obj.business==null); 
+      if(obj.channel==null&&obj.business==null){
+        let err = new Error('channel和business不能同时为空');
+        err.statusCode = 412;
+        throw err;
+      }
+      let clt_list = await Inner.app.models.Clt_Blacklist.upsert({ 
+        clt_id:obj.clt_id,
+        business_id:obj.business,
+        channel_id:obj.channel
+      });
+      
+      return clt_list;
+    } catch (error) {
+      console.log(error);
+      cb(error);
+    }
+  };
   Inner.remoteMethod('smsSend', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
@@ -398,6 +447,17 @@ module.exports = function(Inner) {
     http: { verb: 'get'}
   });
   Inner.remoteMethod('message_center', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+
+  Inner.remoteMethod('cst_backlist', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+  Inner.remoteMethod('clt_backlist', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}

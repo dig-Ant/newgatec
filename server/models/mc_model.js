@@ -55,7 +55,7 @@ module.exports = function(MC_Model) {
         if (obj.mc_method.email == true) {
           let usersArr = obj.users.split(',');
           let emailArr = obj.emails.split(',');
-          assert(usersArr.length==emailArr.length,new Error('openid参数错误,元素个数不一致'));
+          assert(usersArr.length==emailArr.length,new Error('email参数错误,元素个数不一致'));
           let sms_keys = await MC_Model.app.models.Channel.findOne({where:{id:3}});
           keysArr = keysArr.concat(sms_keys.field.split(','));
         }

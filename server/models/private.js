@@ -125,7 +125,7 @@ module.exports = function(Private) {
     try {
       // console.log(req.body.id);
       let _file = await getFile('fileData',req);
-      console.log(_file);
+      // console.log(_file);
       if(_file.size>10485760){
         throw new Error('文件过大');
       }
@@ -146,7 +146,7 @@ module.exports = function(Private) {
 
       };
       let sql_save = await Private.app.models.File_Model.upsert(input);
-      console.log('sql_save',sql_save);
+      // console.log('sql_save',sql_save);
       console.log(up_oss);
       // console.log(_file);
       return {file_id:object_key};
@@ -231,6 +231,8 @@ module.exports = function(Private) {
 
   Private.private_file_base64_up = async(req,obj,cb)=>{
     try {
+      let jsonKeys = ['data','file_name'];
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
       let base_arr = obj.data.split(',');
       let _header_base = base_arr[0].split(':');
       let _ext = _header_base[1].split(';')[0];
@@ -273,6 +275,8 @@ module.exports = function(Private) {
 
   Private.public_file_base64_up = async(req,obj,cb)=>{
     try {
+      let jsonKeys = ['data','file_name'];
+      let objCheck = await jsonCheck.keysCheck(jsonKeys,obj);
       let base_arr = obj.data.split(',');
       let _header_base = base_arr[0].split(':');
       let _ext = _header_base[1].split(';')[0];
