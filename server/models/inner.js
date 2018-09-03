@@ -7,6 +7,8 @@ let utilCheck = require('../../common/core/utilCheck');
 let fs = require('fs');
 let assert = require('assert');
 moment.locale('zh-cn');
+let oss_callback = require('../../common/util/oss/oss_callback');
+const crypto = require('crypto');
 
 module.exports = function(Inner) {
 
@@ -275,9 +277,7 @@ module.exports = function(Inner) {
   };
   
   Inner.file_download_test= (req,res,cb)=>{
-    // try {
-      // console.log(req);
-      // let _file = await getFile('fileData',req);
+ 
     let oss_stream =  buckets.private_c.getStream('object-1112',).then((result)=>{
       console.log(result);
       let writeStream = fs.createReadStream('test.png');
@@ -286,15 +286,7 @@ module.exports = function(Inner) {
     }).catch((e)=>{
       cb(e);
     });
-      // console.log(oss_stream);
-      
-    // } catch (error) {
-    //   console.log(error);
-    //   cb(error);
-    // }
-    
-    
-    // return 'ok';
+     
   };
 
   Inner.smsSend = async (obj,cb)=>{
@@ -381,6 +373,56 @@ module.exports = function(Inner) {
       cb(error);
     }
   };
+  Inner.ossSign = async (req,cb)=>{
+    try {
+      const {
+        bucket,
+        region,
+        expAfter,
+        maxSize,
+        dirPath,
+        accessKeyId,
+        accessKeySecret,
+        callbackIp,
+        callbackPort,
+        callbackPath
+      } = oss_callback;
+      const host = `http://${bucket}.${region}.aliyuncs.com`; //你的oss完整地址
+      const expireTime = new Date().getTime() + expAfter;
+      const expiration = new Date(expireTime).toISOString();
+      const policyString = JSON.stringify({
+        expiration,
+        conditions: [
+          ['content-length-range', 0, maxSize],
+          ['starts-with', '$key', dirPath]
+        ]
+      });
+      const policy = Buffer(policyString).toString('base64');
+      const Signature = crypto.createHmac('sha1', accessKeySecret).update(policy).digest('base64');
+      const callbackBody = {
+        'callbackUrl': `http://${callbackIp}:${callbackPort}/${callbackPath}`,
+        'callbackHost': `${callbackIp}`,
+        'callbackBody': '{"filename": ${object},"size": ${size}}',
+        'callbackBodyType': 'application/json'
+      };
+      const callback = Buffer(JSON.stringify(callbackBody)).toString('base64');
+      return {
+        Signature,
+        policy,
+        host,
+        'OSSAccessKeyId': accessKeyId,
+        'key': expireTime,
+        'success_action_status': 200,
+        dirPath,
+        callback
+      };
+    } catch (error) {
+      cb(error);
+    }
+  };
+  Inner.ossCallback =  (obj,cb)=>{
+    return {...obj};
+  };
   Inner.remoteMethod('smsSend', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
@@ -458,6 +500,21 @@ module.exports = function(Inner) {
     returns: {arg: 'body', type: 'object'}
   });
   Inner.remoteMethod('clt_backlist', {
+    accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
+
+    returns: {arg: 'body', type: 'object'}
+  });
+  Inner.remoteMethod('ossSign', {
+    accepts: [
+      {arg: 'req', type: 'object', 'http': {source: 'req'}}
+    ],
+    returns: [
+      {arg: 'body', type: 'object'}
+    ],
+    http: { verb: 'get'}
+  });
+
+  Inner.remoteMethod('ossCallback', {
     accepts: [{arg: 'obj', type: 'object',http:{source:'body'}}],
 
     returns: {arg: 'body', type: 'object'}
