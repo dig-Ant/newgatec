@@ -86,15 +86,16 @@ module.exports = function(MC) {
           body: obj,
           json: true // Automatically stringifies the body to JSON
         };
-        console.log('mc_send',obj);
+        // console.log('mc_send',obj);
         let result = rp(options);
         resolve(result);
         // resolve(obj);
       } catch (error) {
-        // reject(error);
+        reject(error);
         console.log(error);
       }
     });
   };
   
+
 };

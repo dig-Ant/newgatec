@@ -18,7 +18,8 @@ creatTables = async (promiseArr)=>{
   });
 };
 
-let pArr = ['Additional','Business','Channel','Clt_Blacklist','Cst_Blacklist','Message_Center','Queue'];
+// let pArr = ['Additional','Business','Channel','Clt_Blacklist','Cst_Blacklist','Message_Center','Queue'];
+let pArr = ['Batch_Record','MC_Batch','Message_Center'];
 let promseArr = [];
 for (let index = 0; index < pArr.length; index++) {
   // promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]));

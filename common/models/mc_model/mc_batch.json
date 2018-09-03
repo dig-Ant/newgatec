@@ -1,5 +1,5 @@
 {
-  "name": "Message_Center",
+  "name": "MC_Batch",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -8,10 +8,6 @@
   "mixins": {
   },
   "properties": {
-    "clt_id":{
-      "type": "string",
-      "required": true
-    },
     "cst_id":{
       "type": "string",
       "required": false
@@ -29,21 +25,12 @@
       "type": "string",
       "required": true
     },
-    "status":{
-      "type": "number",
+    "users":{
+      "type": "string",
       "required": false
     },
     "mc_type":{
       "type": "number",
-      "required": true
-    },
-    "handle":{
-      "type": "string",
-      "required": false,
-      "default":0
-    },
-    "handle_time":{
-      "type": "date",
       "required": false
     },
     "create_time":{
@@ -54,20 +41,10 @@
   },
   "validations": [],
   "relations": {
-    "Channel": {
-      "type": "hasOne",
-      "model": "Message_Center",
-      "foreignKey": "channel_id"
-    },
     "Business": {
       "type": "hasOne",
-      "model": "Message_Center",
+      "model": "MC_Batch",
       "foreignKey": "business_id"
-    },
-    "MC_Batch": {
-      "type": "hasOne",
-      "model": "Message_Center",
-      "foreignKey": "batch_id"
     }
   },
   "acls": [],
