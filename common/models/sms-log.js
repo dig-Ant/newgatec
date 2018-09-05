@@ -10,30 +10,30 @@ module.exports = function (SmsLog) {
     return new Promise( async (resolve, reject) => {
       
       try {
-        let crea =  await SmsLog.create(smsObject)
+        let crea =  await SmsLog.create(smsObject);
        
-        resolve(crea)
+        resolve(crea);
       } catch (error) {
-        reject(error)
+        reject(error);
       }
       
          
      
-    })
-  }
+    });
+  };
   SmsLog.findCode = (smsModelId)=>{
     return new Promise( async (resolve, reject) => {
       
       try {
-        let result =  await SmsLog.findById(smsModelId)
+        let result =  await SmsLog.findById(smsModelId);
        
-        resolve(result)
+        resolve(result);
       } catch (error) {
-        reject(error)
+        reject(error);
       }
       
          
      
-    })
-  }
-}
+    });
+  };
+};

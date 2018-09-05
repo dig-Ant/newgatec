@@ -195,10 +195,9 @@ module.exports = function(Private) {
     
     // return 'ok';
   };
-  Private.get_file= (req,id,cb)=>{
+  Private.get_file= (req,file_id,cb)=>{
     // console.log('req',req);
-    console.log('id',id);
-    let file_id = id;
+    
     let user_id = 0;
     let file_name = null;
     let writeStream = null;
@@ -385,7 +384,7 @@ module.exports = function(Private) {
   Private.remoteMethod('get_file', {
     accepts: [
       {arg: 'req', type: 'object', http: {source: 'req'}},
-      {arg: 'id', type: 'string', http: {source:'query'}}
+      {arg: 'file_id', type: 'string', http: {source:'query'}}
     ],
     returns: [
       {arg: 'body', type: 'file', root: true},
