@@ -30,7 +30,7 @@ export async function getIdentityDraft(data) {
   });
 }
 
-// 保存用户草稿
+// 验证
 export async function getValidateUser(data) {
   return requestAuth(kongApi.getValidateUserRoute(), {
     body: data,
@@ -204,21 +204,60 @@ export async function getTkt_close_reply(data) {
 
 // 获取企业列表
 export async function getCompanyList(data) {
-  return requestAuth(kongApi.getCompanyListRoute(), {
+  // return requestAuth(kongApi.getCompanyListRoute(), {
+  return requestAuth('/api/ger_plat_user_customers', {
     method: 'GET',
     api_name: 'userprivate'
   });
 }
 // 根据企业获取 功能列表
 export async function getCompanyBtnList(data) {
-  return requestAuth(kongApi.getCompanyBtnListRoute(), {
+  // return requestAuth(kongApi.getCompanyBtnListRoute(), {
+  return requestAuth('/api/ger_plat_user_auth', {
+    method: 'GET',
     body: data,
     api_name: 'userprivate'
   });
 }
-// 根据列表 请求 列表的权限
-export async function getFormList(data) {
-  return requestAuth(kongApi.getFormListRoute(), {
+// 获取身份信息
+export async function get_certificate_info(data) {
+  // return requestAuth(kongApi.getFormListRoute(), {
+  return requestAuth('/api/get_certificate_info', {
+    method: 'GET',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 提交身份验证接口
+export async function validate_user(data) {
+  // return requestAuth(kongApi.getFormListRoute(), {
+  return requestAuth('/api/validate_user', {
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 获取表单
+export async function get_collect_mod(data) {
+  // return requestAuth(kongApi.getFormListRoute(), {
+  return requestAuth('/api/get_collect_mod', {
+    method: 'GET',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 获取草稿
+export async function get_collect_draft(data) {
+  // return requestAuth(kongApi.getFormListRoute(), {
+  return requestAuth('/api/get_collect_draft', {
+    method: 'GET',
+    body: data,
+    api_name: 'userprivate'
+  });
+}
+// 草稿草稿
+export async function save_collect_draft(data) {
+  // return requestAuth(kongApi.getFormListRoute(), {
+  return requestAuth('/api/save_collect_draft', {
     body: data,
     api_name: 'userprivate'
   });

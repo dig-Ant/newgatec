@@ -68,6 +68,19 @@ export default function request(url, options) {
         ...newOptions.headers,
       };
     }
+  } else if (newOptions.method === 'GET') {
+    if (newOptions.body && Object.keys(newOptions.body) != 0) {
+      let paramsArray = [];
+      //拼接参数
+      Object.keys(newOptions.body).forEach(key => paramsArray.push(key + '=' + newOptions.body[key]))
+      if (url.search(/\?/) === -1) {
+        url += '?' + paramsArray.join('&')
+      } else {
+        url += '&' + paramsArray.join('&')
+      }
+    }
+    delete(newOptions.body);
+    // console.log('get url ----', url, newOptions);
   }
   return fetch(url, newOptions)
     .then(checkStatus)
@@ -84,7 +97,7 @@ export default function request(url, options) {
         window.localStorage.removeItem(cfg.access_token);
         dispatch(routerRedux.replace('/oauth'));
         return;
-      } else if (err.status === 412 ) {
+      } else if (err.status === 412) {
         dispatch(routerRedux.replace('/home'));
       }
       // let s = err.json().then((data)=> {
@@ -120,22 +133,22 @@ export function requestAuth(url, options) {
   //   }
   //   console.log('token---');
   // }
-  
+
   if (newOptions.api_name === 'userprivate') {
     newOptions.headers = {
-      "Authorization": `bearer sDKCjVH6dovQWWk7oDBnRmB7t3b3TIQj`,
+      "Authorization": `bearer XdWzZIMuRR6ujLYS7Cv1YCmC4DlW37FS`,
       // "Authorization": `bearer S5MOPNfVywtkQBLxyooKDxA09ybWE50G`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'cbizprivate') {
     newOptions.headers = {
-      "Authorization": `bearer 211fGZ8xsyRJhNJuQIbFNB0o4j2kXwZp`,
+      "Authorization": `bearer S2bGASNI0Dew1uwB9cu35Fh2mm7clehj`,
       // "Authorization": `bearer QVQ7Ev4j4SzndCDKbJXdl56znBHo7wRK`,//云 kong
       ...newOptions.headers
     }
   } else if (newOptions.api_name === 'shareprivate') {
     newOptions.headers = {
-      "Authorization": `bearer FOf7F2xyXWmLECpO36msEJDxUqzf7kqZ`,
+      "Authorization": `bearer wBRxYcQsZfl98VkajeB0B1kTFiAINfEe`,
       // "Authorization": `bearer 3VsveteaxjVKDHE11TKEY6a6P0Rz289p`,//云 kong
       ...newOptions.headers
     }
