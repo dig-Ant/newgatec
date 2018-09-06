@@ -1,0 +1,52 @@
+{
+  "name": "MC_Batch",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "cst_id":{
+      "type": "string",
+      "required": false
+    },
+    "platform":{
+      "type": "string",
+      "required": false
+    },
+    "immediate":{
+      "type": "number",
+      "required": false,
+      "default":0
+    },
+    "data":{
+      "type": "string",
+      "required": true
+    },
+    "users":{
+      "type": "string",
+      "required": false
+    },
+    "mc_type":{
+      "type": "number",
+      "required": false
+    },
+    "create_time":{
+      "type": "date",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Business": {
+      "type": "hasOne",
+      "model": "MC_Batch",
+      "foreignKey": "business_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

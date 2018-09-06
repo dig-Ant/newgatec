@@ -3,37 +3,37 @@ module.exports = {
    
     return new Promise(async (resolve, reject) => {
       
-      let promiseArr = []
+      let promiseArr = [];
       for (let index = 0; index < arr.length; index++) {
         
-        promiseArr.push(keyCheck(arr[index],obj))
+        promiseArr.push(keyCheck(arr[index],obj));
       }
       Promise.all(promiseArr).then((result)=>{
-        resolve(true)
+        resolve(true);
       }).catch((e)=>{
         
-        reject(e)
-      })
+        reject(e);
+      });
 
-    })
+    });
 
       
     
   }
-}
+};
 
 keyCheck = (key,obj)=>{
   return new Promise((resolve, reject)=>{
 
     if (obj.hasOwnProperty(key)) {
-      resolve(1)
+      resolve(1);
       
     }else{
       let err = new Error(key+ '不能为空');
       err.statusCode = 412;
-      reject(err)
+      reject(err);
     }
   
-  })
+  });
  
-}
+};

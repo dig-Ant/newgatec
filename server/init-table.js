@@ -12,18 +12,19 @@ var app = require('./server.js');
 creatTables = async (promiseArr)=>{
 
   await Promise.all(promseArr).then((res)=>{
-    console.log('成功')
+    console.log('成功');
   }).catch((error)=>{
-    console.log(error)
-  })
-}
+    console.log(error);
+  });
+};
 
-let pArr = ['File_Model','Change_History']
-let promseArr = []
-  for (let index = 0; index < pArr.length; index++) {
-    promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]))
-    
-  }
+// let pArr = ['Additional','Business','Channel','Clt_Blacklist','Cst_Blacklist','Message_Center','Queue'];
+let pArr = ['Batch_Record','MC_Batch','Message_Center'];
+let promseArr = [];
+for (let index = 0; index < pArr.length; index++) {
+  // promseArr.push(app.dataSources.pgDs.automigrate(pArr[index]));
+  promseArr.push(app.dataSources.pgDs.autoupdate(pArr[index]));//升级表
+}
 creatTables(promseArr);
 
 // function addDatetime(olddatetime,second){

@@ -1,0 +1,39 @@
+{
+  "name": "Batch_Record",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "pass":{
+      "type": "number",
+      "required": false
+    },
+    "message":{
+      "type": "string",
+      "required": false
+    },
+    "intercept_list":{
+      "type": "string",
+      "required": false
+    },
+    "create_time":{
+      "type": "date",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "MC_Batch": {
+      "type": "hasOne",
+      "model": "Batch_Record",
+      "foreignKey": "batch_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

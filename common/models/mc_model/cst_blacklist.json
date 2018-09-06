@@ -1,0 +1,40 @@
+{
+  "name": "Cst_Blacklist",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "clt_id":{
+      "type": "string",
+      "required": false
+    },
+    "cst_id":{
+      "type": "string",
+      "required": true
+    },
+    "create_time":{
+      "type": "date",
+      "required": false,
+      "defaultFn":"now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "Channel": {
+      "type": "hasOne",
+      "model": "Cst_Blacklist",
+      "foreignKey": "channel_id"
+    },
+    "Business": {
+      "type": "hasOne",
+      "model": "Cst_Blacklist",
+      "foreignKey": "business_id"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

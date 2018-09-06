@@ -1,0 +1,26 @@
+{
+  "name": "Business",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "mixins": {
+  },
+  "properties": {
+    "name":{
+      "type": "string",
+      "required": true
+    },
+    "field":{
+      "type": "string",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    
+  },
+  "acls": [],
+  "methods": {}
+}
