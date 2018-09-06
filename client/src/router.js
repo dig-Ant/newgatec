@@ -64,7 +64,7 @@ function RouterConfig({ history }) {
         <Route path="/ticketList" exact component={TicketList} />
         <Route path="/ticketInfo/:tkt_key" exact component={TicketInfo} />
         <Route path="/ticketFail/:tkt_key?"  component={TicketFail} />
-        <Route path="/registerForm/:tkt_key?"  component={RegisterForm} />
+        <Route path="/registerForm/:step?"  component={RegisterForm} />
       </Switch>
     </Router>
   );

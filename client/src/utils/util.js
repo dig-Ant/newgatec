@@ -695,5 +695,6 @@ export default {
   ...util._file,
   ...util._string,
   ...util._isWx,
-  ...util._storage
+  ...util._storage,
+  ...util._queryString
 }

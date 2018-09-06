@@ -46,6 +46,7 @@ class ResSuccess extends Component {
       </div>
     )
   }
+  
 }
 
 function mapStateToProps(state) {

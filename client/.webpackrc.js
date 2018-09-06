@@ -19,7 +19,7 @@ export default {
   ],
   extraBabelPlugins: [
     // 'transform-decorators-legacy',
-    ["import",{ "libraryName": "antd-mobile", "style": true },"antd-mobile-import"],
+    ["import", { "libraryName": "antd-mobile", "style": true }, "antd-mobile-import"],
     // ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
   ],
   env: { // 针对特定的环境进行配置 dev 环境下使用 dva-hmr
@@ -27,8 +27,21 @@ export default {
       extraBabelPlugins: [
         'dva-hmr',
       ],
-      
+
     },
+  },
+  "proxy": {
+    // "/api": {
+    //   "target": "http://your.service.com/",   //代理后转发规则（api）会拼接在url后边
+    //   "changeOrigin": true,
+    //   "pathRewrite": { "^/api": "" }
+    // },
+
+    // "/api": {
+    //   "target": "http://localhost:31001/",
+    //   "changeOrigin": true,
+    //   "pathRewrite": /*  */{ "^/api": "" }//把api去掉
+    // }
   },
   alias: { // 别名
     components: path.resolve(__dirname, 'src/components/'),

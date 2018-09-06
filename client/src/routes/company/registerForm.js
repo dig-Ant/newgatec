@@ -10,6 +10,11 @@ import { routerRedux } from 'dva/router';
 import verifyForm from '../identityVerify/verifyForm';
 import util from '../../utils/util';
 import classNames from 'classnames';
+// 子組件
+import IdentityCard from '../infoCollect/identityCard';
+import FillInfo from '../infoCollect/fillInfo';
+import Material from '../infoCollect/material';
+import SubmitInfo from '../infoCollect/submitInfo';
 
 const Item = List.Item;
 
@@ -75,6 +80,7 @@ let obj = [
     ]
   }
 ]
+
 class RegisterForm extends Component {
   constructor() {
     super();
@@ -86,13 +92,28 @@ class RegisterForm extends Component {
 
   componentDidMount() {
     // 请求企业数据
-    this.props.dispatch({
-      type: 'company/getCompanyList'
-    });
+    // this.props.dispatch({
+    //   type: 'company/getCompanyList'
+    // });
+    let step = this.props.match.params.step;
+    if (step) {
+      const mapSelect = {
+        identityCard: 0,
+        fillInfo: 1,
+        material: 2,
+        submitInfo: 2
+      }
+      this.setState({
+        headerSelect: mapSelect[step]
+      });
+    }
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.companyData.selectCarousel !== nextProps.companyData.selectCarousel) {
-
+    if (this.props.companyData.headerSelect !== nextProps.companyData.headerSelect) {
+      console.log('tab----',nextProps.companyData.headerSelect);
+      this.setState({
+        headerSelect: nextProps.companyData.headerSelect
+      });
     }
 
   }
@@ -269,66 +290,100 @@ class RegisterForm extends Component {
       idType: ['女1']
     });
   }
-  headerClick = (i) => {
-    console.log(i);
+  headerClick = (v, i) => {
     this.setState({
       headerSelect: i
     });
+    this.props.dispatch(routerRedux.replace({
+      pathname: v.path
+    }));
   }
 
   // 渲染头部
   renderHeader = () => {
-    let data = ['身份证件', '填写信息', '补充材料', '确认信息'];
+    let datas = [
+      {
+        title: '身份证件',
+        path: '/registerForm/identityCard'
+      },
+      {
+        title: '填写信息',
+        path: '/registerForm/fillInfo'
+      },
+      // {
+      //   title: '补充材料',
+      //   path: '/registerForm/material'
+      // },
+      {
+        title: '确认信息',
+        path: '/registerForm/submitInfo'
+      },
+    ]
     return (
       <div
         className={styles.header}
         ref={ref => this.div = ref}
       >
         {
-          data.map((v, i) => {
+          datas.map((v, i) => {
             return (
               <div
                 key={'regiseterForm' + i}
-                onClick={() => this.headerClick(i)}
+                onClick={() => this.headerClick(v, i)}
                 className={classNames(styles.headerItem, this.state.headerSelect == i ? styles.selectItem : '')}
               >
-                <span>{v}</span>
+                <span>{v.title}</span>
               </div>
             )
           })
         }
-        {/* <div className={classNames(styles.headerItem, this.a == 2 ? styles.selectItem : '')}>
-          <span>实名验证</span>
-        </div>
-        <div className={classNames(styles.headerItem, this.a == 2 ? styles.selectItem : '')}>
-          <span>基本信息</span>
-        </div>
-        <div className={classNames(styles.headerItem, this.a == 1 ? styles.selectItem : '')}>
-          <span>附加材料</span>
-        </div>
-        <div className={classNames(styles.headerItem, this.a == 1 ? styles.selectItem : '')}>
-          <span>认证成功</span>
-        </div> */}
+      </div>
+    )
+  }
+  // 渲染 tab 主体
+  renderTabBody = (props) => {
+    let step = this.props.match.params.step;
+    let tempEle = '';
+    switch (step) {
+      case 'identityCard':
+        tempEle = <IdentityCard />;
+        break;
+      case 'fillInfo':
+        tempEle = <FillInfo />;
+        break;
+      case 'material':
+        tempEle = '' && <Material />;
+        break;
+      case 'submitInfo':
+        tempEle = <SubmitInfo />;
+        break;
+    }
+    return (
+      <div className={styles.tabBodyBox}>
+        {
+          tempEle
+        }
       </div>
     )
   }
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
-
     return (
       <div className={styles.container}>
         {/* 头部 */}
         <div className={styles.headerBox}>
           {this.renderHeader()}
-
         </div>
-        {this.renderForm()}
+        {/* tab 主体 */}
+        {this.renderTabBody()}
+
+        {/* {this.renderForm()} */}
         {/* 底部按钮 */}
-        <div className={styles.submit}>
+        {/* <div className={styles.submit}>
           <div><Button inline onClick={this.onSubmit}>填写完毕, 提交审核</Button><WhiteSpace /></div>
           <div><Button inline onClick={this.reset}>复原</Button><WhiteSpace /></div>
           <div><Button inline onClick={this.onSaveIdentityDraft}>存稿, 稍后继续</Button></div>
-        </div>
+        </div> */}
       </div>
     )
   }
