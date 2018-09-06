@@ -1,5 +1,5 @@
 let request = require('request');
-    let util = require('../util/util');
+let util = require('../util/util');
 module.exports = {
 
   /**
@@ -19,8 +19,8 @@ module.exports = {
     var randomstr = range(start, end).map(function (x) {
       return Math.floor(Math.random() * 10);
     }).join('');
-    console.log(randomstr)
-    console.log(typeof randomstr)
+    console.log(randomstr);
+    console.log(typeof randomstr);
     return randomstr;
 
   },
@@ -28,13 +28,13 @@ module.exports = {
     let msg = {
       txt: '您的验证码为{1}，请于{2}秒内正确输入，如非本人操作，请忽略此短信。',
       strArr: [23465, 60]
-    }
+    };
 
 
-    let resString = resStr
+    let resString = resStr;
     for (let index = 0; index < strArr.length; index++) {
 
-      resString = resString.replace('{' + (index + 1) + '}', strArr[index])
+      resString = resString.replace('{' + (index + 1) + '}', strArr[index]);
 
     }
     return resString;
@@ -42,7 +42,7 @@ module.exports = {
   },
   returnMsgCode: (resStr, code) => { //需要第一个值为modeltxt，第二个为随机验证码
 
-    let resString = resStr.replace('{code}', code)
+    let resString = resStr.replace('{code}', code);
 
 
     return resString;
@@ -62,8 +62,8 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       let requestRes = util.promisify(request.bind(this));
       let tokenResult = await requestRes({
-        method: "POST",
-        url: "http://api.1cloudsp.com/api/v2/single_send",
+        method: 'POST',
+        url: 'http://api.1cloudsp.com/api/v2/single_send',
         form: {
           accesskey: '7xKGcAJzQVkKL5y8',
           secret: 'XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA',
@@ -74,11 +74,11 @@ module.exports = {
         }
       });
       if(tokenResult.body.code = '0'){
-        resolve(tokenResult.body)
+        resolve(tokenResult.body);
       }else{
-        reject(tokenResult.body)
+        reject(tokenResult.body);
       }
-    })
+    });
   },
     /**
    * 群发短信的api
@@ -94,8 +94,8 @@ module.exports = {
     return new Promise(async (resolve, reject)=>{
       let requestRes = util.promisify(request.bind(this));
       let tokenResult = await requestRes({
-        method: "POST",
-        url: "http://api.1cloudsp.com/api/v2/send",
+        method: 'POST',
+        url: 'http://api.1cloudsp.com/api/v2/send',
         form: {
           accesskey: '7xKGcAJzQVkKL5y8',
           secret: 'XZwZ35rEp1tld1BPvBgePVCQtPHcJ3VA',
@@ -107,13 +107,13 @@ module.exports = {
         }
       });
       if(tokenResult.body.code = '0'){
-        resolve(tokenResult.body)
-          console.log('成功')
+        resolve(tokenResult.body);
+        console.log('成功');
       }else{
-        console.log('失败')
-        reject(tokenResult.body)
+        console.log('失败');
+        reject(tokenResult.body);
       }
-    })
+    });
   },
    /**
    * 手机号码检测
@@ -127,30 +127,30 @@ module.exports = {
     return new Promise(async (resolve, reject)=>{
       if(phones instanceof Array){
         let promiseArr = [];
-          for (let index = 0; index < phones.length; index++) {
+        for (let index = 0; index < phones.length; index++) {
             
-            promiseArr.push(phoneCheck(phones[index]))
-          }
-          try {
-            let phoneArr =  await Promise.all(promiseArr)
-            resolve(phoneArr)
-          } catch (error) {
-            reject(error)
-            console.log(error)
-          }
+          promiseArr.push(phoneCheck(phones[index]));
+        }
+        try {
+          let phoneArr =  await Promise.all(promiseArr);
+          resolve(phoneArr);
+        } catch (error) {
+          reject(error);
+          console.log(error);
+        }
          
       }else{
         try {
           let phone = await phoneCheck(phones);
-          resolve(phone)
+          resolve(phone);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
         
       }
-    })
+    });
   }
-}
+};
 phoneCheck=(phone)=>{
   return new Promise((resolve, reject)=>{
     if(/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(phone)){
@@ -158,7 +158,7 @@ phoneCheck=(phone)=>{
     }else{
       let err = new Error(phone+' 手机号码格式不正确');
       err.statusCode = 412;
-      reject(err)
+      reject(err);
     }
-  })
-}
+  });
+};

@@ -259,7 +259,12 @@ module.exports = function(MC_Model) {
           batch_id:batch_id
         }); 
         if(obj.immediate==0){
-
+          let _queue = await MC_Model.app.models.Queue.upsert({
+            url:obj.url,
+            data:JSON.stringify(obj),
+            channel_id:channel,
+            mc_id:_mc.id
+          });
         }else{
           let result = await MC_Model.app.models.MC.mc_send(obj);
           // console.log(channel,result);
